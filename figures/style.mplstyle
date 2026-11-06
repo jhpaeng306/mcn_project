@@ -1,0 +1,13 @@
+figure.figsize: 3.4, 2.6
+figure.dpi: 150
+savefig.bbox: tight
+font.size: 9
+axes.labelsize: 9
+axes.titlesize: 9
+legend.fontsize: 8
+legend.frameon: False
+axes.spines.top: False
+axes.spines.right: False
+lines.linewidth: 1.2
+image.cmap: RdBu_r
+mathtext.fontset: cm

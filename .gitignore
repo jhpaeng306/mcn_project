@@ -8,9 +8,10 @@ wheels/
 .venv
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
 .ipynb_checkpoints/
 
-# Simulation data (regenerate with the code)
+# Simulation data (regenerate with the code; small tables in results/ are tracked)
 *.npz
 *.npy
 *.h5
@@ -18,15 +19,15 @@ wheels/
 *.pkl
 *.mp4
 *.gif
-simulations/output/
-output/simulations/
-results/
+output/
+archive/legacy_code/simulations/output/
+experiments/
 
 # Notebook exports
 *.nbconvert.ipynb
-simulations/analysis.html
+*.html
 
-# LaTeX build files
+# LaTeX build files (sources and the tracked report PDFs stay)
 *.aux
 *.log
 *.fls
@@ -41,8 +42,13 @@ simulations/analysis.html
 *.bcf
 *.run.xml
 *.tmp
+paper/main.pdf
+theory/*/main.pdf
 
-# OS and editors
+# OS, editors, local agent settings
 .DS_Store
+Thumbs.db
 .vscode/
 .idea/
+*.swp
+.claude/settings.local.json

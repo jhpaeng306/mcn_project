@@ -1,80 +1,47 @@
-# Current report and notebooks
+# Pattern emergence under weak, unrelated forcing
 
-The current report is [`final_report/main.tex`](final_report/main.tex).
-Use [`simulations/analysis.ipynb`](simulations/analysis.ipynb) and
-[`simulations/analysis_2d.ipynb`](simulations/analysis_2d.ipynb) as the main notebooks.
-Both use the restored literature-based cell-pair widths and previous effective
-gains on a 4.3-mm domain, without fitting to a reference matrix.
-See [`simulations/README.md`](simulations/README.md) for parameters and run commands.
+A neural field near a finite-wavenumber Hopf point receives a weak input whose structure differs from the pattern, for example a spatially uniform flicker. We derive the amplitude equations that say when and which pattern appears, and test them by direct simulation of a Wilson–Cowan E–I field and a four-population V1 model (E, PV, SST, VIP).
 
-The following describes the earlier implementation and its presets, which are
-retained for reference and are not the current report's parameter source.
+## Start here
+- `paper/main.tex` the theory paper. `VISION.md` the question, `PLAN.md` the tasks, `JOURNAL.md` the log.
+- `notebooks/wilson_cowan_1d.ipynb` and `notebooks/v1_1d.ipynb` reproduce the 1D results.
+- `src/mcn_project/` the reusable code. All parameter values are in `src/mcn_project/presets.py`.
 
-# Multi-population visual-cortex neural field
-
-This project derives and simulates the two-amplitude normal form associated
-with a finite-wavenumber Hopf instability.  The implementation supports any
-number of cell populations, pairwise Gaussian connectivity, weak temporal and
-spatial forcing, 1D or 2D domains, and periodic, reflecting, or zero-exterior
-boundaries.  It also provides the Gaussian Fourier symbol on the mixed domain
-`S1 x R^d` and closed support equilibria for an arbitrary number of interacting
-critical waves.
-
-The default five-population preset uses `E/PV/SST-GER/SST-local/VIP`.
-Gaussian width ratios come from mouse V1 data, while the SST-GER split is
-motivated by Drinnenberg et al. (bioRxiv 2025).  Its dimensionless
-Wilson-Cowan weights are calibrated hypotheses near a finite-wave Hopf point;
-they are not measured synaptic conductances.  The original `E/PV/SST` preset
-remains available.
-
-## Reproduce the analysis
-
+## Setup and checks
 ```bash
-uv run python run_analysis.py
+uv sync
+```
+```bash
 uv run pytest -q
 ```
-
-The first command rebuilds the coefficient tables, phase portraits, static
-retino-cortical pattern gallery, and 1D/2D simulations under
-`output/simulations/`.
-
-Run one case directly with:
-
 ```bash
-uv run python neural_field.py \
-  --preset five \
-  --dimension 2 \
-  --boundary reflect \
-  --forcing combined_2to1 \
-  --output output/simulations/custom_2d.png
+uv run jupyter lab
 ```
 
-Add `--export-model-inputs` to save static target/pinwheel images and
-numerical temporal arrays beside the requested figure.  This never creates an
-animation or an autoplay flicker.
+## Minimal example
+```python
+from mcn_project import presets
+from mcn_project.linear import find_onset
+from mcn_project.normal_form import cubic_coefficients
+from mcn_project.simulate import Forcing, Wave, simulate
 
-Available boundaries are `periodic`, `reflect`, and `zero`.  Available forcing
-cases are `unforced`, `direct_1to1`, `temporal_2to1`, `spatial_2to1`, and
-`combined_2to1`.
+model = presets.v1()                       # or presets.wilson_cowan()
+onset = find_onset(model, dim=1, kappa_range=(0, 1))
+nf = cubic_coefficients(model, onset)      # alpha, b, c of the paper
+eps = 0.02
+run = simulate(model, onset.kappa - eps**2,
+               Forcing((Wave(3 * eps**2, (), 2 * onset.omega0),)),   # uniform input at 2 omega0
+               n=64, dt=1.0, t_end=150_000)
+```
 
-## Revise the biological assumptions
-
-Edit or replace `v1_three_population()` in `neural_field.py`, or construct a
-`PopulationModel` directly.  For every parameter matrix, row `i` is the target
-population and column `j` is the source population.  `weights[i, j]` is the
-signed Wilson-Cowan gain and `widths[i, j]` is the standard deviation of its
-unit-mass Gaussian.  Time is in milliseconds; spatial lengths use the same
-unit as `widths`.  `gaussian_symbol()`, `mixed_gaussian_symbol()`,
-`real_forced_equilibria()`, and `wave_support_equilibria()` expose the general
-K-population and forced-amplitude mathematics directly.
-
-The derivation and source audit are in
-`output/pdf/hallucination_model_report.pdf`.  The report's proposed visual
-inputs are model inputs, not human-viewable flicker.  Do not turn them into a
-flashing display without an approved photosensitivity safety protocol.
-
-The full published 17-population Billeh inventory and its 17-by-17 connection
-probability table are under `data/`.  Blank matrix entries mean
-"undetermined," not zero.  `output/simulations/floquet_resonance_scan.csv`
-contains the model-derived finite-mode growth rate versus forcing frequency
-and amplitude.
+## Folders
+| Folder | Content |
+|---|---|
+| `src/mcn_project/` | model, presets, linear analysis, amplitude coefficients, simulation, plots |
+| `notebooks/` | thin notebooks; parameters in the first code cell |
+| `tests/` | checks against the paper's numbers and theory-vs-simulation checks |
+| `paper/` | the paper and its macros (`def.tex`) |
+| `theory/notes/` | earlier derivation notes and reports, with PDFs |
+| `papers/` | reference PDFs and `notes.md` |
+| `data/` | Billeh et al. (2020) cell classes and connection probabilities |
+| `archive/` | superseded code, notebooks, and drafts (see `archive/README.md`) |
