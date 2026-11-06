@@ -9,6 +9,7 @@ from itertools import combinations_with_replacement
 
 import numpy as np
 
+from .amplitude import standing_equilibrium
 from .linear import Onset
 from .model import NeuralField
 from .normal_form import cubic_coupling, pair_forcing_coefficient
@@ -70,3 +71,43 @@ class ShellSystem:
 
         J = np.column_stack([(f(x0 + d) - f(x0 - d)) / (2 * h) for d in h * np.eye(2 * n)])
         return np.linalg.eigvals(J)
+
+
+def _top_eigenvalues(system: ShellSystem, locked: dict, count: int = 3):
+    A = np.zeros(len(system.waves), complex)
+    for k, z in locked.items():
+        A[system.waves.index(k)] = z
+    return np.sort(system.jacobian_eigenvalues(A).real)[::-1][:count]
+
+
+def locked_pair(model: NeuralField, onset: Onset, a, r2: int, pair, K, H) -> dict:
+    """Prediction for an input H e^{i(2 w0 t + K.x)} that couples the shell pair (kX, kY).
+
+    Returns the coupling eta, the equilibrium of report Prop. 2 (|A_kX| = |A_kY| = sqrt(rho)),
+    and the largest real parts of the Jacobian in the whole shell (one zero: translation).
+    """
+    kX, kY = (np.asarray(k, float) for k in pair)
+    theta = np.arccos(np.clip(kX @ kY / (kX @ kX), -1, 1))
+    eta = pair_forcing_coefficient(model, onset, 2 * np.pi * np.linalg.norm(K) / model.length, H, "2w0")
+    b = cubic_coupling(model, onset, kX, kX, kX)
+    eq = standing_equilibrium(a, b, cubic_coupling(model, onset, kX, kY, kY) if theta > 0 else 0, eta)
+    system = ShellSystem(model, onset, shell_waves(r2), a, forcing=[(K, H, "2w0")])
+    return dict(eta=eta, theta=theta, rho=eq["rho"], z=eq["z"],
+                eigenvalues=_top_eigenvalues(system, {tuple(pair[0]): eq["z"], tuple(pair[1]): eq["z"]}))
+
+
+def flicker_states(model: NeuralField, onset: Onset, a, H) -> dict:
+    """Stripe and square under uniform input H e^{2i w0 t} on the axial shell (report Sec. 10.4)."""
+    k = round(onset.k0)
+    system = ShellSystem(model, onset, shell_waves(k * k), a, forcing=[((0, 0), H, "2w0")])
+    eta = pair_forcing_coefficient(model, onset, 0, H, "2w0")
+    b = cubic_coupling(model, onset, [1, 0], [1, 0], [1, 0])
+    c = cubic_coupling(model, onset, [1, 0], [-1, 0], [-1, 0])
+    c_perp = cubic_coupling(model, onset, [1, 0], [0, 1], [0, 1])
+    c_x = cubic_coupling(model, onset, [0, 1], [-1, 0], [0, -1])
+    out = {}
+    for name, gamma, waves in [("stripe", b + c, [(k, 0), (-k, 0)]),
+                               ("square", b + c + 2 * c_perp + c_x, [(k, 0), (-k, 0), (0, k), (0, -k)])]:
+        eq = standing_equilibrium(a, gamma / 2, gamma / 2, eta)
+        out[name] = dict(rho=eq["rho"], eigenvalues=_top_eigenvalues(system, {w: eq["z"] for w in waves}))
+    return out

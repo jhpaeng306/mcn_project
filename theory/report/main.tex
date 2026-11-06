@@ -1674,6 +1674,35 @@ models, and the other six waves stay below $10^{-5}$. In V1 it persists. In
 the E--I model the waves $(\pm1,\pm3)$ grow, at the predicted rate $+0.59$,
 once the pair is near $z_*$. The field then leaves the weakly nonlinear range.
 
+\subsection{Random initial states}
+\label{sec:2d-random}
+The tests above start near the predicted state. In the two 2D notebooks
+(folder \texttt{notebooks}) every run starts instead from a random field of
+size $0.1\epsilon$ (V1: $\epsilon=0.025$; E--I: $\epsilon=0.1$).
+\begin{itemize}
+ \item $x$-traveling input, oblique shell $|\boldsymbol k|^2=10$,
+ $\boldsymbol K=(6,0)$: in V1 all three seeds select $(3,\pm1)$, with
+ $\epsilon|A|=0.00242$ in each (theory $0.00254$); every other shell wave stays
+ below $2\times10^{-6}$. Each seed has its own $y$-position, as the
+ translation mode predicts, and the pattern moves along $x$ with the input.
+ \item The same input on the shell $|\boldsymbol k|^2=25$ ($L=71.17$) selects
+ $(3,\pm4)$: a pattern with $y$-mode $4$ from an input with no $y$-structure.
+ V1 gives $0.00271$ in all three seeds (theory $0.00289$; shell eigenvalues at
+ most $-0.263$ apart from translation).
+ \item Uniform flicker, axial shell: six V1 seeds all end as stripes, three
+ varying along $x$ and three along $y$; none ends as a square. The stripe
+ amplitude $\sqrt{|A_+|^2+|A_-|^2}=0.00277$ (theory $0.00288$).
+ \item In the E--I model both inputs first produce the predicted pattern, which
+ then leaves the weakly nonlinear range, as Section~\ref{sec:2d-tests} predicts.
+\end{itemize}
+An independent rerun (seed 7, and a $48\times48$ grid) reproduced the oblique
+V1 result to three digits. Two cautions remain. The gaps are $O(\epsilon)$
+corrections (22\% at $\epsilon=0.05$, 5\% at $0.025$), but only two values of
+$\epsilon$ were tested. At these lengths the neighbouring shells
+$|\boldsymbol k|^2=9,13$ decay almost as slowly as the critical shell, so the
+single-shell reduction is close to its limit, although those modes stay below
+$10^{-10}$ in the runs.
+
 \subsection{Summary}
 The 2D picture has three steps. The input wavevector selects which critical
 waves are coupled \eqref{eq:wavevector-rule}. The coupled pair is a 1D

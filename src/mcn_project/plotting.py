@@ -78,3 +78,27 @@ def snapshots(run: Run, times, population: int = 0):
         ax.set(title=f"$t={run.t[i]:.0f}$", xlabel="$x$", ylabel="$y$")
     fig.colorbar(im, ax=axs[0].tolist(), shrink=0.8)
     return fig
+
+
+def shell_traces(t, amps: dict, highlight, ax=None, title=""):
+    """|A_k(t)| of every shell wave on a log scale; highlighted waves in colour."""
+    ax = ax or plt.subplots(figsize=(4.5, 3), layout="constrained")[1]
+    for k, A in amps.items():
+        hot = k in highlight
+        ax.semilogy(t, abs(A), lw=1.4 if hot else 0.7, color=None if hot else "0.7",
+                    label=str(k) if hot else None)
+    ax.set(xlabel="$t$", ylabel=r"$\epsilon|A_k|$", title=title)
+    ax.legend(frameon=False, fontsize=7)
+    return ax.figure
+
+
+def xt_cut(run: Run, population: int = 0, y_index: int = 0, t_window=None):
+    """Activity along x (at one y) versus time: shows motion along x."""
+    keep = slice(None) if t_window is None else (run.t >= t_window[0]) & (run.t <= t_window[1])
+    field = run.u[keep, population, :, y_index]
+    fig, ax = plt.subplots(figsize=(4.5, 3), layout="constrained")
+    lim = np.abs(field).max()
+    ax.imshow(field, origin="lower", aspect="auto", cmap="RdBu_r", vmin=-lim, vmax=lim,
+              extent=[0, run.x[-1], run.t[keep][0], run.t[keep][-1]])
+    ax.set(xlabel="$x$", ylabel="$t$", title=f"activity along $x$ at $y={run.x[y_index]:.0f}$")
+    return fig

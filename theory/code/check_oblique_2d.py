@@ -10,13 +10,16 @@ import os
 import sys
 
 import numpy as np
-from scipy.optimize import brentq, minimize_scalar
 
 from mcn_project import presets
 from mcn_project.amplitude import standing_equilibrium
 from mcn_project.analysis import critical_amplitudes
-from mcn_project.linear import find_onset, growth_rate
-from mcn_project.normal_form import cross_coefficient, cubic_coefficients, pair_forcing_coefficient
+from mcn_project.linear import critical_wavenumber, find_onset
+from mcn_project.normal_form import (
+    cross_coefficient,
+    cubic_coefficients,
+    pair_forcing_coefficient,
+)
 from mcn_project.shell import ShellSystem, shell_waves
 from mcn_project.simulate import Forcing, Wave, simulate
 
@@ -26,18 +29,9 @@ CASES = {"WC": dict(preset=presets.wilson_cowan, rng=(4, 12), eps=0.1, dt=0.1, t
 MU, N, STRENGTH = -1.0, 32, 3.0     # input coefficient |eta| = STRENGTH |mu alpha|
 
 
-def oblique_length(preset, rng):
-    """L that puts the continuum critical wavenumber on the |k|^2 = 10 shell."""
-    model = preset()
-    q0 = find_onset(model, 1, rng).q0
-    kappa_H = lambda q: brentq(lambda k: growth_rate(model, q, k), *rng)
-    qc = minimize_scalar(kappa_H, bounds=(0.7 * q0, 1.3 * q0), method="bounded").x
-    return np.sqrt(10) * 2 * np.pi / qc
-
-
 for name in sys.argv[1:] or list(CASES):
     p = CASES[name]
-    L = oblique_length(p["preset"], p["rng"])
+    L = np.sqrt(10) * 2 * np.pi / critical_wavenumber(p["preset"](), p["rng"])
     model = p["preset"](length=L)
     onset = find_onset(model, 2, p["rng"])
     nf = cubic_coefficients(model, onset)

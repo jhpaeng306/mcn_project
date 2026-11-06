@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 
 import numpy as np
-from scipy.optimize import brentq
+from scipy.optimize import brentq, minimize_scalar
 
 from .model import NeuralField
 
@@ -80,3 +80,16 @@ def critical_eigenvectors(M: np.ndarray):
     left_values, left_vectors = np.linalg.eig(M.conj().T)
     Psi = left_vectors[:, np.argmin(abs(left_values - np.conj(nu)))]
     return Phi, Psi / np.conj(np.vdot(Psi, Phi)), nu
+
+
+def critical_wavenumber(model: NeuralField, kappa_range=(0.0, 20.0)) -> float:
+    """Wavenumber at the minimum of the continuum neutral curve kappa_H(q).
+
+    A torus of length L = 2 pi sqrt(r2) / q_c puts this wavenumber on the lattice shell r2.
+    """
+    q0 = find_onset(model, 1, kappa_range).q0
+
+    def neutral(q):
+        return brentq(lambda k: growth_rate(model, q, k), *kappa_range)
+
+    return minimize_scalar(neutral, bounds=(0.7 * q0, 1.3 * q0), method="bounded").x

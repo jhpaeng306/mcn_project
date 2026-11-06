@@ -1,5 +1,6 @@
 """Direct simulation of the field on a periodic 1D or 2D grid (FFT convolution, RK4)."""
 
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 
 import numpy as np
@@ -64,7 +65,8 @@ class _Input:
 def simulate(model: NeuralField, kappa: float, forcing: Forcing = Forcing(), *,
              dim: int = 1, n: int = 64, dt: float = 0.1, t_end: float = 500.0,
              save_every: int = 10, u0: np.ndarray | None = None,
-             noise: float = 1e-3, seed: int = 0) -> Run:
+             noise: float = 1e-3, seed: int = 0, t_start: float = 0.0) -> Run:
+    """Integrate from t_start to t_start + t_end. A continuation passes u0 = run.u[-1], t_start = run.t[-1]."""
     x, mesh = grid(model, n, dim)
     axes = tuple(range(1, dim + 1))
     freqs = [2 * np.pi * np.fft.fftfreq(n, model.length / n)] * (dim - 1)
@@ -86,7 +88,7 @@ def simulate(model: NeuralField, kappa: float, forcing: Forcing = Forcing(), *,
     steps = round(t_end / dt)
     t_out, u_out, i_out = [], [], []
     for step in range(steps + 1):
-        t = step * dt
+        t = t_start + step * dt
         if step % save_every == 0:
             t_out.append(t), u_out.append(u.copy()), i_out.append(I(t))
         if step == steps:
@@ -106,3 +108,11 @@ def critical_seed(model: NeuralField, onset, size: float, *, dim: int = 1, n: in
     mode = mode or (round(onset.k0),) + (0,) * (dim - 1)
     phase = sum(2 * np.pi * k * xi / model.length for k, xi in zip(mode, mesh))
     return size * np.real(onset.Phi.reshape((-1,) + (1,) * dim) * np.exp(1j * phase))
+
+
+def simulate_seeds(model: NeuralField, kappa: float, forcing: Forcing, seeds, *,
+                   workers: int | None = None, **kwargs) -> list[Run]:
+    """simulate() for several random seeds, in parallel processes."""
+    with ProcessPoolExecutor(workers) as pool:
+        jobs = [pool.submit(simulate, model, kappa, forcing, seed=s, **kwargs) for s in seeds]
+        return [job.result() for job in jobs]

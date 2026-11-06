@@ -76,3 +76,22 @@ Notes for PAP-1 (paper Secs. 6–8):
   - The first row of the test table is labelled as a growth rate.
 - Notation: the static response is $s_k$ (as in Sec. 4) instead of $\sigma$; the input peak is $\delta$; the stimulus wavenumber is $k$; the quartet coefficient is $c_\times$.
 - Not changed: the referee's note that NOTATION.md lacked the new symbols (they had been added in the same session).
+
+## 2026-11-06 — SIM-2: V1 in 2D, route 1 (x-traveling input → y-structure) and route 2 (uniform flicker)
+**Did:** `notebooks/v1_2d.ipynb` (about 13 min headless). Random initial fields of size $0.1\epsilon$, seeds run in parallel (`simulate_seeds`). Route 1: $\epsilon=0.025$, input $\cos(6q_1x+2\omega_0t)$ with $|\eta|=3|\mu\alpha|$, on shells $|\boldsymbol k|^2=10$ ($L=45.01$) and $25$ ($L=71.17$), seeds 0–2, $8\times10^4$ ms. Route 2: uniform flicker, peak $3\epsilon^2$, $\epsilon=0.025$, $L=42.70$, seeds 0–5, $4\times10^5$ ms. New helpers: `linear.critical_wavenumber`, `simulate.simulate_seeds`, `simulate(t_start=...)` for continuations, `analysis.shell_amplitudes`, `shell.locked_pair`, `shell.flicker_states`, `plotting.shell_traces`, `plotting.xt_cut`; 2 new tests (21 in total pass).
+**Found:**
+- Route 1, shell 10: all three seeds select $(3,\pm1)$ with $\epsilon|A|=0.00242$ (theory $0.00254$, 5%); other waves $<2\times10^{-6}$. The pattern travels along $x$ with the input and is $\cos(q_1y)$ along $y$, at a seed-dependent $y$-position.
+- Route 1, shell 25: all seeds select $(3,\pm4)$ ($y$-mode 4) with $0.00271$ (theory $0.00289$, 6%).
+- Route 2: six seeds give six stripes, three along $x$ and three along $y$, no squares; amplitude $0.00277$ (theory $0.00288$, 4%).
+**Failed / surprised:**
+- At $\epsilon=0.05$ the route-2 stripe was 17% below theory. A 1D run gives the same value, so the gap is the $O(\epsilon)$ correction of the stripe itself; it falls to 4% at $\epsilon=0.025$.
+- Correction to the THY-1 entry: the "$0.00378$ while 1D" stripe value there was measured before the stripe had saturated.
+- Skeptic: reproduced route 1 with seed 7 and with a $48\times48$ grid, both to three digits, using an independent FFT projection. Its cautions: only two $\epsilon$ values were tested, and the neighbouring shells $9$ and $13$ decay almost as slowly as the critical one at these lengths. It also noted that `critical_amplitudes` uses a least-squares fit on $(\Phi,\bar\Phi)$, not the $\Psi$ projection. This changes non-critical waves at the $10^{-6}$ level only.
+**Confidence:** high (3–6 seeds, identical outcomes, independent reproduction, $O(\epsilon)$ gaps).
+**Next:** THY-4 (why V1 has $\mathrm{Re}\,c_\theta<0$ at all angles).
+
+## 2026-11-06 — SIM-1: Wilson–Cowan in 2D, same two routes
+**Did:** `notebooks/wilson_cowan_2d.ipynb` (about 3.5 min). Same structure; $\epsilon=0.1$; shells 10 ($L=61.42$) and 25 ($L=97.11$); flicker on $L=58.26$; random initial fields.
+**Found:** In every seed the locked pair first grows to near the predicted amplitude ($\approx0.025$ vs $0.027$ on shell 10). Then the other shell waves grow and the field settles in a large-amplitude state ($|A|\sim0.05$–$0.36$). Under flicker, all four seeds end in large-amplitude squares ($\approx0.5$). This matches the theory (positive shell eigenvalues $0.84$, $0.27$; stripe and square both unstable). The end states are beyond cubic order.
+**Confidence:** high that the weakly nonlinear patterns are unstable; the large-amplitude end states are only described, not explained.
+**Next:** none required for this task.

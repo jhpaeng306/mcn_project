@@ -44,3 +44,8 @@ def dominant_frequency(t: np.ndarray, signal: np.ndarray) -> float:
     power = np.abs(np.fft.rfft(signal - signal.mean())) ** 2
     omega = 2 * np.pi * np.fft.rfftfreq(t.size, t[1] - t[0])
     return omega[1:][np.argmax(power[1:])]
+
+
+def shell_amplitudes(run: Run, onset: Onset, waves) -> dict:
+    """Complex amplitude A_k(t) (times eps) of each 2D critical wave k = (i, j)."""
+    return {tuple(k): critical_amplitudes(run, onset, tuple(k))[0] for k in waves}
