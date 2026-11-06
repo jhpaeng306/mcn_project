@@ -31,12 +31,13 @@ Taken from the notation tables of `theory/report/main.tex` (end of Sec. 6 and Se
 | $\eta_t,\eta_\pm,\eta_x$ | forcing coefficients in the amplitude equations | complex | — | `forcing_coefficients`; $\eta^{(1)}$ = `unit_forcing_coefficients` |
 | $\rho_*,\phi_*,z_*$ | standing equilibrium $A=B=z_*=\sqrt{\rho_*}\ee^{\ii\phi_*}$ | — | — | `standing_equilibrium` |
 | $s,\tau$ | fast time $s=t$ and slow time $\tau=\epsilon^2 t$ | scalar | — | `t` (fast only) |
-| $\sigma$ | static response $R(0,k)S$ to an order-$\epsilon$ input at wavenumber $k$ | $\CC^K$ | — | `sigma` in `static_forcing_coefficients` |
+| $s_k$ | static response $R(0,k)S$ (order $\epsilon^2$ in Sec. 4, order $\epsilon$ in Sec. 9) | $\CC^K$ | — | `sigma` in `static_forcing_coefficients` |
+| $\delta$ | cosine peak of an input (in units of the stated $\epsilon$ power) | scalar | — | `PEAKS`, `q` in Sec. 9 scripts |
 | $\chi,\xi$ | shift and $A$–$B$ coupling from an order-$\epsilon$ static input | complex | — | `static_forcing_coefficients` |
 | $E_{\boldsymbol k},A_{\boldsymbol k}$ | 2D critical wave and its amplitude, $\lvert\boldsymbol k\rvert=q_0$ | — | — | `ShellSystem`, `critical_amplitudes(run, onset, mode)` |
 | $\boldsymbol K$ | input wavevector | lattice vector | — | `Wave.k`, `forcing=[(K, H, ...)]` |
-| $\eta(K),\eta_s(K)$ | pair coupling by an input at $2\omega_0$ or static | complex | — | `pair_forcing_coefficient(..., "2w0" or "0")` |
-| $c_\theta,c_\perp,c_{\rm q}$ | cross coefficient at angle $\theta$; $c_{\pi/2}$; axial quartet coefficient | complex | — | `cross_coefficient`, `square_coefficients` |
+| $\eta(K),\eta_s^\pm$ | pair coupling by an input at $2\omega_0$ or static ($\pm\boldsymbol K$) | complex | — | `pair_forcing_coefficient(..., "2w0" or "0")` |
+| $c_\theta,c_\perp,c_\times$ | cross coefficient at angle $\theta$; $c_{\pi/2}$; axial quartet coefficient | complex | — | `cross_coefficient`, `square_coefficients().c_perp`, `.c_q` |
 | $\boldsymbol d$ | half difference of a coupled pair | vector | — | — |
 | $\gamma_\square,\lambda_\perp$ | square coefficient; transverse growth of the stripe | complex, real | — | `theory/code/square_predictions.py` |
 
@@ -56,5 +57,6 @@ Taken from the notation tables of `theory/report/main.tex` (end of Sec. 6 and Se
 | pattern | a non-uniform oscillating state at $k_0$ | structure |
 
 ## Known clashes to fix (PAP-1)
+- $\boldsymbol K$ (bold, input wavevector) versus $K$ (number of populations); $\sigma$ in Sec. 8.2 is $\RePart\nu$.
 - $\tau$ is both the slow time (Sec. 1) and the time constants $\tau_i$, $D_\tau$ (Secs. 7–8).
 - $d$ (Secs. 1–6) and $K$ (Secs. 7–8) both count populations.

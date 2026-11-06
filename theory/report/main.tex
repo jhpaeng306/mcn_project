@@ -1275,10 +1275,13 @@ Every multiplier decays, $\widehat W(q;p)\to0$ as $q\to\infty$. Hence
  \label{eq:large-q-limit}
 \end{equation}
 which is real and diagonal. Its eigenvalues $-1/\tau_i$ are real, so every
-imaginary part tends to zero. If the $\tau_i$ are distinct, a complex pair
-must meet the real axis at a finite $q$, after which $\omega=0$. Therefore a
-positive frequency at $q=0$ can only do one of two things: decrease, or
-first increase and then decrease. The second case is the bell.
+imaginary part tends to zero. If the $\tau_i$ are distinct, the limit
+eigenvalues are simple and real, so all eigenvalues are real for $q$ large
+enough. Hence a positive frequency at $q=0$ cannot increase for all $q$: it
+must eventually return to zero. This rules out a globally increasing branch.
+It does not fix the shape in between. In both models below the curve has one
+maximum (observed numerically): at $q=0$ (decreasing curve) or at $q>0$ (a
+bell).
 
 \paragraph{An increase needs heterogeneity.}
 If all $\tau_i=\tau_c$ and all retained $\Sigma_{ij}=\Sigma_c$, then
@@ -1301,7 +1304,9 @@ real at $2.16q_0$. For V1 the frequency rises from $0.0697$ to a maximum
 $0.1033$ at $q\simeq2.61q_0$ and then falls. The pair stops being the
 rightmost eigenvalue at $q\simeq2.54q_0$, just before the maximum. On the
 modes where the pair sets the instability, $\omega_{\rm r}$ therefore
-increases monotonically. The three-population model has its maximum at
+increases monotonically. The three-population model (the E/PV/SST block
+of $G$ with $G_{EE}$ raised from $6.22009$ to $6.72$, so that $k_0=3$ again)
+has its maximum at
 $2.67q_0$ and stays rightmost up to $3.79q_0$, so there the full bell is
 visible.
 
@@ -1332,8 +1337,9 @@ follows from one counting rule.
 \subsection{Counting rule}
 Take the static input $\epsilon^m(S\ee^{\ii kx}+\overline S\ee^{-\ii kx})$,
 $k\in\NN$, and $p=\epsilon^2\mu$. Its response is
-$\sigma\ee^{\ii kx}+\cc$ with $\sigma=R(0,k)S$. This response exists for
-every $k$ because the critical modes oscillate, $\omega_0\neq0$. The input
+$s_k\ee^{\ii kx}+\cc$ with $s_k=R(0,k)S$, as in \eqref{eq:forcing-responses}.
+This response exists for every $k$ because the critical modes oscillate,
+$\omega_0\neq0$. The input
 changes the amplitude equations only through terms that are resonant with
 $E_+$. With $r$ factors of the input and one critical wave, the wave types are
 \begin{equation*}
@@ -1351,10 +1357,12 @@ order $\epsilon^3$. Hence
  \label{eq:forcing-scaling}
 \end{equation}
 Section~2.3 excluded $m=1$ to keep $u_1$ in $\ker\cD$. For a non-resonant
-input, the extra term $\sigma\ee^{\ii kx}$ in $u_1$ is a forced response, not
+input, the extra term $s_k\ee^{\ii kx}$ in $u_1$ is a forced response, not
 a free amplitude, so $m=1$ is admissible. The same counting for a uniform
 input at frequency $\omega$ gives $\omega\in\{0,2\omega_0\}$ with one factor,
-and $\omega=\omega_0$ or any $\omega$ with two factors.
+and $\omega=\omega_0$ or any $\omega$ with two factors (unchecked: we have not
+computed these coefficients). The table stops at $r=2$, that is, at order
+$\epsilon^3$. With $r$ factors, $rk=2k_0$ is resonant at a higher order.
 
 \subsection{Amplitude equations for $m=1$}
 Let $k\notin\{0,2k_0\}$ and $S$ real. At order $\epsilon^3$ the input
@@ -1366,69 +1374,71 @@ contributes $A\,\chi$ for every $k$, and $B\,\xi$ only for $k=k_0$:
  B_\tau&=B\left(a+\chi+b|B|^2+c|A|^2\right)+\xi A.
 \end{align}
 \end{subequations}
-The coefficients collect the second-order responses, as in \eqref{eq:G-vectors}:
+Here $\cC$ acts pointwise, as in the field \eqref{eq:population-field}. The
+coefficients collect the second-order responses, as in \eqref{eq:G-vectors}:
 \begin{align}
- \chi&=\Psi^*\Bigl[2\cQ\bigl(\Phi,2R(0,0)\cQ(\sigma,\overline\sigma)\bigr)
- +4\cQ\bigl(\overline\sigma,R(\omega_0,k_0+k)\cQ(\Phi,\sigma)\bigr)\notag\\
- &\qquad+4\cQ\bigl(\sigma,R(\omega_0,k_0-k)\cQ(\Phi,\overline\sigma)\bigr)
- +6\cC(\Phi,\sigma,\overline\sigma)\Bigr],\notag\\
- \xi&=\one{k=k_0}\Psi^*\Bigl[2\cQ\bigl(\Phi,R(0,2k_0)\cQ(\sigma,\sigma)\bigr)
- +4\cQ\bigl(\sigma,R(\omega_0,0)\cQ(\Phi,\sigma)\bigr)
- +3\cC(\Phi,\sigma,\sigma)\Bigr].
+ \chi&=\Psi^*\Bigl[2\cQ\bigl(\Phi,2R(0,0)\cQ(s_k,\overline{s_k})\bigr)
+ +4\cQ\bigl(\overline{s_k},R(\omega_0,k_0+k)\cQ(\Phi,s_k)\bigr)\notag\\
+ &\qquad+4\cQ\bigl(s_k,R(\omega_0,k_0-k)\cQ(\Phi,\overline{s_k})\bigr)
+ +6\cC(\Phi,s_k,\overline{s_k})\Bigr],\notag\\
+ \xi&=\one{k=k_0}\Psi^*\Bigl[2\cQ\bigl(\Phi,R(0,2k_0)\cQ(s_k,s_k)\bigr)
+ +4\cQ\bigl(s_k,R(\omega_0,0)\cQ(\Phi,s_k)\bigr)
+ +3\cC(\Phi,s_k,s_k)\Bigr].
  \label{eq:chi-xi}
 \end{align}
 Both are quadratic in the input. At $A=B=0$ the combinations $A\pm B$
 decouple with growth rates $\RePart(\mu\alpha+\chi\pm\xi)$. For $k=2k_0$,
 Section~6 gives $\RePart(\mu\alpha\pm\eta_x)$ instead. Write the input as a
-cosine of peak $q$. Then the onset moves to
+cosine of peak $\delta$. With $\RePart\alpha>0$ \eqref{eq:transversality}, the
+threshold moves to
 \begin{equation}
- \boxed{p_{\rm th}=-\frac{\RePart\chi^{(1)}+|\RePart\xi^{(1)}|}{\RePart\alpha}\,q^2
- \quad(k\neq2k_0),\qquad
- p_{\rm th}=-\frac{|\RePart\eta_x^{(1)}|}{\RePart\alpha}\,|q|
+ \boxed{p_{\rm th}=-\frac{\RePart\chi^{(1)}+|\RePart\xi^{(1)}|}{\RePart\alpha}\,\delta^2
+ \quad(k\notin\{0,2k_0\}),\qquad
+ p_{\rm th}=-\frac{|\RePart\eta_x^{(1)}|}{\RePart\alpha}\,|\delta|
  \quad(k=2k_0),}
  \label{eq:threshold-shift}
 \end{equation}
-where the superscript $(1)$ marks the value for $q=1$. Only $k=k_0$ and
-$k=2k_0$ lock the pattern to the input. Every other $k$ shifts the onset but
-leaves the spatial phase free.
+where the superscript $(1)$ marks the value for $\delta=1$. At this order
+only $k=k_0$ and $k=2k_0$ lock the pattern to the input. Every other $k$ moves
+the threshold but leaves the spatial phase free.
 
 \subsection{The two-parameter diagram}
-Figure~\ref{fig:two-parameter} repeats the $(q,a_{EE})$ diagram for the E--I
-Wilson--Cowan model on $L=60$ ($k_0=3$). For each stimulus wavenumber $m$ it
+Figure~\ref{fig:two-parameter} repeats the $(\delta,a_{EE})$ diagram for the E--I
+Wilson--Cowan model on $L=60$ ($k_0=3$). For each stimulus wavenumber $k$ it
 shows the $a_{EE}$ at which the stimulus-locked steady state first loses
-stability. Near $q=0$, \eqref{eq:threshold-shift} explains the two shapes.
+stability. Near $\delta=0$, \eqref{eq:threshold-shift} explains the two shapes.
 \begin{itemize}
- \item $m=6=2k_0$: the two branches $A=\pm B$ are straight lines with slopes
- $\pm22.26$ that cross at $q=0$. The threshold is a V. A continuation that
- follows one Hopf branch through $q=0$ traces one line across the other, which
- gives the loop.
- \item $m\le3$: both branches are parabolas tangent at $q=0$, so the curve is
- smooth there.
+ \item $k=6=2k_0$: the two branches $A=\pm B$ are straight lines with slopes
+ $\pm22.26$ that cross at $\delta=0$. The threshold is a V. A continuation that
+ follows one Hopf branch through $\delta=0$ traces one line across the other,
+ which gives the loop.
+ \item $k\le3$: both branches are parabolas tangent at $\delta=0$, so the curve
+ is smooth there.
 \end{itemize}
 The quadratic coefficients and a check against the full model at small $q$
 are (shifts in units of $10^{-4}$)
 \begin{equation*}
 \begin{array}{c|cccccc}
- m & 1 & 2 & 3\,(=k_0) & 4 & 5 & 6\,(=2k_0)\\ \hline
- \text{coefficient of }q^2\text{ or }|q| & 3.38 & 5.32 & 13.9 & 662 & 2032 & -22.26\\
+ k & 1 & 2 & 3\,(=k_0) & 4 & 5 & 6\,(=2k_0)\\ \hline
+ \text{coefficient of }\delta^2\text{ or }|\delta| & 3.38 & 5.32 & 13.9 & 662 & 2032 & -22.26\\
  \text{shift, full model} & 0.84 & 1.32 & 3.48 & 26.6 & 82.2 & -437\\
  \text{shift, theory} & 0.84 & 1.33 & 3.48 & 26.5 & 81.3 & -445
 \end{array}
 \end{equation*}
-with $q=0.005$ for $m\le3$ and $q=0.002$ otherwise. Near $q=0$, every $m$
-except $2k_0$ raises the threshold. The coefficients for $m=4,5$ are large
+with $\delta=0.005$ for $k\le3$ and $\delta=0.002$ otherwise. Near
+$\delta=0$, every $k$ except $2k_0$ raises the threshold. The coefficients for $m=4,5$ are large
 because $R(0,k)$ is large there. These modes have eigenvalues close to zero,
 $-0.025+0.115\ii$ and $-0.084+0.009\ii$, which is the falling frequency curve
 of Section~\ref{sec:frequency-shape}. Their quadratic range is therefore
-small, $|q|\lesssim0.002$. Far from $q=0$ all curves bend down, outside the
-weakly nonlinear range.
+small, $|\delta|\lesssim0.002$. Far from $\delta=0$ all curves bend down,
+outside the weakly nonlinear range.
 
 \begin{figure}[h]
  \centering
  \includegraphics[width=\textwidth]{../../figures/two_parameter_curves.pdf}
- \caption{Static stimulus $q\cos(2\pi mx/60)$ on E, Wilson--Cowan, $N=60$.
+ \caption{Static stimulus $\delta\cos(2\pi kx/60)$ on E, Wilson--Cowan, $N=60$.
  (a) $a_{EE}$ at the first instability of the stimulus-locked state.
- (b), (c) the same near $q=0$: dots from the full model, lines from
+ (b), (c) the same near $\delta=0$: dots from the full model, lines from
  \eqref{eq:threshold-shift}, dotted lines for the second branch.}
  \label{fig:two-parameter}
 \end{figure}
@@ -1437,12 +1447,29 @@ weakly nonlinear range.
 \label{sec:two-dimensions}
 On the square torus $\T_L^2$ the critical modes form a shell: all lattice
 wavevectors $\boldsymbol k$ with $|\boldsymbol k|=q_0$. Each gives a wave
-$E_{\boldsymbol k}=\ee^{\ii(\omega_0t+\boldsymbol k\cdot\boldsymbol x)}$ with
+$E_{\boldsymbol k}=\ee^{\ii(\omega_0s+\boldsymbol k\cdot\boldsymbol x)}$ with
 amplitude $A_{\boldsymbol k}$, and
 $u_1=\sum_{\boldsymbol k}A_{\boldsymbol k}\Phi E_{\boldsymbol k}+\cc$
-The 1D amplitudes are $A=A_{k_0\hat x}$ and $B=A_{-k_0\hat x}$. The
-calculation of Sections~3--5 carries over word for word. Only the bookkeeping
-of wavevectors changes.
+The 1D amplitudes are $A=A_{k_0\hat x}$ and $B=A_{-k_0\hat x}$. We use three
+assumptions.
+\begin{assumption}\label{as:isotropy}
+$M_0$, $\cQ$ and $\cC$ depend on a wavevector only through its length (true
+for the field \eqref{eq:population-field} with isotropic Gaussian kernels), and
+$\cC$ acts pointwise.
+\end{assumption}
+\begin{assumption}\label{as:one-shell}
+At $p=0$ only the shell $|\boldsymbol k|=q_0$ has eigenvalues on the imaginary
+axis, the pair $\pm\ii\omega_0$; all other lattice modes are strictly stable.
+\end{assumption}
+\begin{assumption}\label{as:2d-nonresonance}
+For all shell waves, $2\ii\omega_0\notin\operatorname{spec}M_0(|\boldsymbol k_X+\boldsymbol k_Z|)$
+and $0\notin\operatorname{spec}M_0(|\boldsymbol k_X-\boldsymbol k_Y|)$ unless the
+difference is zero; for an input $\boldsymbol K$ at $\Omega=2\omega_0$, also
+$2\ii\omega_0\notin\operatorname{spec}M_0(|\boldsymbol K|)$.
+\end{assumption}
+Assumption~\ref{as:2d-nonresonance} replaces \eqref{eq:no-quadratic-resonance}.
+Under these assumptions the calculation of Sections~3--5 carries over word for
+word; only the bookkeeping of wavevectors changes.
 
 \subsection{Which waves an input couples}
 Take an input $\epsilon^2(H\ee^{\ii(\Omega t+\boldsymbol K\cdot\boldsymbol x)}+\cc)$.
@@ -1454,14 +1481,16 @@ up, exactly as in \eqref{eq:temporal-critical-A}--\eqref{eq:spatial-critical-B}:
  \Omega=2\omega_0 & \boldsymbol k_X+\boldsymbol k_Y=\boldsymbol K &
  \eta(|\boldsymbol K|)\,\overline{A_{\boldsymbol k_X}},\quad
  \eta(K)=2\Psi^*\cQ\bigl(\overline\Phi,R(2\omega_0,K)H\bigr)\\
- \Omega=0 & \boldsymbol k_Y-\boldsymbol k_X=\boldsymbol K &
- \eta_s(|\boldsymbol K|)\,A_{\boldsymbol k_X},\quad
- \eta_s(K)=2\Psi^*\cQ\bigl(\Phi,R(0,K)H\bigr)
+ \Omega=0 & \boldsymbol k_Y-\boldsymbol k_X=\pm\boldsymbol K &
+ \eta_s^\pm\,A_{\boldsymbol k_X},\quad
+ \eta_s^+=2\Psi^*\cQ\bigl(\Phi,R(0,K)H\bigr),\ \
+ \eta_s^-=2\Psi^*\cQ\bigl(\Phi,R(0,K)\overline H\bigr)
 \end{array}
 \label{eq:wavevector-rule}
 \end{equation}
-For $\boldsymbol K=0$ and $\Omega=2\omega_0$ this is $\eta_t$; for
-$|\boldsymbol K|=2k_0$ and $\Omega=0$ it is $\eta_\pm$.
+Here $K=|\boldsymbol K|$; the $-\boldsymbol K$ row comes from the complex
+conjugate of the input. For $\boldsymbol K=0$ and $\Omega=2\omega_0$ this is
+$\eta_t$; for $K=2k_0$ and $\Omega=0$ it gives $\eta_\pm$.
 
 \paragraph{Geometry.}
 Both coupled waves have length $q_0$. For $\Omega=2\omega_0$ they are
@@ -1483,10 +1512,12 @@ There are three cases.
  across $\boldsymbol K$. An input traveling along $x$ then creates
  structure along $y$.
 \end{itemize}
-On the torus, $\boldsymbol k_{X,Y}$ must be lattice vectors. The axial shell
-$\{(\pm k_0,0),(0,\pm k_0)\}$ allows only $|\boldsymbol K|\in\{0,2q_0\}$. The
-oblique shell $\{(\pm3,\pm1),(\pm1,\pm3)\}$ allows $\boldsymbol K=(6,0)$,
-which couples $(3,1)$ with $(3,-1)$.
+On the torus, $\boldsymbol k_{X,Y}$ must be lattice vectors. On the axial
+shell $\{(\pm k_0,0),(0,\pm k_0)\}$, an input along an axis can only have
+$K\in\{0,2q_0\}$, so it produces no structure across itself; the diagonal input
+$\boldsymbol K=(k_0,k_0)$ couples $(k_0,0)$ with $(0,k_0)$. On the oblique shell
+$\{(\pm3,\pm1),(\pm1,\pm3)\}$ the axial input $\boldsymbol K=(6,0)$ couples
+$(3,1)$ with $(3,-1)$.
 
 \subsection{Cubic terms}
 The cubic terms are found as in Section~5. The equation of
@@ -1504,33 +1535,41 @@ $\boldsymbol k_X\neq\boldsymbol k_Z$, its coefficient is
 with $h_{20}(\boldsymbol v)=2R(2\omega_0,|\boldsymbol v|)\cQ(\Phi,\Phi)$ and
 $h_{11}(\boldsymbol v)=2R(0,|\boldsymbol v|)\cQ(\Phi,\overline\Phi)$. Each
 term is one pair of waves forming a second-order response, then meeting the
-third wave. Two cases recur.
+third wave. For $\boldsymbol k_X=\boldsymbol k_Z$ (the monomial
+$A_{\boldsymbol k_X}^2\overline{A_{\boldsymbol k_Y}}$) each multiplicity halves:
+\begin{equation}
+ \Psi^*\Bigl[\cQ\bigl(\overline\Phi,h_{20}(2\boldsymbol k_X)\bigr)
+ +2\cQ\bigl(\Phi,h_{11}(\boldsymbol k_X-\boldsymbol k_Y)\bigr)
+ +3\cC(\Phi,\Phi,\overline\Phi)\Bigr],
+ \label{eq:general-cubic-repeated}
+\end{equation}
+and $\boldsymbol k_X=\boldsymbol k_Y=\boldsymbol k_Z$ gives $b$ \eqref{eq:Gs}.
+Two further cases recur.
 \begin{itemize}
- \item Two waves at angle $\theta$
+ \item Two waves at angle $\theta\neq0$
  ($\boldsymbol k_Y=\boldsymbol k_Z$): the cross coefficient $c_\theta$, whose
  responses sit at $|\boldsymbol k_X\pm\boldsymbol k_Y|=2q_0|\cos\frac\theta2|$
  and $2q_0|\sin\frac\theta2|$. It gives $c_\pi=c$ and $c_{\pi/2}=c_\perp$.
  \item Four waves of the axial shell: the quartet term
- $c_{\rm q}\overline{A_{-\hat x}}A_{\hat y}A_{-\hat y}$ in the
+ $c_\times\overline{A_{-\hat x}}A_{\hat y}A_{-\hat y}$ in the
  $A_{\hat x}$ equation (lattice directions in units of $k_0$).
 \end{itemize}
-The self coefficient $b$ is the case $\boldsymbol k_X=\boldsymbol k_Y=\boldsymbol k_Z$
-of the same construction.
 
 \subsection{The locked pair}
 \begin{proposition}
-Let an input with $\Omega=2\omega_0$ couple the pair
-$\boldsymbol k_X\neq\boldsymbol k_Y$ of \eqref{eq:pair-geometry}, at angle
-$\theta$. Assume that no other shell wave equals
-$2\boldsymbol k_X-\boldsymbol k_Y$ or $2\boldsymbol k_Y-\boldsymbol k_X$, and
-that the input couples no other pair. Then $A_{\boldsymbol k_X}=A_{\boldsymbol k_Y}=z$
-with all other amplitudes zero is invariant, and
+Assume \ref{as:isotropy}--\ref{as:2d-nonresonance}. Let an input with
+$\Omega=2\omega_0$ couple the pair $\boldsymbol k_X\neq\boldsymbol k_Y$ of
+\eqref{eq:pair-geometry}, at angle $\theta$, and assume that no shell wave
+equals $2\boldsymbol k_X-\boldsymbol k_Y$ or $2\boldsymbol k_Y-\boldsymbol k_X$.
+Then $A_{\boldsymbol k_X}=A_{\boldsymbol k_Y}=z$ with all other amplitudes zero
+is invariant, and
 \begin{equation}
  z_\tau=z\bigl(a+(b+c_\theta)|z|^2\bigr)+\eta\,\overline z .
  \label{eq:pair-reduction}
 \end{equation}
 This is \eqref{eq:standing-reduction} with $a_+=a$ and $\gamma=b+c_\theta$.
-If $|\eta|>|\mu\alpha|$, Proposition~1 gives $z_*=\sqrt{\rho_*}\ee^{\ii\phi_*}$
+If $b+c_\theta\neq0$ and $|\eta|>|\mu\alpha|$, Proposition~1 gives
+$z_*=\sqrt{\rho_*}\ee^{\ii\phi_*}$
 and the leading field
 \begin{equation}
  \boxed{u=4\epsilon\sqrt{\rho_*}\,
@@ -1544,7 +1583,10 @@ On the subspace, the monomials that contain only $A_{\boldsymbol k_X}$ and
 $A_{\boldsymbol k_Y}$ land on $\boldsymbol k_X$, $\boldsymbol k_Y$,
 $2\boldsymbol k_X-\boldsymbol k_Y$, or $2\boldsymbol k_Y-\boldsymbol k_X$. By
 assumption the last two are not shell waves, so all other amplitudes stay
-zero. The $A_{\boldsymbol k_X}$ equation contains
+zero. An input term $\eta\overline{A_{\boldsymbol k_{X'}}}$ is nonzero on the
+subspace only if $\boldsymbol k_{X'}\in\{\boldsymbol k_X,\boldsymbol k_Y\}$, and
+then it lands on $\boldsymbol K-\boldsymbol k_{X'}\in\{\boldsymbol k_Y,\boldsymbol k_X\}$.
+The $A_{\boldsymbol k_X}$ equation contains
 $b|A_{\boldsymbol k_X}|^2$, $c_\theta|A_{\boldsymbol k_Y}|^2$, and, by
 \eqref{eq:wavevector-rule}, $\eta\overline{A_{\boldsymbol k_Y}}$. The
 $A_{\boldsymbol k_Y}$ equation is the same with $X$ and $Y$ exchanged, which
@@ -1552,7 +1594,8 @@ gives \eqref{eq:pair-reduction}. Finally
 $\ee^{\ii\boldsymbol k_X\cdot\boldsymbol x}+\ee^{\ii\boldsymbol k_Y\cdot\boldsymbol x}
 =2\ee^{\ii\boldsymbol K\cdot\boldsymbol x/2}\cos(\boldsymbol d\cdot\boldsymbol x)$.
 \end{proof}
-For $\boldsymbol K=0$ this is the 1D standing pattern \eqref{eq:below-onset-pattern}.
+For $\boldsymbol K=0$ this is the 1D standing pattern \eqref{eq:below-onset-pattern};
+the perpendicular pair is also driven but stays zero on the subspace.
 For $0<|\boldsymbol K|<2q_0$ the pattern travels with the input along
 $\boldsymbol K$ and is standing across it, with wavenumber
 $|\boldsymbol d|=(q_0^2-|\boldsymbol K|^2/4)^{1/2}$ set by the input. An
@@ -1569,13 +1612,13 @@ $\boldsymbol k_X$ and $\boldsymbol k_Y$, and the four-wave terms of
 explicit. At the stripe $A_{\pm\hat x}=z_*$, the perpendicular pair obeys
 $v_\tau=hv+\ell\,\overline w$ with
 \begin{equation}
- h=a+2c_\perp\rho_*,\qquad \ell=\eta_t+c_{\rm q}\rho_*\ee^{2\ii\phi_*},\qquad
- \boxed{\lambda_\perp=\RePart h+\sqrt{|\ell|^2-(\operatorname{Im}h)^2},}
+ h=a+2c_\perp\rho_*,\qquad \ell=\eta_t+c_\times\rho_*\ee^{2\ii\phi_*},\qquad
+ \boxed{\lambda_\perp=\RePart\Bigl[h+\sqrt{|\ell|^2-(\operatorname{Im}h)^2}\Bigr],}
  \label{eq:stripe-transverse}
 \end{equation}
 so the stripe is stable across $x$ when $\RePart h<0$ and $|\ell|<|h|$. The
 square $A_{\pm\hat x}=A_{\pm\hat y}=z$ obeys \eqref{eq:pair-reduction} with
-$b+c_\theta$ replaced by $\gamma_\square=b+c+2c_\perp+c_{\rm q}$. For other
+$b+c_\theta$ replaced by $\gamma_\square=b+c+2c_\perp+c_\times$. For other
 shells we evaluate the full Jacobian numerically.
 
 The sign of $\RePart c_\theta$ decides the outcome. In V1 it is negative at
@@ -1609,7 +1652,7 @@ that the intended shell is critical: $L=58.26$ (axial) and $L=61.42$
 \begin{equation*}
 \begin{array}{l|l|cc}
  \text{test} & \text{model, }\epsilon & \text{direct field} & \text{theory}\\ \hline
- c_\perp\text{: }y\text{-wave on }x\text{-wave} & \text{WC, }0.1 & +0.588 & +0.557\\
+ y\text{-wave growth }\RePart(\mu\alpha+c_\perp\rho_T) & \text{WC, }0.1 & +0.588 & +0.557\\
  & \text{V1, }0.05\ /\ 0.025 & -0.0080\ /\ -0.0098 & -0.0103\\
  \text{flicker: stripe amplitude} & \text{WC, }0.1 & 0.02389 & 0.02385\\
  & \text{V1, }0.05\ /\ 0.025 & 0.00378\ /\ 0.00196 & 0.00409\ /\ 0.00204\\
@@ -1620,7 +1663,8 @@ that the intended shell is critical: $L=58.26$ (axial) and $L=61.42$
  & \text{V1, }0.05\ /\ 0.025 & 0.00397\ /\ 0.00242 & 0.00509\ /\ 0.00254\ \text{(stable)}
 \end{array}
 \end{equation*}}
-The $c_\perp$ test runs above onset ($\mu=+1$); rates are per slow time. In every V1 test the gap shrinks when $\epsilon$ is
+The first test runs above onset ($\mu=+1$) on the traveling wave $A_{\hat x}$ of
+size $\rho_T=-\RePart\alpha/\RePart b$; rates are per slow time. In every V1 test the gap shrinks when $\epsilon$ is
 halved, as expected for $O(\epsilon)$ corrections. In V1 the stripe under flicker is
 stable across $x$, while the square is unstable to a symmetry-breaking mode
 ($+0.022$). In the E--I model both are unstable: the stripe across $x$, and
@@ -1645,13 +1689,13 @@ coupling is destabilizing.
 \toprule
 Symbol & Definition & Location\\
 \midrule
-$\sigma$ & static response $R(0,k)S$ to an order-$\epsilon$ input at wavenumber $k$ & Sec.~9.1\\
+$s_k,\delta$ & static response $R(0,k)S$ to an order-$\epsilon$ input; cosine peak of the input & Sec.~9\\
 $\chi,\xi$ & input-induced shift and $A$--$B$ coupling for $m=1$ & \eqref{eq:chi-xi}\\
 $E_{\boldsymbol k},A_{\boldsymbol k}$ & critical wave $\ee^{\ii(\omega_0t+\boldsymbol k\cdot\boldsymbol x)}$ and its amplitude, $|\boldsymbol k|=q_0$ & Sec.~10\\
-$\eta(K),\eta_s(K)$ & coupling of a pair by an input at $\Omega=2\omega_0$ or $\Omega=0$ & \eqref{eq:wavevector-rule}\\
+$\boldsymbol K,\eta(K),\eta_s^\pm$ & input wavevector; coupling of a pair at $\Omega=2\omega_0$ or $\Omega=0$ & \eqref{eq:wavevector-rule}\\
 $\boldsymbol d$ & half difference of the coupled pair, $\perp\boldsymbol K$ & \eqref{eq:pair-geometry}\\
-$c_\theta,c_\perp,c_{\rm q}$ & cross coefficient at angle $\theta$; $c_\perp=c_{\pi/2}$; axial quartet coefficient & \eqref{eq:general-cubic}\\
-$\gamma_\square,\lambda_\perp$ & square coefficient $b+c+2c_\perp+c_{\rm q}$; transverse growth of the stripe & \eqref{eq:stripe-transverse}\\
+$c_\theta,c_\perp,c_\times$ & cross coefficient at angle $\theta$; $c_\perp=c_{\pi/2}$; axial quartet coefficient & \eqref{eq:general-cubic}\\
+$\gamma_\square,\lambda_\perp$ & square coefficient $b+c+2c_\perp+c_\times$; transverse growth of the stripe & \eqref{eq:stripe-transverse}\\
 \bottomrule
 \end{tabular}
 \endgroup

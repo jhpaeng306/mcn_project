@@ -61,3 +61,18 @@ Notes for PAP-1 (paper Secs. 6–8):
 **Failed / surprised:** First measurement windows for the Wilson–Cowan 2D checks were wrong (the transverse waves had already saturated); fixed by fitting only while the perturbation is small. The spike of $\mathrm{Re}\,c_\theta$ near $141^\circ$ is a near 2:1 resonance ($\omega(0.67q_0)\approx2\omega_0$), not a bug.
 **Confidence:** high for the 1D forcing-strength results and the V1 2D results (independent checks, convergence in $\epsilon$); medium for the Wilson–Cowan 2D end state (beyond cubic order, only qualitative).
 **Next:** SIM-1/SIM-2 (2D notebooks), then THY-4 (why V1 has negative $c_\theta$ at all angles).
+
+**Referee (THY-1/THY-2/THY-3), same day.** Verdict: error, with all seven numbered formula groups correct and matching the code. The referee also built an independent grid-based check of eq. (general-cubic), which agrees with `cubic_coupling` to $5\times10^{-13}$ for $b$, $c$, $c_\perp$, $c_\times$ and the oblique couplings.
+- Error: the statement that the axial shell allows only $|\boldsymbol K|\in\{0,2q_0\}$ was false; $\boldsymbol K=(k_0,k_0)$ couples $(k_0,0)$ with $(0,k_0)$. Fixed: the restriction now applies only to inputs along an axis, and the diagonal case is stated.
+- Gaps, all fixed:
+  - Sec. 8.4 now claims only that $\omega$ cannot increase for all $q$; the single maximum is marked as observed. The three-population model is defined.
+  - The static row of the wavevector table now includes $-\boldsymbol K$ ($\eta_s^\pm$).
+  - The repeated-wave case $A_X^2\bar A_Y$ is written out; it, not the boxed formula, gives $b$.
+  - The Proposition names Assumptions 1–3 (new: isotropy, one critical shell, 2D quadratic non-resonance), requires $b+c_\theta\neq0$, and drops the unused hypothesis "the input couples no other pair".
+  - "Only $k_0,2k_0$ lock the pattern" now says "at this order".
+  - The threshold shift applies for $k\notin\{0,2k_0\}$ and cites $\RePart\alpha>0$.
+  - $\lambda_\perp$ takes the real part.
+  - The temporal-forcing counting is marked unchecked.
+  - The first row of the test table is labelled as a growth rate.
+- Notation: the static response is $s_k$ (as in Sec. 4) instead of $\sigma$; the input peak is $\delta$; the stimulus wavenumber is $k$; the quartet coefficient is $c_\times$.
+- Not changed: the referee's note that NOTATION.md lacked the new symbols (they had been added in the same session).
