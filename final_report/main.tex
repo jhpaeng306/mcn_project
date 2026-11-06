@@ -1,0 +1,2514 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\cc}{\mathrm{c.c.}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\one}[1]{\bm{1}_{\{#1\}}}
+\DeclareMathOperator{\RePart}{Re}
+\DeclareMathOperator{\spanop}{span}
+
+\title{Weak Forcing}
+\author{}
+\date{\today}
+\input{def}
+\begin{document}
+
+% \maketitle
+
+
+
+
+\section{Problem setting}
+We consider the dynamical field model:
+\begin{align}
+ u_t=\cL(p)u+\cQ(u,u)+\cC(u,u,u) +\epsilon^n\left(P\ee^{\ii\omega t}+\overline P\ee^{-\ii\omega t}\right)
+ +\epsilon^m\left(S\ee^{\ii kx}+\overline S\ee^{-\ii kx}\right),
+ \label{eq:pde}
+\end{align}
+where $u(x,t)\in\mathbb R^d$, $x\in\T\coloneqq\mathbb R/(2\pi\mathbb Z)$,
+$p\in\mathbb R$, and $\cL(p)=\cL_0+p\cL_1+O(p^2)$. The last two terms represent the weak forcing. We further assume the model satisfies:
+\begin{enumerate}
+ \item $\cQ$ and $\cC$ are symmetric multilinear maps.
+ \item $\cL_j$ is real, translation invariant, and reflection invariant,
+ $j=0,1$.
+\end{enumerate}
+
+Since the domain is periodic, every function of $x$ is a linear combination of Fourier modes $e^{ihx}$ where $h\in \ZZ\setminus \{0\}$. The operators $\cL_j$, for $j=0,1$, are linear, hence for a spatial Fourier mode, define
+\begin{equation}
+ \cL_j\left(v\ee^{\ii hx}\right)=M_j(h)v\ee^{\ii hx},
+ \qquad M_j(h)\in\CC^{d\times d}, \qquad h\in\mathbb Z\setminus \{0\}.
+ \label{eq:M_matrix}
+\end{equation}
+Due to reality and reflection symmetry, respectively,
+\begin{equation}
+ M_j(-h)=\overline{M_j(h)},
+ \qquad M_j(-h)=M_j(h).
+ \label{eq:M-symmetries}
+\end{equation}
+Thus $M_j(h)$ is real in this setting and the matrices at $h$ and $-h$ are identical.
+
+
+
+\subsection{Bifurcation assumption}
+Now, further assume the Hopf bifurcation scenario: at $p=0$, all eigenvalues of $M_0(h)$ are nonzero, except 
+for one conjugate pair of eigenvalues for an unique spatial frequency $k_0\in \NN$, so that
+\begin{equation}
+ M_0(\pm k_0)\Phi=\ii\omega_0\Phi,
+ \qquad
+ M_0(\pm k_0)^*\Psi=-\ii\omega_0\Psi,
+ \qquad
+ \Psi^*\Phi=1.
+ \label{eq:Hopf_assumption}
+\end{equation}
+Here, $\Phi,\Psi\in\mathbb C^d$ are corresponding right and adjoint eigenvectors. Hence the only critical modes are the Hopf modes  $(\Omega,h)=(\pm\omega_0, k_0),(\pm\omega_0, -k_0)$, where $\omega_0>0$ and
+ $k_0\in \NN$.
+The conjugate equations give the eigenvectors $\overline\Phi$ and
+$\overline\Psi$ at eigenvalues $-\ii\omega_0$ and $+\ii\omega_0$ of
+$M_0$ and $M_0^*$, respectively.  Because of
+\eqref{eq:M-symmetries}, the same $\Phi,\Psi$ can be used at $\pm k_0$.
+
+
+Let $\nu(h,p)$ be the eigenvalue branch through
+$\nu(\pm k_0,0)=\ii\omega_0$.  If
+$M(\pm k_0,p)\Phi(p)=\nu(\pm k_0,p)\Phi(p)$, differentiation at $p=0$
+gives
+\begin{equation}
+ M_1(\pm k_0)\Phi+M_0(\pm k_0)\Phi_p
+ =\nu_p\Phi+\ii\omega_0\Phi_p.
+ \label{eq:eigenvalue-differentiation}
+\end{equation}
+Since $\Psi^*M_0(\pm k_0)=\ii\omega_0\Psi^*$, multiplication by $\Psi^*$
+cancels both terms containing $\Phi_p$.  Therefore
+\begin{equation}
+ \partial_p\nu(\pm k_0,0)
+ =\Psi^*M_1(\pm k_0)\Phi=: \alpha,
+ \qquad \RePart\alpha>0.
+ \label{eq:transversality}
+\end{equation}
+The last inequality is to set $p$ as the bifurcation parameter. 
+$\alpha\ne0$ will only  be used.
+
+Furthermore, for $(\Omega,h)\notin \{(\pm \omega_0, \pm k_0)\}$,
+define the modal resolvent:
+\begin{equation}
+ R(\Omega,h):=\left(\ii\Omega I-M_0(h)\right)^{-1}.
+ \label{eq:resolvent}
+\end{equation}
+
+Because the system is real,
+$M_0(-h)=\overline{M_0(h)}$, we have $ R(-\Omega,-h)=\overline{R(\Omega,h)}$.
+In particular,
+\begin{equation}
+ R(-\omega,0)=\overline{R(\omega,0)},
+ \qquad
+ R(0,-k)=\overline{R(0,k)}.
+ \label{eq:forcing-resolvent-conjugacy}
+\end{equation}
+
+With the reflection symmetry assumed here, $M_0(-k)=M_0(k)$ as well, so
+$R(0,-k)=R(0,k)=\overline{R(0,k)}$. Since $(\Omega,h)=(\pm\omega_0, k_0),(\pm\omega_0, -k_0)$ are only modes, we assume no quadratic resonance:
+\begin{equation}
+ 2\ii\omega_0I-M_0(0),\quad 2\ii\omega_0I-M_0(\pm2k_0), -M_0(0),\quad -M_0(\pm2k_0)
+ \quad\text{are invertible.}
+ \label{eq:no-quadratic-resonance}
+\end{equation}
+We additionally assume that $R(\pm\omega,0)$ and $R(0,\pm k)$ exist when the corresponding forcing is present. 
+
+\subsection{Scales}
+We introduce fast and slow times
+\begin{equation}
+ s=t,
+ \qquad \tau=\epsilon^2t,
+ \qquad \partial_t=\partial_s+\epsilon^2\partial_\tau,
+ \label{eq:slow-time}
+\end{equation}
+and initially write
+\begin{equation}
+ p=\epsilon p_1+\epsilon^2p_2+O(\epsilon^3),
+ \qquad
+ u=\epsilon u_1+\epsilon^2u_2+\epsilon^3u_3+O(\epsilon^4).
+ \label{eq:expansions}
+\end{equation}
+The terms that determine the first three equations are
+\begin{equation}
+\begin{array}{r r r r}
+\partial_t u=
+& \epsilon\,\partial_s u_1
+&+ \epsilon^2\,\partial_s u_2
+&+ \epsilon^3\bigl(\partial_s u_3+\partial_\tau u_1\bigr)
++ O(\epsilon^4),
+\\[2mm]
+\cL_0u=
+& \epsilon\,\cL_0u_1
+&+ \epsilon^2\,\cL_0u_2
+&+ \epsilon^3\,\cL_0u_3
++ O(\epsilon^4),
+\\[2mm]
+p\cL_1u=
+&
+& \epsilon^2 p_1\cL_1u_1
+&+ \epsilon^3\bigl(p_2\cL_1u_1+p_1\cL_1u_2\bigr)
++ O(\epsilon^4),
+\\[2mm]
+\cQ(u,u)=
+&
+&\epsilon^2\cQ(u_1,u_1)
+&+ 2\epsilon^3\cQ(u_1,u_2)
++ O(\epsilon^4),
+\\[2mm]
+\cC(u,u,u)=
+&
+&
+&\epsilon^3\cC(u_1,u_1,u_1)
++ O(\epsilon^4).
+\end{array}
+\end{equation}
+
+
+\section{The solution space of $\cD=\partial_s-\cL_0$}
+First, let's define the linear operator and wave forms:
+\begin{equation}
+ \cD:=\partial_s-\cL_0,
+ \qquad
+ E_\pm:=\ee^{\ii(\omega_0s\pm k_0x)}.
+ \label{eq:D-and-E}
+\end{equation}
+For any pure wave,
+\begin{equation}
+ \cD\left(v\ee^{\ii(\Omega s+hx)}\right)
+ =\left(\ii\Omega I-M_0(h)\right)v
+ \ee^{\ii(\Omega s+hx)}.
+ \label{eq:D-on-mode}
+\end{equation}
+From the assumption, the multiplier in \eqref{eq:D-on-mode} is only singular at
+$(\Omega,h)=(\omega_0,\pm k_0)$ with unique nullvector $\Phi$, or its conjugate which is singular at $(-\omega_0,\mp k_0)$ with nullvector $\overline\Phi$.   Hence,
+\begin{equation}
+ \ker\cD
+ =\spanop_{\mathbb R}\left\{
+ \Phi E_+,\Phi E_-,\overline\Phi\,\overline E_+,
+ \overline\Phi\,\overline E_-
+ \right\}.
+ \label{eq:kernel-D}
+\end{equation}
+
+\subsection{Inner product}
+On functions periodic in $x$ and in $s$ with
+$T_0=2\pi/\omega_0$, use
+\begin{equation}
+ \ip{v}{w}:=\frac{1}{2\pi T_0}
+ \int_0^{T_0}\int_0^{2\pi}v(s,x)^*w(s,x)\,dx\,ds.
+ \label{eq:inner-product}
+\end{equation}
+Periodic integration by parts gives
+\begin{equation}
+ \cD^*=-\partial_s-\cL_0^*, \qquad \cD^*\left(Z\ee^{\ii(\Omega s+hx)}\right)
+ =\left(-\ii\Omega I-M_0(h)^*\right)Z
+ \ee^{\ii(\Omega s+hx)}.
+ \label{eq:D-star}
+\end{equation}
+So \eqref{eq:Hopf_assumption} gives the kernel space of $\cD^*$:
+\begin{equation}
+ \ker\cD^*=\spanop_{\mathbb R}\left\{
+ \Psi E_+,\Psi E_-,\overline\Psi\,\overline E_+,
+ \overline\Psi\,\overline E_-
+ \right\}.
+ \label{eq:D-adjoint}
+\end{equation}
+For waves that are Fourier basis,
+\begin{equation}
+ \ip{a\ee^{\ii(\Omega s+hx)}}
+ {b\ee^{\ii(\Omega' s+h'x)}}
+ =a^*b\,\delta_{\Omega,\Omega'}\delta_{h,h'}.
+ \label{eq:wave-orthogonality}
+\end{equation}
+Thus different wave types are orthogonal.  Having the same
+frequency and wavenumber pair is necessary for a nonzero
+inner product.
+
+\subsection{Fredholm alternative}
+ For the notational convenience, let
+\begin{equation}
+ U_\pm=\Phi E_\pm,
+ \qquad V_\pm=\Psi E_\pm.
+\end{equation}
+The complete pairings needed below are
+\begin{equation}
+\begin{array}{c|cccc}
+ &\cL_1U_+&\cL_1U_-&\cL_1\overline U_+&\cL_1\overline U_-\\ \hline
+ V_+&\alpha&0&0&0\\
+ V_-&0&\alpha&0&0\\
+ \overline V_+&0&0&\overline\alpha&0\\
+ \overline V_-&0&0&0&\overline\alpha
+\end{array}.
+ \label{eq:L1-pairing-table}
+\end{equation}
+Using the Fredholm alternative, 
+% Under the spectral assumptions above, $\cD$ is Fredholm with
+% finite-dimensional kernel and closed range: in Fourier variables it is the
+% direct sum of the blocks in \eqref{eq:D-on-mode}, all noncritical blocks are
+% invertible, and the critical part is finite dimensional.  Hence
+\begin{equation}
+ \operatorname{Ran}\cD=(\ker\cD^*)^\perp,
+ \qquad
+ \cD w=f\ \Longleftrightarrow\
+ \ip{V}{f}=0\quad\text{for every }V\in\ker\cD^*.
+ \label{eq:fredholm}
+\end{equation}
+At every order, the goal is to put the right-hand side in
+$\operatorname{Ran}\cD$.
+
+\subsection{Forcing scales}
+To prevent the stimulus itself from supplying the leading pattern, take
+$n,m>1$.  If $n=1$ or $m=1$, the corresponding stimulus appears in
+$\cD u_1$ and $u_1$ is no longer chosen solely from $\ker\cD$.  If an
+exponent equals $2$, its response is part of $u_2$ and interacts with $u_1$
+through $2\cQ(u_1,u_2)$ at order three.  An exponent greater than $2$ cannot
+produce such a cubic-order feedback. Thus, we only consider
+\begin{equation}
+    F_2=\one{n=2}
+ \left(P\ee^{\ii\omega s}+\overline P\ee^{-\ii\omega s}\right)
+ +\one{m=2}
+ \left(S\ee^{\ii kx}+\overline S\ee^{-\ii kx}\right).
+ \label{eq:F2}
+\end{equation}
+The three equations at each scales are
+\begin{subequations}
+\label{eq:three-orders}
+\begin{align}
+ O(\epsilon):\quad
+ &\cD u_1=0,
+ \label{eq:order1}\\
+ O(\epsilon^2):\quad
+ &\cD u_2=p_1\cL_1u_1+\cQ(u_1,u_1)+F_2,
+ \label{eq:order2}\\
+ O(\epsilon^3):\quad
+ &\cD u_3=-\partial_\tau u_1+p_2\cL_1u_1
+ +2\cQ(u_1,u_2)+\cC(u_1,u_1,u_1).
+ \label{eq:order3}
+\end{align}
+\end{subequations}
+
+
+
+\section{$O(\epsilon)$ solution}
+From the equation
+\[
+\cD u_1=0,
+\]
+the real leading solution is
+\begin{equation}
+ \boxed{
+ u_1=A(\tau)\Phi E_+ +B(\tau)\Phi E_-+\cc.}
+ \label{eq:u1}
+\end{equation}
+
+
+\section{$O(\epsilon^2)$ solution}
+The system at $O(\epsilon^2)$ level is:
+\[
+\cD u_2=p_1\cL_1u_1+\cQ(u_1,u_1)+F_2.
+\]
+There are wave types of $\{-2\omega_0, 0, 2\omega_0\}\times \{-2k_0, 0, 2k_0\}$ in the term $\cQ(u_1,u_1)$ and $\{(\pm \omega, 0), (0,\pm k)\}$ in the term $F_2$. Hence, $p_1\cL_1u_1$ need to satisfy the Fredholm alternative. 
+
+\subsection{Fredholm alternative check}
+The right-hand side of \eqref{eq:order2} must be orthogonal to
+$\ker\cD^*$. From the wave types of $\cQ(u_1,u_1)$,
+\begin{equation}
+ \ip{V_\pm}{\cQ(u_1,u_1)}=0.
+ \label{eq:Q-second-projection}
+\end{equation}
+Similarly, for the forcing, $\ip{V_\pm}{F_2}=0$. Hence, only $p_1\cL_1u_1$ remains.  By
+\eqref{eq:L1-pairing-table},
+\begin{equation}
+    \ip{V_+}{p_1\cL_1u_1}=p_1A\alpha,\qquad
+ \ip{V_-}{p_1\cL_1u_1}=p_1B\alpha.
+ \label{eq:p1-projections}
+\end{equation}
+Thus the two independent complex conditions are
+\begin{equation}
+ 0=p_1A\alpha,
+ \qquad 0=p_1B\alpha.
+ \label{eq:p1-conditions}
+\end{equation}
+For $(A,B)\ne(0,0)$ and $\RePart\alpha>0$,
+\begin{equation}
+ \boxed{p_1=0,\qquad p=\epsilon^2\mu+O(\epsilon^3).}
+ \label{eq:p1-zero}
+\end{equation}
+Hence, the system at $O(\epsilon^2)$ level is:
+\[
+\cD u_2=\cQ(u_1,u_1)+F_2.
+\]
+
+\subsection{Term $u_2^Q\coloneqq \cD^{-1}\cQ(u_1,u_1)$}
+Set the $u_1$ function as:
+\begin{equation}
+ u_1^+:=\Phi(AE_++BE_-),
+ \qquad u_1=u_1^++\overline{u_1^+}.
+\end{equation}
+Symmetry of $\cQ$ gives
+\begin{equation}
+ \cQ(u_1,u_1)=\cQ(u_1^+,u_1^+)
+ +2\cQ(u_1^+,\overline{u_1^+})
+ +\cQ(\overline{u_1^+},\overline{u_1^+}).
+ \label{eq:Q-three-parts}
+\end{equation}
+Therefore, with $q_{20}:=\cQ(\Phi,\Phi)$ and $
+ q_{11}:=\cQ(\Phi,\overline\Phi)$,
+\begin{align}
+ \cQ(u_1,u_1)={}&q_{20}
+ \left(A^2E_+^2+B^2E_-^2+2AB E_+E_-\right)+\cc
+ \notag\\
+ &+2q_{11}\left(
+ |A|^2+|B|^2+A\overline B E_+\overline E_-
+ +\overline A B\overline E_+E_-
+ \right).
+ \label{eq:Q-u1-u1}
+\end{align}
+The generated wave types are
+\[
+ (\pm2\omega_0,\pm2k_0),\quad
+ (\pm2\omega_0,0),\quad
+ (0,\pm2k_0),\quad(0,0).
+\]
+The condition
+\eqref{eq:no-quadratic-resonance} is the additional statement that $\cD$ is
+invertible on each of them. Recall:
+\[
+ \cD^{-1}\left(f\ee^{\ii(\Omega s+hx)}\right)
+ =R(\Omega,h)f\ee^{\ii(\Omega s+hx)}.
+\]
+Set $R\cQ$ for each case as:
+\begin{align*}
+\label{eq:h-vectors}
+h_{20}^+ &= R(2\omega_0,2k_0)q_{20},
+& h_{20}^- &= R(2\omega_0,-2k_0)q_{20},
+& h_{20}^0 &= 2R(2\omega_0,0)q_{20},\\
+h_{11}^0 &= 2R(0,0)q_{11},
+& h_{11}^+ &= 2R(0,2k_0)q_{11},
+& h_{11}^- &= 2R(0,-2k_0)q_{11}.
+\end{align*}
+Reflection symmetry gives $h_{20}^+=h_{20}^-$ and
+$h_{11}^+=h_{11}^-$, but the superscripts are retained to display the wave
+types. Each terms in the quadratic term and it's effect on $u_2$ is:
+\begin{equation*}
+\begin{array}{c||c|c|c|c|c|c}
+\begin{array}{c}
+\cQ(u_1,u_1)
+\end{array}
+& A^2q_{20}E_+^2
+& B^2q_{20}E_-^2
+& 2ABq_{20}E_+E_-
+& 2(|A|^2+|B|^2)q_{11}
+& 2A\overline Bq_{11}E_+\overline E_-
+& 2\overline ABq_{11}\overline E_+E_-
+\\ \hline
+(\Omega,h)
+& (2\omega_0,2k_0)
+& (2\omega_0,-2k_0)
+& (2\omega_0,0)
+& (0,0)
+& (0,2k_0)
+& (0,-2k_0)
+\\ \hline
+\begin{array}{c}
+u_2^Q
+\end{array}
+& A^2h_{20}^+E_+^2
+& B^2h_{20}^-E_-^2
+& ABh_{20}^0E_+E_-
+& (|A|^2+|B|^2)h_{11}^0
+& A\overline Bh_{11}^+E_+\overline E_-
+& \overline ABh_{11}^-\overline E_+E_-
+\end{array}
+\end{equation*}
+Hence,
+\begin{align}
+ u_2^{Q}:={}\cD^{-1}\cQ(u_1,u_1)
+ &=A^2h_{20}^+E_+^2+B^2h_{20}^-E_-^2
+ +ABh_{20}^0E_+E_-+\cc\notag\\
+ &\hspace{0.5cm}+(|A|^2+|B|^2)h_{11}^0
+ +A\overline B h_{11}^+E_+\overline E_-
+ +\overline A B h_{11}^-\overline E_+E_-.
+ \label{eq:u2Q}
+\end{align}
+
+\subsection{Term $u_2^F\coloneqq \cD^{-1}F_2$}
+For the the forcing frequency and wavenumber, define:
+\begin{equation}
+\label{eq:forcing-responses}
+ p_\omega:=R(\omega,0)P,
+ \qquad
+ s_k:=R(0,k)S.
+\end{equation}
+The symmetry \eqref{eq:forcing-resolvent-conjugacy} gives
+\begin{equation}
+ R(-\omega,0)\overline P=\overline{p_\omega},
+ \qquad
+ R(0,-k)\overline S=\overline{s_k}.
+ \label{eq:forcing-response-conjugacy}
+\end{equation}
+By taking the inverse operator of $\cD$, we get
+\begin{align}
+ u_2^F\coloneqq \cD^{-1}F_2 =\one{n=2}\left(
+ p_\omega\ee^{\ii\omega s}+\overline{p_\omega}\ee^{-\ii\omega s}\right)
+ +\one{m=2}\left(
+ s_k\ee^{\ii kx}+\overline{s_k}\ee^{-\ii kx}\right).
+ \label{eq:u2F}
+\end{align}
+The conjugate terms make $u_2^F$ real. The  $O(\epsilon^2)$ solution therefore is:
+\begin{equation}
+ \boxed{u_2=u_2^Q+u_2^F.}
+ \label{eq:u2-total}
+\end{equation}
+if there are no added components from $\ker\cD$.
+
+
+
+\section{$O(\epsilon^3)$ solution and solvability}
+
+With $p_2=\mu$, write the right-hand side of \eqref{eq:order3} in two 
+groups:
+\begin{equation}
+\cD u_3
+=
+\underbrace{-\partial_\tau u_1+\mu\cL_1u_1
++2\cQ(u_1,u_2^Q)+\cC(u_1,u_1,u_1)}_{=:F_{0}^{(3)}}
++\underbrace{2\cQ(u_1,u_2^F)}_{=:F_{Force}^{(3)}}.
+\end{equation}
+In this section, we focus on the coefficients of the critical wave $E_+$, to analyze the solvability with Fredholm alternative. Note that for other critical waves, coefficients will be similar. 
+
+
+\subsection{Unforced terms $F_{0}^{(3)}$}
+For the critical wave $E_+$, the linear term gives coefficients
+\begin{equation}
+ [-\partial_\tau u_1+\mu\cL_1u_1]_{E_+}
+ =-A_\tau\Phi+\mu A M_1(k_0)\Phi.
+ \label{eq:unforced-linear-plus}
+\end{equation}
+For the  cubic term, a triple of critical phases can sum to $E_+$ only as
+$E_+E_+\overline E_+$ or $E_+E_-\overline E_-$:
+\begin{equation}
+ [\cC(u_1,u_1,u_1)]_{E_+}
+ =3A|A|^2\cC(\Phi,\Phi,\overline\Phi)
+ +6A|B|^2\cC(\Phi,\Phi,\overline\Phi),
+ \label{eq:C-resonant}
+\end{equation}
+where $3$ and $6$ are the permutation counts. For the quadratic term, $E_+$ emerges at:
+\begin{equation*}
+\begin{array}{c||c|c|c|c}
+\begin{array}{c}
+u_1\text{ terms}
+\end{array}
+& A\Phi E_+
+& \overline A\,\overline\Phi\,\overline E_+
+& \overline B\,\overline\Phi\,\overline E_-
+& B\Phi E_-
+\\ \hline
+\begin{array}{c}
+u_2^Q\text{ terms}
+\end{array}
+& (|A|^2+|B|^2)h_{11}^0
+& A^2h_{20}^+E_+^2
+& ABh_{20}^0E_+E_-
+& A\overline Bh_{11}^+E_+\overline E_-
+\\ \hline
+\begin{array}{c}
+2\cQ\text{ terms}
+\end{array}
+& 2A(|A|^2+|B|^2)\cQ(\Phi,h_{11}^0)
+& 2A|A|^2\cQ(\overline\Phi,h_{20}^+)
+& 2A|B|^2\cQ(\overline\Phi,h_{20}^0)
+& 2A|B|^2\cQ(\Phi,h_{11}^+)
+\end{array}
+\label{eq:quadratic-Eplus-selection}
+\end{equation*}
+No other pair of wave types sums to $(\omega_0,k_0)$.  Summing the last
+column gives
+\begin{align}
+ [2\cQ(u_1,u_2^Q)]_{E_+}=&
+ 2A(|A|^2+|B|^2)\cQ(\Phi,h_{11}^0)
+ +2A|A|^2\cQ(\overline\Phi,h_{20}^+)\\
+ &+2A|B|^2\cQ(\overline\Phi,h_{20}^0)
+ +2A|B|^2\cQ(\Phi,h_{11}^+).
+ \label{eq:Q-feedback}
+\end{align}
+For the simplicity, define two coefficient terms for $A|A|^2$ and $A|B|^2$:
+\begin{subequations}
+\label{eq:G-vectors}
+\begin{align}
+ G_{\mathrm{s}}={}&2\cQ(\Phi,h_{11}^0)
+ +2\cQ(\overline\Phi,h_{20}^+)
+ +3\cC(\Phi,\Phi,\overline\Phi),
+ \label{eq:Gs}\\
+ G_{\mathrm{c}}={}&2\cQ(\Phi,h_{11}^0)
+ +2\cQ(\overline\Phi,h_{20}^0)
+ +2\cQ(\Phi,h_{11}^+)
+ +6\cC(\Phi,\Phi,\overline\Phi).
+ \label{eq:Gc}
+\end{align}
+\end{subequations}
+With the same steps on $E_-$, we get similar coefficients with $A$ and $B$ are exchanged.
+Therefore
+\begin{align}
+ [F_{0}^{(3)}]_{E_+}
+ =&-A_\tau\Phi+\mu A M_1(k_0)\Phi
+ +A|A|^2G_{\mathrm{s}}+A|B|^2G_{\mathrm{c}},\\
+ [F_{0}^{(3)}]_{E_-}
+ =&-B_\tau\Phi+\mu B M_1(k_0)\Phi
+ +B|B|^2G_{\mathrm{s}}+B|A|^2G_{\mathrm{c}}.
+ \label{unforced-critical-coefficients}
+\end{align}
+These and their conjugates are the only unforced terms outside $\operatorname{Ran}\cD$.
+
+
+
+\subsection{Forcing-interaction terms $F_{Force}^{(3)}$}
+Recall that 
+\[
+ u_1=A\Phi E_+ +B\Phi E_-+\bar{A}\bar{\Phi} \bar{E_+} +\bar{B}\bar{\Phi} \bar{E_-},
+\]
+and 
+\[
+ u_2^F=u_{2,t}^{F} + u_{2,x}^{F},
+ \quad u_{2,t}^{F}\coloneqq \one{n=2}\left(
+ p_\omega\ee^{\ii\omega s}+\overline{p_\omega}\ee^{-\ii\omega s}\right),
+ \quad u_{2,x}^{F}\coloneqq \one{m=2}\left(
+ s_k\ee^{\ii kx}+\overline{s_k}\ee^{-\ii kx}\right).
+\]
+Hence, the wave types falls into the form of one of the followings:
+\[
+\exp\left[\pm \ii ( ( \omega_0 \pm \omega )s \pm k_0 x)\right],\qquad \exp\left[\pm \ii ( \omega_0 s \pm ( k_0\pm k) x)\right],
+\]
+where each $\pm$ are not correlated. To have nonzero critical wave terms, the only possible case is when $\omega = 0, \pm 2\omega_0$ and $k=0,\pm 2k_0$. With $\omega, k \geq 0$, we have coefficients for the temporal forcing effects:
+\begin{align}
+ [2\cQ(u_1,u_{2,t}^F)]_{E_+}
+ ={}&\one{n=2}\left[
+ \one{\omega=0}\,2A\cQ(\Phi,p_0+\overline{p_0})
+ +\one{\omega=2\omega_0}\,2\overline B
+ \cQ(\overline\Phi,p_{2\omega_0})\right],
+ \label{eq:temporal-critical-A}\\
+ [2\cQ(u_1,u_{2,t}^F)]_{E_-}
+ ={}&\one{n=2}\left[
+ \one{\omega=0}\,2B\cQ(\Phi,p_0+\overline{p_0})
+ +\one{\omega=2\omega_0}\,2\overline A
+ \cQ(\overline\Phi,p_{2\omega_0})\right].
+ \label{eq:temporal-critical-B}
+\end{align}
+In the same way, we have coefficients for the spatial forcing effects:
+\begin{align}
+ [2\cQ(u_1,u_{2,x}^F)]_{E_+}
+ ={}&\one{m=2}\left[
+ \one{k=0}\,2A\cQ(\Phi,s_0+\overline{s_0})
+ +\one{k=2k_0}\,2B\cQ(\Phi,s_{2k_0})\right],
+ \label{eq:spatial-critical-A}\\
+ [2\cQ(u_1,u_{2,x}^F)]_{E_-}
+ ={}&\one{m=2}\left[
+ \one{k=0}\,2B\cQ(\Phi,s_0+\overline{s_0})
+ +\one{k=2k_0}\,2A\cQ(\Phi,\overline{s_{2k_0}})\right].
+ \label{eq:spatial-critical-B}
+\end{align}
+
+
+
+\subsection{Fredholm conditions}
+Using $\Psi^*\Phi=1$, the projection to the kernel space of $\cD^*$ is:
+\begin{equation}
+ \ip{V_+}{F^{(3)}}=\Psi^*[F^{(3)}]_{E_+},
+ \qquad
+ \ip{V_-}{F^{(3)}}=\Psi^*[F^{(3)}]_{E_-}.
+ \label{eq:projection-extracts-coefficient}
+\end{equation}
+Define values
+\begin{equation}
+ a\coloneqq\mu\Psi^*M_1(k_0)\Phi=\mu\alpha,
+ \qquad b\coloneqq\Psi^*G_{\mathrm{s}},
+ \qquad c\coloneqq\Psi^*G_{\mathrm{c}},
+ \label{eq:abc}
+\end{equation}
+and denote forcing projections as:
+\begin{align*}
+\mathcal T_A={}&\one{n=2}\left[
+ \one{\omega=0}\,2A\Psi^*\cQ(\Phi,p_0+\overline{p_0})
+ +\one{\omega=2\omega_0}\,2\overline B
+ \Psi^*\cQ(\overline\Phi,p_{2\omega_0})\right],\\
+ \mathcal T_B={}&\one{n=2}\left[
+ \one{\omega=0}\,2B\Psi^*\cQ(\Phi,p_0+\overline{p_0})
+ +\one{\omega=2\omega_0}\,2\overline A
+ \Psi^*\cQ(\overline\Phi,p_{2\omega_0})\right],\\
+ \mathcal X_A={}&\one{m=2}\left[
+ \one{k=0}\,2A\Psi^*\cQ(\Phi,s_0+\overline{s_0})
+ +\one{k=2k_0}\,2B\Psi^*\cQ(\Phi,s_{2k_0})\right],\\
+ \mathcal X_B={}&\one{m=2}\left[
+ \one{k=0}\,2B\Psi^*\cQ(\Phi,s_0+\overline{s_0})
+ +\one{k=2k_0}\,2A\Psi^*\cQ(\Phi,\overline{s_{2k_0}})\right].
+\end{align*}
+
+Then, the Fredholm alternative now gives
+\begin{subequations}
+\label{eq:full-solvability}
+\begin{align}
+ 0={}&-A_\tau+A(a+b|A|^2+c|B|^2)+\mathcal T_A+\mathcal X_A,
+ \label{eq:solvability-A}\\
+ 0={}&-B_\tau+B(a+b|B|^2+c|A|^2)+\mathcal T_B+\mathcal X_B.
+ \label{eq:solvability-B}
+\end{align}
+\end{subequations}
+
+% \section{Amplitude equations and patterns}
+% Considering only non-homogeneous forcing of $2\omega_0$ and $2k_0$, define values:
+% \[
+% w_t(P) \coloneqq 2\Psi^*\cQ(\overline\Phi,p_{2\omega_0}), \qquad w_x(P) \coloneqq 2\Psi^*\cQ(\Phi,s_{2k_0}).
+% \]
+% Note what $P,S$ can be $0$ and $w_x(0), w_t(0)=0$. Then, we have amplitude equations:
+% \begin{subequations}
+% \label{eq:amplitude}
+% \begin{align}
+%  A_\tau=&A(a+b|A|^2+c|B|^2)+w_t(P)\overline B+w_x(S) B,
+%  \label{eq:A}\\
+%  B_\tau=&B(a+b|B|^2+c|A|^2)+w_t(P)\overline A+w_x(S)A.
+%  \label{eq:B}
+% \end{align}
+% \end{subequations}
+% The equilibrium state is when $A_\tau, B_\tau = 0$:
+% \begin{align*}
+%     0&=A(a+b|A|^2+c|B|^2)+w_t(P)\overline B+w_x(S) B,\\
+%     0&=B(a+b|B|^2+c|A|^2)+w_t(P)\overline A+w_x(S)A.
+% \end{align*}
+
+% \subsection{Nonzero Equilibrium solution}
+% We first cover the case of $A, B\neq 0$. Let's define:
+% \[
+% x = |A|^2, \quad \zeta = B/A, \quad u=\overline{A}/A.
+% \]
+% Then, $A=\sqrt{x/u}$ and $B=\zeta A$. Substitute this to the equilibrium condition,
+% \begin{align}
+%     0&=\sqrt{x/u}(a+bx+c|\zeta|^2 x)+w_t(P)\overline{\zeta \sqrt{x/u}}+w_x(S) \zeta \sqrt{x/u},\\
+%     0&=\zeta \sqrt{x/u}(a+b|\zeta|^2 x+cx)+w_t(P)\overline{\sqrt{x/u}} +w_x(S)\sqrt{x/u}.
+% \end{align}
+% Multiply $1/\sqrt{x/u}$ and $\overline{\zeta}/\sqrt{x/u}$ respectively, with $|x/u|=x$,
+% \begin{align}
+%     0&=(a+bx+c|\zeta|^2 x)+w_t(P)\overline{\zeta }u+w_x(S) \zeta ,\\
+%     0&=|\zeta|^2(a+b|\zeta|^2 x+cx)+w_t(P)\overline{\zeta}u+w_x(S)\overline{\zeta}.
+% \end{align}
+
+
+
+
+
+\section{Amplitude equations and patterns}
+
+Considering only non-homogeneous forcing at $2\omega_0$ and $2k_0$, define
+the complex forcing coefficients
+\[
+ \eta_t\coloneqq
+ 2\Psi^*\cQ\!\left(\overline\Phi,p_{2\omega_0}\right),
+ \qquad
+ \eta_+\coloneqq
+ 2\Psi^*\cQ\!\left(\Phi,s_{2k_0}\right), 
+ \qquad
+ \eta_-\coloneqq
+ 2\Psi^*\cQ\!\left(\Phi,\overline{s_{2k_0}}\right).
+\]
+Thus $\eta_t=0$ when $P=0$, and $\eta_x=0$ when $S=0$.  The amplitude
+equations are
+\begin{subequations}
+\label{eq:amplitude}
+\begin{align}
+ A_\tau&=A\left(a+b|A|^2+c|B|^2\right)
+          +\eta_t\overline B+\eta_+B,
+ \label{eq:A}\\
+ B_\tau&=B\left(a+b|B|^2+c|A|^2\right)
+          +\eta_t\overline A+\eta_-A.
+ \label{eq:B}
+\end{align}
+\end{subequations}
+Here $a,b,c,\eta_t,\eta_x\in\mathbb C$.  An equilibrium satisfies
+\begin{align}
+ 0&=A\left(a+b|A|^2+c|B|^2\right)
+       +\eta_t\overline B+\eta_+B,
+ \label{eq:A-equilibrium}\\
+ 0&=B\left(a+b|B|^2+c|A|^2\right)
+       +\eta_t\overline A+\eta_-A.
+ \label{eq:B-equilibrium}
+\end{align}
+
+\subsection{Existence of a nonzero pattern below onset}
+Take $n=m=2$, $\omega=2\omega_0$, $k=2k_0$, and
+\begin{equation}
+ p=\epsilon^2\mu,\qquad \mu<0,\qquad a=\mu\alpha.
+ \label{eq:below-onset-scale}
+\end{equation}
+All scaled coefficients are fixed as $\epsilon\to0$. Assume $S\in\mathbb R^d$,
+so that $s_{2k_0}$ is real and $\eta_+=\eta_-=: \eta_x$.
+Set
+\begin{equation}
+ a_+=a+\eta_x,\qquad \gamma=b+c.
+ \label{eq:standing-coefficients}
+\end{equation}
+Since $\RePart a=\mu\RePart\alpha<0$, the unforced zero-amplitude
+solution is linearly stable.
+
+\begin{proposition}
+If $\gamma\neq0$ and $|\eta_t|>|a_+|$, then
+\eqref{eq:amplitude} has a nonzero equilibrium $A_*=B_*=z_*$.
+Its leading field is a standing pattern of order $\epsilon$.
+\end{proposition}
+\begin{proof}
+The subspace $A=B=z$ is invariant, and its equation is
+\begin{equation}
+ z_\tau=z(a_++\gamma|z|^2)+\eta_t\overline z.
+ \label{eq:standing-reduction}
+\end{equation}
+For $z=\sqrt\rho\,\ee^{\ii\phi}\neq0$, the equilibrium condition gives
+\begin{equation}
+ a_++\gamma\rho+\eta_t\ee^{-2\ii\phi}=0,
+ \qquad \rho>0.
+ \label{eq:standing-phase}
+\end{equation}
+Taking absolute values from $a_++\gamma\rho=-\eta_t\ee^{-2\ii\phi}$, define
+\begin{equation}
+ f(\rho):=|a_++\gamma\rho|^2-|\eta_t|^2
+ =|\gamma|^2\rho^2+2\RePart(a_+\overline\gamma)\rho
+   +|a_+|^2-|\eta_t|^2.
+ \label{eq:standing-polynomial}
+\end{equation}
+Its leading coefficient is positive and its constant term is negative.
+Hence it has exactly one positive root $\rho_*$, with $f'(\rho_*)>0$.
+Choose $\phi_*$ by
+\begin{equation}
+ \ee^{-2\ii\phi_*}=-\frac{a_++\gamma\rho_*}{\eta_t},
+ \qquad z_*=\sqrt{\rho_*}\,\ee^{\ii\phi_*}.
+ \label{eq:standing-equilibrium}
+\end{equation}
+The quotient has modulus one, so $A_*=B_*=z_*$ is an equilibrium.
+The leading field is therefore
+\begin{equation}
+ u(x,t)=4\epsilon\sqrt{\rho_*}\,
+ \RePart\!\left[\Phi\ee^{\ii(\omega_0t+\phi_*)}\right]
+ \cos(k_0x)+O(\epsilon^2).
+ \label{eq:below-onset-pattern}
+\end{equation}
+Since $\rho_*>0$, $\Phi\neq0$, and $k_0\neq0$, its leading term is
+nonzero and spatially nonconstant.
+\end{proof}
+
+\paragraph{Stability.}
+At $z=0$, \eqref{eq:standing-reduction} has eigenvalues
+\begin{equation}
+ \lambda_\pm=\RePart a_+
+ \pm\sqrt{|\eta_t|^2-(\operatorname{Im}a_+)^2}.
+ \label{eq:standing-zero-spectrum}
+\end{equation}
+The condition $|\eta_t|>|a_+|$ gives $\lambda_+>0$.
+Thus the forcing destabilizes zero critical amplitude.
+
+At $(A_*,B_*)=(z_*,z_*)$, write
+\begin{equation}
+ v_\pm=\tfrac12\ee^{-\ii\phi_*}(\delta A\pm\delta B).
+\end{equation}
+Using \eqref{eq:standing-phase}, the linearized equations separate as
+\begin{align}
+ (v_+)_\tau&=(a_++2\gamma\rho_*)v_+-a_+\overline v_+,
+ \label{eq:standing-symmetric-linearization}\\
+ (v_-)_\tau&=(a-\eta_x+2b\rho_*)v_-
+                +(a_++2b\rho_*)\overline v_-.
+ \label{eq:standing-antisymmetric-linearization}
+\end{align}
+For $v_\tau=hv+\ell\overline v$, the real Jacobian has trace
+$2\RePart h$ and determinant $|h|^2-|\ell|^2$. Thus
+\begin{align}
+ \tr J_+&=2\RePart(a_++2\gamma\rho_*),
+ &\det J_+&=2\rho_*f'(\rho_*)>0,\notag\\
+ \tr J_-&=2\RePart(a-\eta_x+2b\rho_*),
+ &\det J_-&=-4\RePart\!\left[(a+2b\rho_*)\overline{\eta_x}\right].
+ \label{eq:standing-stability-blocks}
+\end{align}
+Consequently the equilibrium is strictly linearly stable precisely when
+\begin{equation}
+ \RePart(a_++2\gamma\rho_*)<0,\quad
+ \RePart(a-\eta_x+2b\rho_*)<0,\quad
+ \RePart\!\left[(a+2b\rho_*)\overline{\eta_x}\right]<0.
+ \label{eq:standing-stability-conditions}
+\end{equation}
+
+For pure temporal forcing, $S=0$ and $\eta_x=0$. In this case $J_-$ has
+eigenvalues $0$ and $2\RePart(a+2b\rho_*)$. The zero eigenvalue is tangent
+to the translation family
+\begin{equation}
+ (A,B)=(z_*\ee^{\ii\theta},z_*\ee^{-\ii\theta}),
+ \qquad \theta\in\mathbb R.
+\end{equation}
+Since $\RePart a<0$, the sufficient conditions
+\begin{equation}
+ \boxed{|\eta_t|>|\mu\alpha|,\qquad
+ \RePart b<0,\qquad \RePart(b+c)<0}
+ \label{eq:stable-temporal-pattern}
+\end{equation}
+make the other three eigenvalues have negative real part. The standing wave
+is therefore locally asymptotically stable modulo spatial translations in
+the amplitude system.
+
+% \paragraph{Persistence in the field equation.}
+% Assume additionally that the full equation is smooth and reflection symmetric,
+% and that $\cD$, on even-in-$x$, $T_0$-periodic functions, is Fredholm with a
+% bounded inverse on its noncritical complement. Lyapunov--Schmidt reduction
+% gives $0=z(a_++\gamma|z|^2)+\eta_t\overline z+O(\epsilon)$ in $C^1$.
+% Since $\det J_+>0$, the implicit function theorem gives
+% $z_\epsilon=z_*+O(\epsilon)$ and a $T_0$-periodic field satisfying
+% \eqref{eq:below-onset-pattern}, with norm $\Theta(\epsilon)$.
+% Stability also transfers if a symmetry-preserving dynamical reduction has
+% a $C^1$-small remainder and the complementary spectrum is uniformly stable;
+% for $S=0$, assume translation symmetry of the full equation as well.
+
+\noindent\begin{minipage}{\textwidth}
+\subsection{Notation summary}
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\refstepcounter{table}\label{tab:amplitude-notation}
+\noindent\textbf{Table \thetable. Shorthand quantities in Sections 1--6.}
+\par\smallskip
+\noindent
+\begin{tabular}{@{}p{0.16\textwidth}p{0.66\textwidth}p{0.14\textwidth}@{}}
+\toprule
+Symbol & Definition & Location \\
+\midrule
+$M_j(h)$ & Fourier matrix: $\cL_j(v\ee^{\ii hx})=M_j(h)v\ee^{\ii hx}$. & \eqref{eq:M_matrix} \\
+$\Phi,\Psi$ & Critical right and adjoint eigenvectors; $\Psi^*\Phi=1$. & \eqref{eq:Hopf_assumption} \\
+$\alpha$ & $\Psi^*M_1(k_0)\Phi=\partial_p\nu(k_0,0)$. & \eqref{eq:transversality} \\
+$\cD, R(\Omega,h)$ & $\cD=\partial_s-\cL_0$, $R(\Omega,h)=(\ii\Omega I-M_0(h))^{-1}$. & \eqref{eq:D-and-E}, \eqref{eq:resolvent} \\
+$E_\pm,U_\pm,V_\pm$ & $E_\pm=\ee^{\ii(\omega_0s\pm k_0x)}$, $U_\pm=\Phi E_\pm$, $V_\pm=\Psi E_\pm$. & Section 2 \\
+$A,B$ & $u_1=A\Phi E_++B\Phi E_-+\cc$. & \eqref{eq:u1} \\
+$q_{20},q_{11}$ & $q_{20}=\cQ(\Phi,\Phi)$, $q_{11}=\cQ(\Phi,\overline\Phi)$. & Section 4.2 \\
+$h_{20}^\pm,h_{20}^0$ & $h_{20}^\pm=R(2\omega_0,\pm2k_0)q_{20}$,\newline $h_{20}^0=2R(2\omega_0,0)q_{20}$. & Section 4.2 \\
+$h_{11}^\pm,h_{11}^0$ & $h_{11}^\pm=2R(0,\pm2k_0)q_{11}$, $h_{11}^0=2R(0,0)q_{11}$. & Section 4.2 \\
+$p_\omega,s_k$ & $p_\omega=R(\omega,0)P$, $s_k=R(0,k)S$. & \eqref{eq:forcing-responses} \\
+$u_2^Q,u_2^F$ & $u_2^Q=\cD^{-1}\cQ(u_1,u_1)$, $u_2^F=\cD^{-1}F_2$. & \eqref{eq:u2Q}, \eqref{eq:u2F} \\
+$G_{\mathrm{s}}$ & $\begin{aligned}[t]2\cQ(\Phi,h_{11}^0)+2\cQ(\overline\Phi,h_{20}^+)
++3\cC(\Phi,\Phi,\overline\Phi).\end{aligned}$ & \eqref{eq:Gs} \\
+$G_{\mathrm{c}}$ & $\begin{aligned}[t]&2\cQ(\Phi,h_{11}^0)+2\cQ(\overline\Phi,h_{20}^0)\\
+&\quad+2\cQ(\Phi,h_{11}^+)+6\cC(\Phi,\Phi,\overline\Phi).\end{aligned}$ & \eqref{eq:Gc} \\
+$a,b,c$ & $a=\mu\alpha$, $b=\Psi^*G_{\mathrm{s}}$, $c=\Psi^*G_{\mathrm{c}}$, with $\mu=p_2$. & \eqref{eq:abc} \\
+$\mathcal T_{A,B},\mathcal X_{A,B}$ & Temporal and spatial forcing projections onto $V_\pm$; upper sign for $A$, lower sign for $B$. & Section 5.3 \\
+$\eta_t,\eta_\pm$ & $\eta_t=2\Psi^*\cQ(\overline\Phi,p_{2\omega_0})$,\newline $\eta_+=2\Psi^*\cQ(\Phi,s_{2k_0})$, $\eta_-=2\Psi^*\cQ(\Phi,\overline{s_{2k_0}})$. & Section 6 \\
+$\eta_x,a_+,\gamma$ & $\eta_x=\eta_+=\eta_-$ for real $S$; $a_+=a+\eta_x$, $\gamma=b+c$. & \eqref{eq:standing-coefficients} \\
+$z,\rho,f(\rho)$ & $A=B=z$, $\rho=|z|^2$, $f(\rho)=|a_++\gamma\rho|^2-|\eta_t|^2$. & \eqref{eq:standing-reduction}--\eqref{eq:standing-polynomial} \\
+$\rho_*,\phi_*,z_*$ & $f(\rho_*)=0$, $\rho_*>0$, $z_*=\sqrt{\rho_*}\ee^{\ii\phi_*}$;\newline $\ee^{-2\ii\phi_*}=-(a_++\gamma\rho_*)/\eta_t$. & \eqref{eq:standing-equilibrium} \\
+$v_\pm,J_\pm$ & $v_\pm=\tfrac12\ee^{-\ii\phi_*}(\delta A\pm\delta B)$; $J_\pm$ are their real $2\times2$ linearization matrices. & \eqref{eq:standing-symmetric-linearization}--\eqref{eq:standing-stability-blocks} \\
+\bottomrule
+\end{tabular}
+\par
+\endgroup
+\end{minipage}
+\par\medskip
+
+\clearpage
+\section{V1-inspired model and parameter choice}
+\label{sec:v1-coefficients}
+In this section we consider $4$ types of populations: $(E,PV,SST,VIP)$. For the connectivity matrix, rows index targets and columns
+index sources. Pfeffer et al.~\cite{pfeffer2013} motivate the retained
+inhibitory motif. Exact zeros are a reduction assumption.
+Billeh et al.~\cite{billeh2020} supply the cell-pair distance scales.
+Campagnola et al.~\cite{campagnola2022} document the dependence of effective
+connectivity on cell class and layer. 
+
+\paragraph{Units, activation, and domain.}
+Time is in ms, $u,F,I$ are dimensionless, and
+\begin{equation}
+ \ell_x=100\,\mu\mathrm m,\qquad L=43,\qquad
+ L_{\rm phys}=4.3\,\mathrm{mm},\qquad
+ \tau=(10,12,35,20)\,\mathrm{ms}.
+ \label{eq:v1-unit-convention}
+\end{equation}
+Retain the effective activation parameters
+\begin{equation}
+ \begin{split}
+ F_j(u)&=\ell(g_j(u-\theta_j))-\ell(-g_j\theta_j),\qquad
+ \ell(v)=(1+\ee^{-v})^{-1},\\
+ g&=(3.47682761,7.34413013,3.74650527,6),\\
+ \theta&=(.28483799,.12068148,.40137356,.7).
+ \end{split}
+ \label{eq:v1-activation}
+\end{equation}
+% The relaxation and activation parameters are fixed effective-model
+% assumptions, not identified physiological constants; their decimal precision
+% is numerical. The nearby integer domain length is selected by its mode
+% lattice: $L=43$ gives an axial first instability, whereas $L=44,\ldots,51$
+% give oblique first modes on the square torus. The gain matrix is held fixed
+% in this comparison. $L$ is not a measured cortical period.
+
+\paragraph{Literature-based widths and fixed gains.}
+Billeh et al.~\cite{billeh2020}, STAR Methods, p.~e11, give
+$s_{E\to E}=114$, $s_{E\to PV}=92$, $s_{E\to SST}=103$,
+$s_{PV\to E}=95$, and $s_{SST\to E}=85\,\mu\mathrm m$, based on
+Levy and Reyes (2012), and $s_{PV\to PV}\simeq120\,\mu\mathrm m$
+from internal Allen Institute data. They use the PV--PV scale for other
+inhibitory pairs and the E--SST scales for E--Htr3a pairs.
+Replacing Htr3a by VIP is our additional reduction.
+Their distance rule is $\exp(-r^2/s_{ij}^2)$. Hence $s_{ij}$ is the
+exponential distance scale and the standard deviation in our convention
+is $s_{ij}/\sqrt2$. With target rows and source columns,
+\begin{equation}
+ \begin{aligned}
+ s=\begin{pmatrix}
+ 114&95&85&-\\92&120&120&-\\103&-&-&120\\103&-&120&-
+ \end{pmatrix}\,\mu\mathrm m, \quad 
+ \Sigma=\begin{pmatrix}
+ .6498&.45125&.36125&-\\.4232&.72&.72&-\\
+ .53045&-&-&.72\\.53045&-&.72&-
+ \end{pmatrix},\quad
+ \Sigma_{ij}=\frac{s_{ij}^2}{2\ell_x^2}.
+ \end{aligned}
+ \label{eq:v1-width-matrices}
+\end{equation}
+Here $\Sigma$ is the variance in model coordinates and
+$\Sigma^{\rm phys}=\ell_x^2\Sigma$, with $\ell_x=100\,\mu\mathrm m$.
+A dash denotes an absent connection ($G_{ij}=0$).
+%  The substituted scales are not VIP-specific measurements.
+For the effective integrated gains, we use
+\begin{equation}
+ G=\begin{pmatrix}
+ 6.22009&-1.45455&-6.48944&0\\
+ 5.09798&-.90615&-8.04066&0\\
+ 2.67174&0&0&-16\\
+ 1.68844&0&-3.13584&0
+ \end{pmatrix}.
+ \label{eq:v1-gain-matrices}
+\end{equation}
+These magnitudes are fixed model coefficients. They are not measured
+connection probabilities. 
+% Indeed, if
+% $P_{ij}(r)=C_{ij}\ee^{-r^2/s_{ij}^2}$, the disk-average probability within
+% $R=75\,\mu\mathrm m$ determines
+% \begin{equation}
+%  C_{ij}=\frac{P_{{\rm rep},ij}R^2}
+%  {s_{ij}^2(1-\ee^{-R^2/s_{ij}^2})},\qquad
+%  J_{ij}\propto\rho_j w_{ij}\pi s_{ij}^2C_{ij}.
+% \end{equation}
+% Source densities $\rho_j$, effective per-connection strengths $w_{ij}$,
+% and activity normalization are also required to identify $J$; the cited
+% probabilities alone do not determine \eqref{eq:v1-gain-matrices}.
+
+Increase the scalar $\kappa$ in $J=\kappa G$ from zero, compute its first
+modal crossing $\kappa_c$, and set
+\begin{equation}
+ p=\kappa-\kappa_c,\qquad J(p)=(\kappa_c+p)G,
+ \qquad J_0=\kappa_cG,\quad J_1=G.
+ \label{eq:v1-gain-parameter}
+\end{equation}
+The periodic-domain computation gives
+\begin{equation}
+ \kappa_c=.7491489065,\qquad k_0=3,\qquad
+ q_0=\frac{6\pi}{43},\qquad
+ \omega_0=.0829864799\,\mathrm{rad/ms}.
+ \label{eq:v1-onset-values}
+\end{equation}
+Thus $f_0=13.2077085\,\mathrm{Hz}$ and the wavelength is $4.3/3$ mm.
+% On the square torus, all other lattice shells with $q<8$ have growth
+% at most $-1.5083\times10^{-5}\,\mathrm{ms}^{-1}$ at onset.
+% For $q\ge8$, the absolute recurrent row-sum bound is below
+% $2.675\times10^{-5}<1$, giving stability by Gershgorin's theorem.
+% Deleting VIP without changing the remaining gains instead gives a
+% homogeneous first Hopf crossing at $\kappa\simeq.65372646$; it is not
+% another finite-wave example.
+
+\paragraph{Input populations.}
+For visual/thalamic input, take $e=(1,1,0,0)^{\mathsf T}$.
+Direct E and PV innervation is supported by Ji et al.~\cite{ji2016}
+and used in Billeh et al.'s feedforward model. Equal normalized strengths
+are our assumption, not a measured ratio.
+%  E-only input,
+% $e=(1,0,0,0)^{\mathsf T}$, is a separate selective-input comparison.
+
+\subsection{Computation of the amplitude coefficients}
+All quantities below are evaluated at onset $p=0$, with
+$q_0=6\pi/43$ and $\omega_0$ given in \eqref{eq:v1-onset-values}.
+With dimensionless amplitudes and $\tau=\epsilon^2t$ measured in ms,
+$\alpha,a,b,c,c_\perp$ and all forcing coefficients $\eta$ have units
+$\mathrm{ms}^{-1}$. Matrices $M$, $M_p$ and the multilinear maps $Q_q,C_q$
+likewise have units $\mathrm{ms}^{-1}$ on dimensionless arguments;
+$\cR$ has units $\mathrm{ms}$, and the response vectors $h$, $p_{2\omega_0}$,
+$s_{2q_0}$ are dimensionless.
+
+\paragraph{1. Activation derivatives and Fourier maps.}
+Set $r_j=\ell(-g_j\theta_j)$. Direct differentiation gives
+\begin{align}
+ F'_j(0)&=g_jr_j(1-r_j),\notag\\
+ F''_j(0)&=g_j^2r_j(1-r_j)(1-2r_j),\notag\\
+ F'''_j(0)&=g_j^3r_j(1-r_j)(1-6r_j+6r_j^2).
+ \label{eq:v1-activation-derivatives}
+\end{align}
+Form $D_F=\diag(F'_j(0))$ and $\boldsymbol F_r=(F_j^{(r)}(0))_j$,
+$r=2,3$. Substitute $\widehat W(q;0)=\kappa_cG\odot\ee^{-\Sigma q^2/2}$
+into \eqref{eq:dispersion-matrix} and
+\eqref{eq:population-nonlinear-symbols} to obtain $M(q,0)$, $Q_q$, and $C_q$.
+
+\paragraph{2. Critical eigenvectors and linear coefficient.}
+Solve
+\begin{equation}
+ M(q_0,0)\Phi=\ii\omega_0\Phi,\qquad
+ M(q_0,0)^*\Psi=-\ii\omega_0\Psi,\qquad
+ \|\Phi\|_2=1,\quad\Psi^*\Phi=1.
+\end{equation}
+Then
+\begin{equation}
+ \alpha=\Psi^*D_\tau^{-1}
+       (G\odot\ee^{-\Sigma q_0^2/2})D_F\Phi,\qquad a=\mu\alpha.
+ \label{eq:v1-alpha-computation}
+\end{equation}
+The unit-norm convention fixes the amplitude scale of $b,c$.
+
+\paragraph{3. Quadratic responses.}
+With $\cR(\Omega,q)=(\ii\Omega I_K-M(q,0))^{-1}$, solve
+\begin{align}
+ h_{20}^+&=\cR(2\omega_0,2q_0)Q_{2q_0}(\Phi,\Phi),&
+ h_{20}^0&=2\cR(2\omega_0,0)Q_0(\Phi,\Phi),\notag\\
+ h_{11}^0&=2\cR(0,0)Q_0(\Phi,\overline\Phi),&
+ h_{11}^+&=2\cR(0,2q_0)Q_{2q_0}(\Phi,\overline\Phi).
+ \label{eq:v1-quadratic-responses}
+\end{align}
+Each $Q_q$ uses the output wavenumber of that interaction.
+Reflection symmetry gives the corresponding negative-wavevector responses.
+
+\paragraph{4. Cubic coefficients.}
+Project the resonant terms at output wavenumber $q_0$:
+\begin{align}
+ b={}&\Psi^*\left[2Q_{q_0}(\Phi,h_{11}^0)
+       +2Q_{q_0}(\overline\Phi,h_{20}^+)
+       +3C_{q_0}(\Phi,\Phi,\overline\Phi)\right],\notag\\
+ c={}&\Psi^*\left[2Q_{q_0}(\Phi,h_{11}^0)
+       +2Q_{q_0}(\overline\Phi,h_{20}^0)
+       +2Q_{q_0}(\Phi,h_{11}^+)
+       +6C_{q_0}(\Phi,\Phi,\overline\Phi)\right].
+ \label{eq:v1-cubic-computation}
+\end{align}
+The computed values, in $\mathrm{ms}^{-1}$, are
+\begin{equation}
+ \begin{split}
+ \alpha&=.0880577+.0643807\ii,\qquad 
+ b=-6.706479+9.069454\ii,\qquad
+ c=-6.961796+8.999612\ii.
+%  ,\\
+%  c_\perp&=-7.489424+9.781553\ii.
+ \end{split}
+ \label{eq:v1-computed-coefficients}
+\end{equation}
+% The perpendicular coefficient follows from \eqref{eq:perpendicular-coupling},
+% including the output wavenumber $\sqrt2q_0$.
+
+\paragraph{5. Forcing coefficients and input strength.}
+For an input
+$I=\epsilon^2(P\ee^{2\ii\omega_0t}+S\ee^{2\ii q_0x}+\cc)$
+in \eqref{eq:population-field}, compute
+\begin{equation}
+      p_{2\omega_0}=\cR(2\omega_0,0)D_\tau^{-1}P,\qquad 
+ s_{2q_0}=\cR(0,2q_0)D_\tau^{-1}S
+\end{equation}
+\begin{equation}
+      \eta_t=2\Psi^*Q_{q_0}(\overline\Phi,p_{2\omega_0}),\quad
+ \eta_+=2\Psi^*Q_{q_0}(\Phi,s_{2q_0}),\quad
+ \eta_-=2\Psi^*Q_{q_0}(\Phi,\overline{s_{2q_0}}).
+\end{equation}
+Here $P,S$ are dimensionless input harmonics. The factors $D_\tau^{-1}$
+convert them to rates in $\mathrm{ms}^{-1}$ in the $u_t$ equation.
+For real $S$, $\eta_+=\eta_-=: \eta_x$. 
+% For traveling input, use
+% \eqref{eq:traveling-projection} instead.
+
+Let the default E/PV drive $e=(1,1,0,0)^{\mathsf T}$.
+% a real cosine of
+% scaled peak $\delta$ has harmonic coefficient $\delta e/2$ and actual
+% peak $d=\epsilon^2\delta$. T
+Take $\mu=-1$, $\epsilon=.02$, hence
+$p=-.0004$. The  forcing coefficients are
+\begin{equation}
+ \eta_t^{(1)}=.055509-.029075\ii,\quad
+ \eta_x^{(1)}=.018902+.046191\ii
+%  ,\quad
+%  \eta_w^{(1)}=.083805-.052092\ii
+ \quad(\mathrm{ms}^{-1}).
+\end{equation}
+% Choose the scaled peaks by the amplitude inequalities:
+% \begin{equation}
+% \begin{array}{c|ccc}
+%  \text{input}&\delta_t&\delta_x&\delta_w\\\hline
+%  \text{none}&0&0&0\\
+%  \text{temporal}&3&0&0\\
+%  \text{spatial}&0&8&0\\
+%  \text{combined}&3&2&0\\
+%  \text{traveling}&0&0&2
+% \end{array}
+% \label{eq:v1-selected-strengths}
+% \end{equation}
+% Temporal forcing requires $\delta_t>|\alpha|/|\eta_t^{(1)}|=1.74081$;
+% spatial forcing has positive leading growth for
+% $\delta_x>\RePart\alpha/\RePart\eta_x^{(1)}=4.65862$.
+% The combined choice satisfies $|\eta_t|>|-\alpha+\eta_x|$, with
+% $\rho_*=.00591009$; the three quantities in
+% \eqref{eq:standing-stability-conditions} are
+% $-.211815,-.205134,-.00236975$.
+% Traveling peak $2$ exceeds its threshold $1.10547$ and satisfies
+% \eqref{eq:traveling-sufficient-stability}.
+% Peak $1$ gives a below-threshold temporal control. These are threshold-based
+% strength choices, with no prescribed growth-rate or frequency target.
+% For E-only drive the temporal threshold is $.723592$; the comparison uses
+% the same peak $3\epsilon^2$ on E and sets the PV input to zero.
+
+% \subsection{Direct simulation checks}
+% We integrate the full nonlinear field by Fourier convolution and fourth-order
+% Runge--Kutta, using $64$ points in one dimension and $32^2$ on the square
+% torus, $\Delta t=1\,\mathrm{ms}$, and $\epsilon^2T=60$.
+% For $\epsilon=0.02$, $T=150\,\mathrm s$. All comparisons use the same small
+% initial perturbation; the two-dimensional runs additionally include a
+% transverse critical mode and generic spatial noise.
+
+% For the spatial Fourier coefficient $\widehat u_{k_0}$, measure
+% \begin{equation}
+%  \mathcal A(t)=\left(|\Psi^*\widehat u_{k_0}(t)|^2+
+%  |\Psi^*\overline{\widehat u_{k_0}(t)}|^2\right)^{1/2}.
+%  \label{eq:v1-measured-amplitude}
+% \end{equation}
+% On the square torus use $\widehat u_{k_0,0}$. Compare the four forcing
+% cases in \eqref{eq:v1-selected-strengths}, a temporal peak-$\epsilon^2$
+% control, and detuned input at $1.5\omega_0$ and/or spatial mode $3k_0$.
+% The traveling-input test includes a transverse critical-mode seed and noise.
+% A reflecting-square comparison uses cosine multipliers with
+% $q_{mn}=\pi\sqrt{m^2+n^2}/L$ and its own computed onset;
+% its first representative mode is $(6,1)$, at
+% $\kappa_c\simeq.749148573$.
+% The late-time mean amplitudes in one dimension are
+% \begin{equation}
+%  \begin{array}{c|ccccc}
+%  \text{input}&\text{none}&\text{temporal}&\text{spatial}&\text{combined}&\text{E-only temporal}\\\hline
+%  \overline{\mathcal A}&9.40\times10^{-7}&.002256&.001875&.002119&.003820
+%  \end{array}
+%  \label{eq:v1-simulation-amplitudes}
+% \end{equation}
+% The weaker and detuned controls decay from their common initial critical
+% amplitude $1.41\times10^{-4}$. The traveling torus run gives
+% $\overline{\mathcal A}=.002373$; transverse RMS decreases from
+% $6.90\times10^{-5}$ to $4.10\times10^{-9}$.
+% Spatially uniform temporal forcing also excites transverse modes on the
+% square; the four-case comparison is not a claim that every forced pattern
+% is a stable pure stripe. These are direct finite-grid field tests, not a
+% full-field stability proof.
+
+% \clearpage
+
+\section{Dispersion matrix and frequency variation}
+\label{sec:dispersion}
+
+\subsection{Fourier matrix for $K$ populations}
+On $\T_L=\mathbb R/(L\mathbb Z)$, consider the source-nonlinearity field
+\begin{equation}
+ D_\tau u_t=-u+W(p)*F(u)+I(x,t),\qquad
+ D_\tau=\diag(\tau_1,\ldots,\tau_K),\quad \tau_i>0,
+ \label{eq:population-field}
+\end{equation}
+where $F(u)=(F_j(u_j))_{j=1}^K$ is the activation function, $F(0)=0$,
+and rows of $W$ index targets, columns index sources.
+Use periodized, unit-mass Gaussian kernels of variances $\Sigma_{ij}>0$:
+\begin{equation}
+ W_{ij}(x;p)=J_{ij}(p)\sum_{\ell\in\mathbb Z}
+ \frac{\ee^{-(x+L\ell)^2/(2\Sigma_{ij})}}{\sqrt{2\pi\Sigma_{ij}}},
+ \qquad J(p)=J_0+pJ_1.
+ \label{eq:population-kernels}
+\end{equation}
+Their convolution multipliers, with $q_h=2\pi h/L$, are
+\begin{equation}
+ \widehat W_{ij}(q;p)=J_{ij}(p)\ee^{-\Sigma_{ij}q^2/2},
+ \qquad q=|q_h|,\quad h\in\mathbb Z.
+ \label{eq:population-symbol}
+\end{equation}
+Here $\widehat W$ is the integral Fourier transform of the kernel on the
+torus, without the factor $L^{-1}$.
+
+Set $D_F=\diag(F'_1(0),\ldots,F'_K(0))$. Linearizing at $u=0$, $I=0$
+and substituting $u=v\ee^{\nu t+\ii q_hx}$ gives
+\begin{equation}
+ \nu D_\tau v=-v+\widehat W(q;p)D_Fv,
+ \qquad
+ \boxed{M(q,p)=D_\tau^{-1}\left[-I_K+\widehat W(q;p)D_F\right].}
+ \label{eq:dispersion-matrix}
+\end{equation}
+Thus the dispersion relation is
+\begin{equation}
+ \mathcal P(\nu,q,p):=\det(\nu I_K-M(q,p))=0.
+ \label{eq:dispersion-polynomial}
+\end{equation}
+The parameter $p$ is measured from onset, as in the preceding sections.
+For $L=2\pi$, $M_0(h)=M(|h|,0)$ and $M_1(h)=\partial_pM(|h|,0)$.
+
+% For this field, the nonlinear Fourier maps depend on the output wavenumber.
+% Writing $\boldsymbol F_r=(F_j^{(r)}(0))_{j=1}^K$, $r=2,3$, they are
+% \begin{align}
+%  Q_q(v,w)&=\tfrac12D_\tau^{-1}\widehat W(q;0)
+%                     (\boldsymbol F_2\odot v\odot w),\notag\\
+%  C_q(v,w,z)&=\tfrac16D_\tau^{-1}\widehat W(q;0)
+%                     (\boldsymbol F_3\odot v\odot w\odot z).
+%  \label{eq:population-nonlinear-symbols}
+% \end{align}
+% Here $\odot$ denotes entrywise multiplication. In the preceding coefficient
+% calculation, use $q=|q_1+q_2|$ for each quadratic interaction and
+% $q=|q_1+q_2+q_3|$ for each cubic interaction.
+
+\subsection{Eigenvalue derivatives}
+Fix $p$. Let $\nu(q)$ be a simple eigenvalue with right and left eigenvectors
+\begin{equation}
+ Mv=\nu v,\qquad w^*M=\nu w^*,\qquad w^*v=1.
+\end{equation}
+Differentiation gives $M_qv+Mv_q=\nu_qv+\nu v_q$. Multiplying by $w^*$
+cancels the terms containing $v_q$, hence
+\begin{equation}
+ \boxed{\nu_q=w^*M_qv,\qquad \nu_p=w^*M_pv,}
+ \label{eq:dispersion-derivatives}
+\end{equation}
+where, with entrywise exponentiation,
+\begin{align}
+ M_q&=-qD_\tau^{-1}\left[(\Sigma\odot\widehat W(q;p))D_F\right],\notag\\
+ M_p&=D_\tau^{-1}\left[(J_1\odot\ee^{-\Sigma q^2/2})D_F\right].
+ \label{eq:dispersion-matrix-derivatives}
+\end{align}
+The second identity assumes that $F$ and $D_\tau$ do not depend on $p$.
+At the critical point, $v=\Phi$, $w=\Psi$, and $\nu_p=\alpha$.
+
+Write $\nu=\sigma+\ii\omega$ with $\omega>0$. Then
+\begin{equation}
+ \sigma_q=\RePart(w^*M_qv),\qquad
+ \boxed{\omega_q=\operatorname{Im}(w^*M_qv).}
+ \label{eq:frequency-slope}
+\end{equation}
+Equivalently, since $\mathcal P(\nu(q),q,p)=0$ holds identically along the
+branch, implicit differentiation of \eqref{eq:dispersion-polynomial} gives
+\begin{equation}
+ \nu_q=-\frac{\mathcal P_q}{\mathcal P_\nu},\qquad
+ \boxed{\omega_q=
+ \frac{\operatorname{Im}(\mathcal P_\nu\overline{\mathcal P_q})}
+ {|\mathcal P_\nu|^2},}
+ \label{eq:frequency-polynomial-sign}
+\end{equation}
+with all derivatives of $\mathcal P$ evaluated at $(\nu(q),q,p)$.
+Because $\nu$ is a simple root, $\mathcal P_\nu\neq0$, so the sign of
+$\omega_q$ is the sign of the numerator
+$\operatorname{Im}(\mathcal P_\nu\overline{\mathcal P_q})$.
+% This is a pointwise statement: at each $q$, the frequency is locally
+% increasing if the numerator is positive and locally decreasing if it is
+% negative. Only when the numerator keeps a strict sign on a whole interval is
+% $\omega$ strictly monotone on that interval.
+
+\subsection{The rightmost eigenvalue}
+The formulas above follow a single eigenvalue branch. The frequency that
+matters for the instability is that of the eigenvalue with the largest real
+part. We therefore define the spectral abscissa $\sigma_{\max}$ and the
+frequency $\omega_{\rm r}\ge0$ of the rightmost eigenvalue by
+\begin{equation}
+ \sigma_{\max}(q)=\max_{\nu\in\operatorname{spec}M(q,p)}\RePart\nu,
+ \qquad
+ \omega_{\rm r}(q)=\max\left\{\operatorname{Im}\nu:
+ \RePart\nu=\sigma_{\max}(q)\right\}.
+ \label{eq:rightmost-frequency}
+\end{equation}
+Since $M$ is real, complex eigenvalues come in conjugate pairs. If a pair is
+rightmost, $\omega_{\rm r}$ is its positive imaginary part. If a unique real
+eigenvalue is rightmost, $\omega_{\rm r}=0$.
+
+% \paragraph{Smooth regime.}
+% On an interval where one simple conjugate pair stays strictly to the right of
+% all other eigenvalues, $\omega_{\rm r}$ is that pair's frequency, and
+% \eqref{eq:frequency-slope}--\eqref{eq:frequency-polynomial-sign} decide
+% whether it increases or decreases.
+
+% \paragraph{Dominance switches and collisions.}
+% Suppose instead that two unrelated simple branches tie for rightmost at $q_*$
+% and cross there transversally,
+% \begin{equation}
+%  \RePart\nu_1(q_*)=\RePart\nu_2(q_*)=\sigma_{\max}(q_*),\qquad
+%  \partial_q\RePart(\nu_1-\nu_2)(q_*)\neq0,
+%  \label{eq:dominance-switch}
+% \end{equation}
+% while all other branches, apart from conjugates, lie strictly to the left
+% near $q_*$. Then the rightmost branch changes at $q_*$. On each side,
+% $\omega_{\rm r}$ is the frequency of whichever branch dominates there, so the
+% two one-sided limits at $q_*$ may differ.
+% %  At the tie itself, the value of
+% % $\omega_{\rm r}$ is fixed only by the convention (the maximum) in
+% % \eqref{eq:rightmost-frequency}. 
+% When two eigenvalues collide, then
+% $\mathcal P_\nu=0$ and the simple-branch formulas do not apply. In either
+% case, branch derivatives alone cannot establish monotonicity of
+% $\omega_{\rm r}$ across the switch or collision.
+
+% \paragraph{Discrete modes.}
+% On a torus of fixed length $L$, only $q=2\pi|h|/L$ is admissible, so what is
+% actually compared is the sequence $\omega_{\rm r}(2\pi|h|/L)$. The derivative
+% $\omega_q$ describes the continuous dispersion curve interpolating these
+% samples.
+
+% \paragraph{The sign of $\omega_q$ is not fixed.}
+% Although every coupling decays in $q$, Gaussian decay alone does not
+% determine the sign of $\omega_q$. In the special case where all
+% $\tau_i=\tau_c$ and all retained variances equal $\Sigma_c$, each eigenvalue
+% has the form, for $\zeta\in\operatorname{spec}(J(p)D_F)$,
+% \begin{equation}
+%  \nu(q)=\frac{-1+\ee^{-\Sigma_cq^2/2}\zeta}{\tau_c},
+%  \qquad \omega_q=-\Sigma_cq\omega<0\quad(q>0,\ \omega>0),
+% \end{equation}
+% so the frequency decreases everywhere. In general, positive variances give
+% $M(q,p)\to-D_\tau^{-1}$ as $q\to\infty$. This limit is real, so all
+% eigenvalue imaginary parts tend to zero. Hence a positive frequency cannot
+% increase monotonically for all $q$.
+
+\paragraph{V1 parameters.}
+For the parameters of Section~\ref{sec:v1-coefficients}, at $p=0$ and
+$q_0=6\pi/43$,
+\begin{equation}
+ \omega_q(q_0)=.0471593>0,\qquad
+ \frac{d\omega}{dq_{\rm phys}}=.00471593\,\mathrm{mm/ms},
+ \label{eq:v1-local-frequency-slope}
+\end{equation}
+where $q$ is the model-coordinate wavenumber and $\omega$ is in rad/ms.
+The rightmost frequencies of modes $k=0,1,2,3,4$ are
+$11.0865$, $11.3759$, $12.1588$, $13.2077$, and $14.2833$ Hz, so the
+frequency increases across these modes; this does not imply global
+monotonicity. Changing $L$ changes which $q$ values are sampled, but not the
+derivative at fixed $q$ and $\kappa$.
+
+% \section{Traveling stripes on the square torus}
+% \label{sec:square-torus}
+
+% \subsection{Modes and traveling input}
+% Let $\boldsymbol x=(x,y)\in\T_L^2$ and periodize the isotropic Gaussian
+% kernels in both coordinates. Then
+% \begin{equation}
+%  u(\boldsymbol x,t)=\sum_{m,n\in\mathbb Z}\widehat u_{mn}(t)
+%        \ee^{\ii\boldsymbol q_{mn}\cdot\boldsymbol x},\qquad
+%  \boldsymbol q_{mn}=\frac{2\pi}{L}(m,n),\qquad
+%  M_{mn}(p)=M(|\boldsymbol q_{mn}|,p).
+%  \label{eq:square-modes}
+% \end{equation}
+% Assume the only critical wavevectors are
+% $\pm\boldsymbol q_x,\pm\boldsymbol q_y$, where
+% $\boldsymbol q_x=(q_0,0)$, $\boldsymbol q_y=(0,q_0)$, and $q_0=2\pi k_0/L$.
+% The shell $m^2+n^2=k_0^2$ contains exactly these four modes when $k_0=3$, as in the simulation.
+% For other shells, every additional critical lattice point must also be retained.
+% Write
+% \begin{equation}
+%  u_1=\Phi\ee^{\ii\omega_0t}
+%  \left(A_+\ee^{\ii q_0x}+A_-\ee^{-\ii q_0x}
+%        +B_+\ee^{\ii q_0y}+B_-\ee^{-\ii q_0y}\right)+\cc.
+%  \label{eq:square-critical-field}
+% \end{equation}
+
+% Choose a traveling input in \eqref{eq:population-field},
+% \begin{equation}
+%  I_w=\epsilon^2\left(H\ee^{2\ii(\omega_0t-q_0x)}
+%              +\overline H\ee^{-2\ii(\omega_0t-q_0x)}\right),
+%  \qquad p=\epsilon^2\mu<0.
+%  \label{eq:traveling-input}
+% \end{equation}
+% Its phase fronts move in the positive $x$ direction. Define
+% \begin{equation}
+%  \cR(\Omega,q)=(\ii\Omega I_K-M(q,0))^{-1},\qquad
+%  h_w=\cR(2\omega_0,2q_0)D_\tau^{-1}H,\qquad
+%  \eta_w=2\Psi^*Q_{q_0}(\overline\Phi,h_w).
+%  \label{eq:traveling-projection}
+% \end{equation}
+% The quadratic interaction of a conjugate critical wave $\boldsymbol q_\ell$
+% with the positive temporal forcing harmonic is resonant with
+% $\boldsymbol q_j$ precisely when
+% \begin{equation}
+%  \boldsymbol q_j+\boldsymbol q_\ell=-2\boldsymbol q_x.
+%  \label{eq:traveling-selection}
+% \end{equation}
+% Both critical vectors have length $q_0$. Equality in the triangle inequality
+% therefore forces $\boldsymbol q_j=\boldsymbol q_\ell=-\boldsymbol q_x$.
+% Thus the only leading forcing term is $\eta_w\overline{A_-}$ in the
+% $A_-$ equation. This differs from the uniform temporal forcing in
+% \eqref{eq:amplitude}.
+
+% \subsection{Existence and critical-mode stability}
+% The cubic amplitude system leaves $A_+=B_+=B_-=0$ invariant. On this subspace,
+% \begin{equation}
+%  (A_-)_\tau=A_-(a+b|A_-|^2)+\eta_w\overline{A_-}.
+%  \label{eq:traveling-amplitude}
+% \end{equation}
+% If $b\neq0$ and $|\eta_w|>|a|$, the argument of Section~6.1 gives the
+% unique positive root $\rho_w$ of
+% \begin{equation}
+%  f_w(\rho):=|a+b\rho|^2-|\eta_w|^2=0,
+%  \qquad
+%  \ee^{-2\ii\phi_w}=-\frac{a+b\rho_w}{\eta_w}.
+%  \label{eq:traveling-root}
+% \end{equation}
+% The equilibrium $A_-=\sqrt{\rho_w}\ee^{\ii\phi_w}$ reconstructs
+% \begin{equation}
+%  \boxed{u(x,y,t)=2\epsilon\sqrt{\rho_w}\,
+%  \RePart\!\left[\Phi\ee^{\ii(\omega_0t-q_0x+\phi_w)}\right]
+%  +O(\epsilon^2).}
+%  \label{eq:vertical-traveling-stripes}
+% \end{equation}
+% It varies along $x$ and is constant along $y$, giving stripes parallel to
+% the $y$ axis. More generally, $y$-independent input and initial data give a
+% $y$-independent solution: translating $y$ leaves the initial-value problem
+% unchanged, so uniqueness gives the assertion.
+
+% To check perturbations in the other critical directions, let $c_\perp$ be
+% the cross-coupling coefficient between perpendicular waves. The sums and
+% differences of their wavevectors have length $\sqrt2q_0$, so
+% \begin{align}
+%  h_{11}^0&=2\cR(0,0)Q_0(\Phi,\overline\Phi),\notag\\
+%  h_{20}^\perp&=2\cR(2\omega_0,\sqrt2q_0)Q_{\sqrt2q_0}(\Phi,\Phi),\notag\\
+%  h_{11}^\perp&=2\cR(0,\sqrt2q_0)Q_{\sqrt2q_0}(\Phi,\overline\Phi),\notag\\
+%  c_\perp&=\Psi^*\left[2Q_{q_0}(\Phi,h_{11}^0)
+%        +2Q_{q_0}(\overline\Phi,h_{20}^\perp)
+%        +2Q_{q_0}(\Phi,h_{11}^\perp)
+%        +6C_{q_0}(\Phi,\Phi,\overline\Phi)\right].
+%  \label{eq:perpendicular-coupling}
+% \end{align}
+% These expressions assume the indicated quadratic resolvents exist.
+% At the traveling equilibrium the remaining critical perturbations satisfy
+% \begin{equation}
+%  (\delta A_+)_\tau=(a+c\rho_w)\delta A_+,
+%  \qquad
+%  (\delta B_\pm)_\tau=(a+c_\perp\rho_w)\delta B_\pm.
+%  \label{eq:traveling-transverse-amplitudes}
+% \end{equation}
+% Indeed, cubic terms involving $A_+A_-\overline{B_\mp}$ vanish in the
+% linearization at $A_+=B_\pm=0$. The driven real two-dimensional block has
+% \begin{equation}
+%  \tr J_w=2\RePart(a+2b\rho_w),\qquad
+%  \det J_w=2\rho_wf'_w(\rho_w)>0.
+% \end{equation}
+% Hence the stripe is strictly linearly stable within all four critical
+% amplitudes precisely when
+% \begin{equation}
+%  \RePart(a+2b\rho_w)<0,\qquad
+%  \RePart(a+c\rho_w)<0,\qquad
+%  \RePart(a+c_\perp\rho_w)<0.
+%  \label{eq:traveling-stability}
+% \end{equation}
+% Since $\RePart a<0$, sufficient conditions are
+% \begin{equation}
+%  \boxed{|\eta_w|>|a|,\qquad
+%  \RePart b<0,\quad \RePart c<0,\quad \RePart c_\perp<0.}
+%  \label{eq:traveling-sufficient-stability}
+% \end{equation}
+
+% For the parameters in Section~\ref{sec:v1-coefficients},
+% $\RePart c_\perp=-7.489424$ and $\RePart b,\RePart c<0$.
+% For $H=\delta_w(1,1,0,0)^{\mathsf T}/2$ and $\mu=-1$,
+% the threshold is $\delta_w>1.10547$. The choice $\delta_w=2$ gives
+% $\rho_w=.0145283$ and the three growth bounds in
+% \eqref{eq:traveling-stability} are $-.282926,-.189201,-.196867$.
+% Here $\epsilon^2\delta_w$ is the dimensionless cosine peak.
+
+% \subsection{Stability in the full field}
+% Let $U(x,t)$ be a $T_0$-periodic stripe solution. Linearization of
+% \eqref{eq:population-field} gives
+% \begin{equation}
+%  D_\tau v_t=-v+W(p)*[F'(U)v].
+% \end{equation}
+% If $a_{j,\ell}(t)$ is the $x$-Fourier coefficient of $F'_j(U_j(x,t))$, then
+% \begin{equation}
+%  \partial_t\widehat v_{i,mn}
+%  =-\frac{\widehat v_{i,mn}}{\tau_i}
+%  +\frac1{\tau_i}\sum_j\widehat W_{ij}(|\boldsymbol q_{mn}|;p)
+%        \sum_{\ell\in\mathbb Z}a_{j,m-\ell}(t)\widehat v_{j,\ell n}.
+%  \label{eq:stripe-variational-system}
+% \end{equation}
+% Each transverse index $n$ evolves independently, but different $x$ modes
+% are coupled. Let $\mathcal U_n(T_0,0)$ be its period map and set
+% \begin{equation}
+%  \Gamma_n=\frac1{T_0}\log r\!\left(\mathcal U_n(T_0,0)\right),
+%  \label{eq:stripe-floquet}
+% \end{equation}
+% where $r$ denotes spectral radius. In a finite Fourier truncation, strict
+% linear stability is equivalent to $\Gamma_n<0$ for every retained $n$;
+% $n\neq0$ tests transverse stability. A full-field conclusion additionally
+% requires uniform control of the omitted modes. Near onset,
+% \eqref{eq:traveling-stability} transfers under a valid symmetry-preserving
+% dynamical reduction with a stable complementary spectrum.
+
+% \clearpage
+\begin{thebibliography}{4}
+\bibitem{pfeffer2013}
+C.~K. Pfeffer, M. Xue, M. He, Z.~J. Huang, and M. Scanziani.
+Inhibition of inhibition in visual cortex: the logic of connections between
+molecularly distinct interneurons.
+\emph{Nature Neuroscience} 16 (2013), 1068--1076.
+\href{https://doi.org/10.1038/nn.3446}{doi:10.1038/nn.3446}.
+
+\bibitem{billeh2020}
+Y.~N. Billeh et al.
+Systematic Integration of Structural and Functional Data into Multi-scale
+Models of Mouse Primary Visual Cortex.
+\emph{Neuron} 106 (2020), 388--403.e18; Fig.~4 and STAR Methods.
+\href{https://doi.org/10.1016/j.neuron.2020.01.040}{doi:10.1016/j.neuron.2020.01.040}.
+
+\bibitem{campagnola2022}
+L. Campagnola et al.
+Local connectivity and synaptic dynamics in mouse and human neocortex.
+\emph{Science} 375 (2022), eabj5861.
+\href{https://doi.org/10.1126/science.abj5861}{doi:10.1126/science.abj5861}.
+
+\bibitem{ji2016}
+X.-Y. Ji et al.
+Thalamocortical Innervation Pattern in Mouse Auditory and Visual Cortex:
+Laminar and Cell-Type Specificity.
+\emph{Cerebral Cortex} 26 (2016), 2612--2625.
+\href{https://doi.org/10.1093/cercor/bhv099}{doi:10.1093/cercor/bhv099}.
+\end{thebibliography}
+
+% \subsection{Nonzero equilibrium solution}
+
+% Assume first that $A,B\neq0$.  Set
+% \[
+%  x=|A|^2,
+%  \qquad
+%  \zeta=\frac BA,
+%  \qquad
+%  u=\frac{\overline A}{A}.
+% \]
+% Then $|u|=1$, $|B|^2=|\zeta|^2x$, and, for some $\phi\in\mathbb R$,
+% \[
+%  A=\sqrt{x}\,\ee^{\ii\phi},
+%  \qquad
+%  u=\ee^{-2\ii\phi},
+%  \qquad
+%  B=\zeta A.
+% \]
+% Dividing \eqref{eq:A-equilibrium} by $A$, and dividing
+% \eqref{eq:B-equilibrium} by $A$, gives
+% \begin{align}
+%  0&=a+bx+c|\zeta|^2x
+%       +\eta_t\overline\zeta u+\eta_x\zeta,
+%  \label{eq:ratio-A}\\
+%  0&=\zeta\left(a+b|\zeta|^2x+cx\right)
+%       +\eta_tu+\eta_x.
+%  \label{eq:ratio-B}
+% \end{align}
+% Eliminating $u$ gives
+% \begin{equation}
+%  \left(1-|\zeta|^2\right)
+%  \left[a+bx\left(1+|\zeta|^2\right)\right]
+%  +\eta_x\left(\zeta-\overline\zeta\right)=0.
+%  \label{eq:ratio-balance}
+% \end{equation}
+% The condition $|u|=1$ gives
+% \begin{equation}
+%  \left|
+%  \eta_x+\zeta\left[a+\left(b|\zeta|^2+c\right)x\right]
+%  \right|=|\eta_t|.
+%  \label{eq:ratio-modulus}
+% \end{equation}
+% Equations \eqref{eq:ratio-balance} and \eqref{eq:ratio-modulus} are
+% necessary and sufficient.  The following reduction gives their closed-form
+% solution.
+
+% Define the real invariants
+% \[
+%  x=|A|^2,
+%  \qquad
+%  T=x+|B|^2,
+%  \qquad
+%  D=x-|B|^2,
+% \]
+% and
+% \[
+%  A\overline B=h+\ii k,
+%  \qquad
+%  h,k\in\mathbb R.
+% \]
+% They satisfy
+% \begin{equation}
+%  h^2+k^2=x(T-x).
+%  \label{eq:relative-phase-constraint}
+% \end{equation}
+% Multiplying \eqref{eq:A-equilibrium} by $\overline A$, multiplying
+% \eqref{eq:B-equilibrium} by $\overline B$, and subtracting gives
+% \begin{equation}
+%  D(a+bT)-2\ii\eta_xk=0.
+%  \label{eq:difference-balance}
+% \end{equation}
+
+
+
+
+
+
+
+% % \subsubsection{Unequal intensities}
+
+% % Suppose $D\neq0$, so $|A|\neq|B|$.  Before solving, use the two phase
+% % changes
+% % \[
+% %  A=\ee^{\ii(\chi+\xi)}\widehat A,
+% %  \qquad B=\ee^{\ii(\chi-\xi)}\widehat B
+% % \]
+% % to replace $\eta_t$ and $\eta_x$ by the nonnegative forcing strengths
+% % \begin{equation}
+% %  \gamma_t=|\eta_t|,
+% %  \qquad \gamma_x=|\eta_x|.
+% %  \label{eq:forcing-strengths}
+% % \end{equation}
+% % The coefficients $a,b,c$ and all intensities are unchanged.  We drop the
+% % hats below.  Thus \eqref{eq:difference-balance} becomes
+% % \begin{equation}
+% %  D(a+bT)-2\ii\gamma_x k=0.
+% %  \label{eq:unequal-difference}
+% % \end{equation}
+
+% % \paragraph{No input: $\gamma_t=\gamma_x=0$.}
+% % Since $D\neq0$, \eqref{eq:unequal-difference} gives $a+bT=0$.
+% % Substitution into either equilibrium equation then gives $b=c$.
+% % Consequently an unequal-intensity equilibrium occurs only in the degenerate
+% % case
+% % \begin{equation}
+% %  b=c,
+% %  \qquad T=-\frac ab\in\mathbb R_{>0},
+% %  \qquad 0<x<T.
+% %  \label{eq:unforced-unequal}
+% % \end{equation}
+% % Both phases are arbitrary.  For $b\neq c$, there is no unequal-intensity
+% % equilibrium without input.
+
+% % \paragraph{Only temporal input: $\gamma_t>0$ and $\gamma_x=0$.}
+% % Again $T=-a/b$ must be real and positive.  The remaining equation is
+% % \begin{equation}
+% %  |c-b|^2x(T-x)=\gamma_t^2.
+% %  \label{eq:temporal-unequal-balance}
+% % \end{equation}
+% % For $b\neq c$, the two exchange-related intensities are
+% % \begin{equation}
+% %  x_\pm=
+% %  \frac{T\pm\sqrt{T^2-4\gamma_t^2/|c-b|^2}}{2},
+% %  \qquad |B|^2=T-x_\pm.
+% %  \label{eq:temporal-unequal-strength}
+% % \end{equation}
+% % They exist when
+% % \begin{equation}
+% %  T^2>\frac{4\gamma_t^2}{|c-b|^2}.
+% %  \label{eq:temporal-unequal-existence}
+% % \end{equation}
+% % Writing $A=\sqrt{x}\ee^{\ii\phi}$ and
+% % $B=\sqrt{T-x}\ee^{\ii\psi}$, the temporal input fixes the phase sum by
+% % \begin{equation}
+% %  \ee^{-\ii(\phi+\psi)}
+% %  =-\frac{(c-b)\sqrt{x(T-x)}}{\gamma_t},
+% %  \label{eq:temporal-unequal-phase}
+% % \end{equation}
+% % whereas $\phi-\psi$ remains arbitrary.  This is a biased pair of
+% % counter-propagating waves.
+
+% % \paragraph{Spatial input, with or without temporal input: $\gamma_x>0$.}
+% % Set $K=k/D\in\mathbb R$.  The real and imaginary parts of
+% % \eqref{eq:unequal-difference} give, when $\RePart b\neq0$,
+% % \begin{equation}
+% %  T=-\frac{\RePart a}{\RePart b},
+% %  \qquad
+% %  K=\frac{\Im(a+bT)}{2\gamma_x}.
+% %  \label{eq:unequal-TK}
+% % \end{equation}
+% % The remaining conditions reduce to
+% % \begin{subequations}
+% % \label{eq:unequal-scalar-system}
+% % \begin{align}
+% %  h^2&=\frac{T^2}{4}-\left(K^2+\frac14\right)D^2,
+% %  \label{eq:unequal-h}\\
+% %  0&=\frac{|c-b|^2}{4}(T^2-D^2)
+% %  +2\gamma_x\RePart(c-b)h
+% %  +(1+4K^2)\gamma_x^2-\gamma_t^2
+% %  +2TK\gamma_x\Im(c-b).
+% %  \label{eq:unequal-balance}
+% % \end{align}
+% % \end{subequations}
+% % Equation \eqref{eq:unequal-balance} is linear in $h$; substituting it into
+% % \eqref{eq:unequal-h} gives a quadratic equation for $D^2$.  Retain only
+% % real roots satisfying
+% % \begin{equation}
+% %  0<D^2<T^2,
+% %  \qquad
+% %  \frac{T^2}{4}-\left(K^2+\frac14\right)D^2\geq0.
+% %  \label{eq:unequal-admissibility}
+% % \end{equation}
+% % For each admissible root, both signs of $D$ give exchange-related states,
+% % and
+% % \begin{equation}
+% %  x=\frac{T+D}{2},
+% %  \qquad k=KD,
+% %  \qquad \zeta=\frac{h-\ii k}{x}.
+% %  \label{eq:unequal-reconstruction}
+% % \end{equation}
+% % If $\gamma_t>0$, the remaining phase is fixed by
+% % \begin{equation}
+% %  u=-\frac{\gamma_x+\zeta
+% %  \left[a+(b|\zeta|^2+c)x\right]}{\gamma_t},
+% %  \qquad |u|=1,
+% %  \label{eq:unequal-u}
+% % \end{equation}
+% % and $A=\sqrt{x}\ee^{\ii\phi}$ with $u=\ee^{-2\ii\phi}$ and $B=\zeta A$.
+% % If $\gamma_t=0$, the numerator in \eqref{eq:unequal-u} must vanish and the
+% % common phase $\phi$ is arbitrary.  Thus spatial-only input leaves the
+% % temporal phase free, while combined input generically locks both phases.
+
+% % The formulas above assume nonzero denominators.  If $\RePart b=0$, solve
+% % the two real equations in \eqref{eq:unequal-difference} directly for
+% % $T$ and $K$.  If $\RePart(c-b)=0$, use
+% % \eqref{eq:unequal-balance} first to determine $D^2$ and then
+% % \eqref{eq:unequal-h} to determine $h$.  A nonpositive $T$ or the absence
+% % of an admissible root means that no unequal-intensity equilibrium exists.
+
+% % \subsubsection{Equal intensities}
+
+% % Suppose $D=0$, and write $|A|=|B|=r$.  Equation
+% % \eqref{eq:difference-balance} gives $\eta_xk=0$.
+
+% % If $\gamma_x=0$, write $A=r\ee^{\ii\phi}$,
+% % $B=r\ee^{\ii\psi}$, and $\Theta=\phi+\psi$.  Then
+% % \begin{equation}
+% %  a+(b+c)r^2+\gamma_t\ee^{-\ii\Theta}=0.
+% %  \label{eq:equal-temporal-balance}
+% % \end{equation}
+% % For $b+c\neq0$, the possible strengths are
+% % \begin{equation}
+% %  r_\pm^2=
+% %  \frac{-\RePart\!\left(a\overline{(b+c)}\right)
+% %  \pm\sqrt{
+% %  \RePart\!\left(a\overline{(b+c)}\right)^2
+% %  -|b+c|^2(|a|^2-\gamma_t^2)}}{|b+c|^2}.
+% %  \label{eq:equal-temporal-strength}
+% % \end{equation}
+% % Only real positive roots are retained.  When $\gamma_t>0$,
+% % \begin{equation}
+% %  \ee^{-\ii\Theta}=-\frac{a+(b+c)r^2}{\gamma_t},
+% %  \label{eq:equal-temporal-phase}
+% % \end{equation}
+% % while $\phi-\psi$ is arbitrary.  When $\gamma_t=0$, one instead requires
+% % $a+(b+c)r^2=0$, and both phases are arbitrary.
+
+% % If $\gamma_x>0$, then $k=0$ and hence
+% % \begin{equation}
+% %  B=\sigma A,
+% %  \qquad \sigma\in\{1,-1\}.
+% %  \label{eq:equal-parity}
+% % \end{equation}
+% % Set $d=b+c$, $g_\sigma=a+\sigma\gamma_x$, and $y=|A|^2$.  The amplitude
+% % condition is
+% % \begin{equation}
+% %  |g_\sigma+dy|=\gamma_t.
+% %  \label{eq:equal-parity-balance}
+% % \end{equation}
+% % For $d\neq0$, its candidates are
+% % \begin{equation}
+% %  y_{\sigma,\pm}=
+% %  \frac{-\RePart(g_\sigma\overline d)
+% %  \pm\sqrt{\RePart(g_\sigma\overline d)^2
+% %  -|d|^2(|g_\sigma|^2-\gamma_t^2)}}{|d|^2}.
+% %  \label{eq:equal-parity-strength}
+% % \end{equation}
+% % Again, only real positive roots are retained.  If $\gamma_t>0$, the phase
+% % is fixed by
+% % \begin{equation}
+% %  \ee^{-2\ii\phi}=-\frac{g_\sigma+dy}{\sigma\gamma_t}.
+% %  \label{eq:equal-parity-phase}
+% % \end{equation}
+% % If $\gamma_t=0$, require $g_\sigma+dy=0$, and $\phi$ is arbitrary.  The
+% % states $\sigma=1$ and $\sigma=-1$ are the even and odd standing waves,
+% % respectively.
+
+% % \subsection{One-zero equilibrium solution}
+
+% % Let $A=0$ and $B=r\ee^{\ii\psi}\neq0$.  The equilibrium equations reduce
+% % to
+% % \begin{equation}
+% %  r^2=-\frac ab\in\mathbb R_{>0},
+% %  \qquad
+% %  \gamma_t\ee^{-2\ii\psi}+\gamma_x=0.
+% %  \label{eq:one-zero-solution}
+% % \end{equation}
+% % Therefore the branch exists with arbitrary $\psi$ when there is no input,
+% % does not exist with only one input, and exists with both inputs precisely
+% % when $\gamma_t=\gamma_x$.  In the last case
+% % $\ee^{-2\ii\psi}=-1$ in the normalized phase coordinates.  The state
+% % $(A,0)$ follows by exchanging $A$ and $B$.  These are left- and
+% % right-traveling waves.
+
+% % \subsection{Zero equilibrium solution}
+
+% % The zero equilibrium
+% % \begin{equation}
+% %  (A,B)=(0,0)
+% %  \label{eq:zero-equilibrium}
+% % \end{equation}
+% % always exists.  It has no leading critical-mode activation.
+
+% % \subsection{Stability}
+
+% % At an equilibrium $(A_*,B_*)$, the linearization is
+% % \begin{equation}
+% %  \frac{d}{d\tau}
+% %  \begin{pmatrix}\delta\mathbf A\\ \delta\overline{\mathbf A}\end{pmatrix}
+% %  =\mathcal J
+% %  \begin{pmatrix}\delta\mathbf A\\ \delta\overline{\mathbf A}\end{pmatrix},
+% %  \qquad
+% %  \mathcal J=\begin{pmatrix}M&N\\ \overline N&\overline M\end{pmatrix},
+% %  \label{eq:full-Jacobian}
+% % \end{equation}
+% % where $\delta\mathbf A=(\delta A,\delta B)^\mathsf T$ and
+% % \begin{equation}
+% %  M=\begin{pmatrix}
+% %  a+2b|A_*|^2+c|B_*|^2&cA_*\overline{B_*}+\gamma_x\\
+% %  cB_*\overline{A_*}+\gamma_x&a+2b|B_*|^2+c|A_*|^2
+% %  \end{pmatrix},
+% %  \quad
+% %  N=\begin{pmatrix}
+% %  bA_*^2&cA_*B_*+\gamma_t\\
+% %  cA_*B_*+\gamma_t&bB_*^2
+% %  \end{pmatrix}.
+% %  \label{eq:stability-blocks}
+% % \end{equation}
+% % An isolated equilibrium is asymptotically stable if and only if all four
+% % eigenvalues of $\mathcal J$ have negative real part.  Equivalently, if
+% % \begin{equation}
+% %  \det(\lambda I-\mathcal J)
+% %  =\lambda^4+q_1\lambda^3+q_2\lambda^2+q_3\lambda+q_4,
+% %  \label{eq:stability-quartic}
+% % \end{equation}
+% % then
+% % \begin{equation}
+% %  q_j>0\quad(j=1,\ldots,4),
+% %  \qquad q_1q_2>q_3,
+% %  \qquad q_1q_2q_3>q_3^2+q_1^2q_4.
+% %  \label{eq:stability-Hurwitz}
+% % \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+    
+% % Substitution of \eqref{eq:unequal-reconstruction} or
+% % \eqref{eq:one-zero-solution} into \eqref{eq:stability-blocks} therefore
+% % gives the stable unequal-intensity and one-zero equilibria without further
+% % case-dependent variables.
+
+% % For an equal-intensity state $B_*=\sigma A_*$, perturbations split into
+% % $\delta B=\kappa\delta A$, $\kappa\in\{1,-1\}$.  Define
+% % \begin{align}
+% %  P_{\sigma\kappa}
+% %  &=a+\kappa\gamma_x
+% %  +(2b+c+\kappa\sigma c)|A_*|^2,
+% %  \label{eq:equal-P}\\
+% %  Q_{\sigma\kappa}
+% %  &=(b+\kappa\sigma c)A_*^2+\kappa\gamma_t.
+% %  \label{eq:equal-Q}
+% % \end{align}
+% % The two eigenvalues in this block satisfy
+% % \begin{equation}
+% %  \lambda^2-2\RePart(P_{\sigma\kappa})\lambda
+% %  +|P_{\sigma\kappa}|^2-|Q_{\sigma\kappa}|^2=0.
+% %  \label{eq:equal-characteristic}
+% % \end{equation}
+% % With both inputs, the equilibrium is asymptotically stable precisely when,
+% % for $\kappa=\pm1$,
+% % \begin{equation}
+% %  \RePart(P_{\sigma\kappa})<0,
+% %  \qquad
+% %  |P_{\sigma\kappa}|^2>|Q_{\sigma\kappa}|^2.
+% %  \label{eq:equal-stability}
+% % \end{equation}
+% % With spatial input only, the $\kappa=\sigma$ block contains the neutral
+% % common-phase mode.  Orbital stability requires
+% % \begin{equation}
+% %  |P_{\sigma\sigma}|^2=|Q_{\sigma\sigma}|^2,
+% %  \qquad \RePart(P_{\sigma\sigma})<0,
+% %  \label{eq:spatial-orbital}
+% % \end{equation}
+% % together with \eqref{eq:equal-stability} for $\kappa=-\sigma$.  With
+% % temporal input only, use the free spatial phase to take $B_*=A_*$; the
+% % $\kappa=-1$ block is neutral, and the analogous orbital conditions apply.
+
+% % Without input, the standing wave $|A_*|=|B_*|=r$ is orbitally stable if and
+% % only if
+% % \begin{equation}
+% %  \RePart(b+c)<0,
+% %  \qquad \RePart(b-c)<0.
+% %  \label{eq:unforced-standing-stability}
+% % \end{equation}
+% % The one-zero traveling wave, with $r^2=-a/b>0$, is orbitally stable if and
+% % only if
+% % \begin{equation}
+% %  \RePart b<0,
+% %  \qquad \RePart(a+cr^2)<0.
+% %  \label{eq:unforced-traveling-stability}
+% % \end{equation}
+
+% % At the zero equilibrium, $Z_\sigma=A+\sigma B$ satisfies
+% % \begin{equation}
+% %  (Z_\sigma)_\tau=(a+\sigma\gamma_x)Z_\sigma
+% %  +\sigma\gamma_t\overline{Z_\sigma}.
+% %  \label{eq:zero-parity}
+% % \end{equation}
+% % Hence the zero equilibrium is stable if and only if
+% % \begin{equation}
+% %  \RePart(a+\sigma\gamma_x)<0,
+% %  \qquad
+% %  |a+\sigma\gamma_x|^2>\gamma_t^2,
+% %  \qquad \sigma=\pm1.
+% %  \label{eq:zero-stability}
+% % \end{equation}
+% % For no input this reduces to $\RePart a<0$.
+
+% % \subsection{Input--pattern summary}
+
+% % From \eqref{eq:u1}, a one-zero state is a traveling wave, an
+% % equal-intensity state is a standing wave, and an unequal-intensity state is
+% % a biased counter-propagating wave.  The leading complex-mode strengths are
+% % summarized below; the physical field also contains the complex conjugate.
+% % \begin{table}[ht]
+% % \centering
+% % \small
+% % \begin{tabular}{@{}llll@{}}
+% % \toprule
+% % Input & Existence condition & Activation pattern & Strength \\
+% % \midrule
+% % None
+% % & $-a/b=r^2>0$
+% % & traveling wave
+% % & one component $r$ \\
+% % None
+% % & $-a/(b+c)=r^2>0$
+% % & standing wave
+% % & envelope $2r$ \\
+% % Temporal only
+% % & \eqref{eq:equal-temporal-strength}
+% % & time-locked standing wave
+% % & envelope $2r_\pm$ \\
+% % Temporal only
+% % & \eqref{eq:temporal-unequal-strength}
+% % & biased counter-propagating wave
+% % & $\sqrt{x_\pm},\sqrt{T-x_\pm}$ \\
+% % Spatial only
+% % & $-(a+\sigma\gamma_x)/(b+c)=r^2>0$
+% % & even/odd pinned standing wave
+% % & envelope $2r$ \\
+% % Both
+% % & \eqref{eq:equal-parity-strength}
+% % & fully locked standing wave
+% % & envelope $2\sqrt{y_{\sigma,\pm}}$ \\
+% % Both, $\gamma_t=\gamma_x$
+% % & $-a/b=r^2>0$
+% % & locked traveling wave
+% % & one component $r$ \\
+% % Spatial/both
+% % & \eqref{eq:unequal-scalar-system}
+% % & biased counter-propagating wave
+% % & $|A|,|B|$ \\
+% % Any
+% % & \eqref{eq:zero-stability}
+% % & stable inactive state
+% % & $0$ \\
+% % \bottomrule
+% % \end{tabular}
+% % \caption{Input-induced activation patterns.  An existing nonzero branch is
+% % stable only when it also satisfies \eqref{eq:stability-Hurwitz},
+% % \eqref{eq:equal-stability}, \eqref{eq:unforced-standing-stability}, or
+% % \eqref{eq:unforced-traveling-stability}, as appropriate.}
+% % \label{tab:input-patterns}
+% % \end{table}
+
+
+% \newpage
+
+
+% \section{Pattern-forming condition for $K$ populations}
+% \label{sec:K-pattern-condition}
+
+% We now state the connectivity conditions under which a $K$-population
+% Gaussian neural field can undergo the finite-wavenumber Hopf bifurcation
+% assumed in \eqref{eq:Hopf_assumption}.  Set $d=K$ and let
+% \begin{equation}
+%  \mathsf W(p)=\mathsf W_0+p\mathsf W_1
+%  \in\mathbb R^{K\times K}
+%  \label{eq:K-strength-matrix}
+% \end{equation}
+% be the signed integrated-strength matrix.  Rows are target populations and
+% columns are source populations.  Let
+% \begin{equation}
+%  \Sigma=(\Sigma_{ij})\in[0,\infty)^{K\times K}
+%  \label{eq:K-variance-matrix}
+% \end{equation}
+% be the Gaussian-variance matrix.  Thus the Fourier connectivity at spatial
+% mode $h$ is
+% \begin{equation}
+%  \widehat{\mathsf J}(h,p)
+%  =\mathsf W(p)\odot
+%  \exp\left(-\frac{h^2}{2}\Sigma\right),
+%  \qquad
+%  \widehat{\mathsf J}_{ij}(h,p)
+%  =W_{ij}(p)\exp\left(-\frac{\Sigma_{ij}h^2}{2}\right).
+%  \label{eq:K-Fourier-connectivity}
+% \end{equation}
+% Here the exponential and product are entrywise.  If $\sigma_{ij}$ denotes
+% the standard deviation instead, then $\Sigma_{ij}=\sigma_{ij}^2$.
+
+% Let
+% \begin{equation}
+%  \mathsf T=\operatorname{diag}(\tau_1,\ldots,\tau_K),
+%  \qquad
+%  \mathsf D_*=\operatorname{diag}(g_1,\ldots,g_K),
+%  \qquad g_j>0,
+%  \label{eq:K-time-gain-matrices}
+% \end{equation}
+% where $g_j$ is the derivative of the $j$th firing-rate function at the
+% homogeneous equilibrium.  For the convention in which each firing rate is
+% applied before convolution, the linear Fourier matrix is
+% \begin{equation}
+%  M(h,p)=\mathsf T^{-1}
+%  \left[-I+\widehat{\mathsf J}(h,p)\mathsf D_*\right].
+%  \label{eq:K-linear-matrix}
+% \end{equation}
+% If the firing rate is applied after recurrent summation, replace
+% $\widehat{\mathsf J}(h,p)\mathsf D_*$ by
+% $\mathsf D_*\widehat{\mathsf J}(h,p)$.  The conditions below are otherwise
+% unchanged.
+
+% Define the spectral growth rate
+% \begin{equation}
+%  s(h,p)=max_{\lambda\in\operatorname{spec}M(h,p)}
+%  \operatorname{Re}\lambda.
+%  \label{eq:K-spectral-growth}
+% \end{equation}
+% The connectivity is capable of producing a spatial pattern if, for some
+% parameter value, the homogeneous mode is stable while a nonzero spatial mode
+% is unstable:
+% \begin{equation}
+%  s(0,p)<0,
+%  \qquad
+%  s(h,p)>0
+%  \quad\text{for some }h\neq0.
+%  \label{eq:K-pattern-capability}
+% \end{equation}
+% At the first pattern-forming threshold $p=p_c$, there must be a
+% $k_0\neq0$ such that
+% \begin{equation}
+%  s(0,p_c)<0,
+%  \qquad
+%  s(k_0,p_c)=0,
+%  \qquad
+%  s(h,p_c)<0
+%  \quad\text{for }h\notin\{k_0,-k_0\}.
+%  \label{eq:K-first-pattern-threshold}
+% \end{equation}
+% After replacing $p$ by $p-p_c$, the critical value is $p=0$, as assumed in
+% the preceding sections.
+
+% \subsection{Coefficient condition for a finite-wavenumber Hopf bifurcation}
+
+% For every spatial mode, write
+% \begin{equation}
+%  P(\lambda;h,p)
+%  =\det\left(\lambda I-M(h,p)\right)
+%  =\lambda^K+\gamma_1(h,p)\lambda^{K-1}
+%  +\cdots+\gamma_K(h,p).
+%  \label{eq:K-characteristic-polynomial}
+% \end{equation}
+% The coefficients are determined directly by $\mathsf W(p)$ and $\Sigma$:
+% \begin{equation}
+%  \gamma_r(h,p)
+%  =(-1)^r
+%  \sum_{\substack{I\subset\{1,\ldots,K\}\\|I|=r}}
+%  \det M(h,p)[I,I],
+%  \qquad 1\leq r\leq K,
+%  \label{eq:K-characteristic-coefficients}
+% \end{equation}
+% where $M[I,I]$ denotes a principal submatrix.
+
+% Set $\gamma_0=1$ and $\gamma_r=0$ for $r<0$ or $r>K$.  Define the Hurwitz
+% determinants
+% \begin{equation}
+%  \Delta_r(h,p)
+%  =\det\left[\gamma_{2j-i}(h,p)\right]_{i,j=1}^{r},
+%  \qquad 1\leq r\leq K.
+%  \label{eq:K-Hurwitz-determinants}
+% \end{equation}
+% For a fixed spatial mode $h$, all eigenvalues are stable if and only if
+% \begin{equation}
+%  \Delta_r(h,p)>0,
+%  \qquad r=1,\ldots,K.
+%  \label{eq:K-Hurwitz-stability}
+% \end{equation}
+
+% At a finite-wavenumber Hopf point, the critical polynomial has the exact
+% factorization
+% \begin{equation}
+%  P(\lambda;k_0,p_c)
+%  =(\lambda^2+\omega_0^2)
+%  \left(
+%  \lambda^{K-2}+\beta_1\lambda^{K-3}
+%  +\cdots+\beta_{K-2}
+%  \right),
+%  \qquad \omega_0>0,
+%  \label{eq:K-Hopf-factorization}
+% \end{equation}
+% and the degree-$(K-2)$ factor must be Hurwitz.  This factorization is the
+% necessary and sufficient coefficient condition for one critical pair
+% $\pm\ii\omega_0$ and all remaining eigenvalues in the open left half-plane.
+
+% Equivalently, the critical frequency and coefficients satisfy
+% \begin{equation}
+%  \sum_{\substack{0\leq r\leq K\\K-r\ \mathrm{even}}}
+%  (-1)^{(K-r)/2}\gamma_r(k_0,p_c)\omega_0^{K-r}=0
+%  \label{eq:K-Hopf-real}
+% \end{equation}
+% and
+% \begin{equation}
+%  \sum_{\substack{0\leq r\leq K\\K-r\ \mathrm{odd}}}
+%  (-1)^{(K-r-1)/2}\gamma_r(k_0,p_c)\omega_0^{K-r}=0.
+%  \label{eq:K-Hopf-imaginary}
+% \end{equation}
+% At a generic Hopf boundary reached from the stable side, these conditions can
+% be detected by
+% \begin{equation}
+%  \begin{aligned}
+%   \Delta_r(k_0,p_c)&>0
+%   &&\text{for }1\leq r\leq K-2,\\
+%   \Delta_{K-1}(k_0,p_c)&=0,
+%   &\qquad \gamma_K(k_0,p_c)&>0,
+%  \end{aligned}
+%  \label{eq:K-Hopf-Hurwitz-boundary}
+% \end{equation}
+% provided no other eigenvalue is critical.  The complete pattern-forming
+% condition is obtained by combining \eqref{eq:K-Hopf-factorization} with
+% \begin{equation}
+%  \Delta_r(0,p_c)>0,
+%  \qquad
+%  \Delta_r(h,p_c)>0
+%  \quad\text{for }h\notin\{k_0,-k_0\},
+%  \qquad
+%  r=1,\ldots,K.
+%  \label{eq:K-noncritical-mode-stability}
+% \end{equation}
+% The bifurcation is transversal when
+% \begin{equation}
+%  \operatorname{Re}\left[
+%  \Psi^*M_p(k_0,p_c)\Phi
+%  \right]\neq0,
+%  \label{eq:K-pattern-transversality}
+% \end{equation}
+% where
+% \begin{equation}
+%  M(k_0,p_c)\Phi=\ii\omega_0\Phi,
+%  \qquad
+%  M(k_0,p_c)^*\Psi=-\ii\omega_0\Psi,
+%  \qquad
+%  \Psi^*\Phi=1.
+%  \label{eq:K-pattern-eigenvectors}
+% \end{equation}
+
+% For a continuous wavenumber, an interior critical mode also satisfies
+% \begin{equation}
+%  \operatorname{Re}\left[
+%  \Psi^*M_h(k_0,p_c)\Phi
+%  \right]=0,
+%  \qquad
+%  \partial_h^2\operatorname{Re}\lambda(k_0,p_c)<0.
+%  \label{eq:K-wavenumber-maximum}
+% \end{equation}
+% The width--strength dependence in the first equation is explicit:
+% \begin{equation}
+%  M_h(h,p)
+%  =-h\mathsf T^{-1}
+%  \left[
+%  \left(\mathsf W(p)\odot\Sigma\right)
+%  \odot\exp\left(-\frac{h^2}{2}\Sigma\right)
+%  \right]\mathsf D_*.
+%  \label{eq:K-wavenumber-derivative}
+% \end{equation}
+% On the periodic domain, the modes are discrete, so
+% \eqref{eq:K-first-pattern-threshold} replaces the derivative condition.
+
+% \subsection{Relation to narrower excitation}
+
+% Let $\mathcal E$ and $\mathcal I$ be the excitatory and inhibitory source
+% populations.  Dale's sign condition is
+% \begin{equation}
+%  W_{ij}(p)\geq0
+%  \quad\text{for }j\in\mathcal E,
+%  \qquad
+%  W_{ij}(p)\leq0
+%  \quad\text{for }j\in\mathcal I.
+%  \label{eq:K-Dale-condition}
+% \end{equation}
+% A direct $K$-population analogue of narrower excitation is
+% \begin{equation}
+%  \max_{j\in\mathcal E}\Sigma_{ij}
+%  <
+%  \min_{j\in\mathcal I}\Sigma_{ij},
+%  \qquad i=1,\ldots,K.
+%  \label{eq:K-narrower-excitation}
+% \end{equation}
+% If the width depends only on the source population, so that
+% $\Sigma_{ij}=\sigma_j^2$, this reduces to
+% \begin{equation}
+%  \max_{j\in\mathcal E}\sigma_j
+%  <
+%  \min_{j\in\mathcal I}\sigma_j.
+%  \label{eq:K-source-narrower-excitation}
+% \end{equation}
+% For $K>2$, this width ordering is not sufficient by itself.  The off-diagonal
+% feedback loops affect the critical eigenvectors and eigenvalues, so there is
+% no universal entrywise strength inequality.  The exact strength condition is
+% that $\mathsf W(p_c)$ and $\Sigma$ produce
+% \eqref{eq:K-Hopf-factorization} and
+% \eqref{eq:K-noncritical-mode-stability} through the matrix
+% \eqref{eq:K-linear-matrix}.
+
+% For $K=2$, the characteristic polynomial is
+% \begin{equation}
+%  P(\lambda)=\lambda^2+\gamma_1\lambda+\gamma_2,
+%  \label{eq:K-two-polynomial}
+% \end{equation}
+% and the Hopf conditions reduce to
+% \begin{equation}
+%  \gamma_1(k_0,p_c)=0,
+%  \qquad
+%  \gamma_2(k_0,p_c)>0.
+%  \label{eq:K-two-reduction}
+% \end{equation}
+% For $K=3$, the characteristic polynomial is
+% \begin{equation}
+%  P(\lambda)=\lambda^3+\gamma_1\lambda^2
+%  +\gamma_2\lambda+\gamma_3,
+%  \label{eq:K-three-polynomial}
+% \end{equation}
+% and the Hopf conditions reduce to
+% \begin{equation}
+%  \gamma_1(k_0,p_c)>0,
+%  \qquad
+%  \gamma_3(k_0,p_c)>0,
+%  \qquad
+%  \gamma_1(k_0,p_c)\gamma_2(k_0,p_c)
+%  =\gamma_3(k_0,p_c).
+%  \label{eq:K-three-reduction}
+% \end{equation}
+% Thus \eqref{eq:K-two-reduction} gives $A(k_0)=0$, $C(k_0)>0$, while
+% \eqref{eq:K-three-reduction} gives $A(k_0)>0$, $C(k_0)>0$, and
+% $A(k_0)B(k_0)=C(k_0)$.
+
+
+
+
+
+
+% \section{Amplitude equations and pattern selection}
+
+% \subsection{No leading forcing resonance}
+
+% When the forcing projections vanish, the amplitude equations are
+% \begin{subequations}
+% \label{eq:unforced-amplitude}
+% \begin{align}
+%  A_\tau&=A(a+b|A|^2+c|B|^2),
+%  \label{eq:A-unforced}\\
+%  B_\tau&=B(a+b|B|^2+c|A|^2).
+%  \label{eq:B-unforced}
+% \end{align}
+% \end{subequations}
+% Write $a_r=\RePart a$, $b_r=\RePart b$, and $c_r=\RePart c$.  For
+% $A=r_+\ee^{\ii\theta_+}$ and $B=r_-\ee^{\ii\theta_-}$,
+% \begin{subequations}
+% \label{eq:radial-system}
+% \begin{align}
+%  (r_+)_\tau&=r_+(a_r+b_rr_+^2+c_rr_-^2),\\
+%  (r_-)_\tau&=r_-(a_r+b_rr_-^2+c_rr_+^2).
+% \end{align}
+% \end{subequations}
+% The zero state has the double radial eigenvalue $a_r$ and is stable for
+% $a_r<0$.  For $a_r>0$, a traveling wave satisfies
+% \begin{equation}
+%  r_- =0,
+%  \qquad a_r+b_rr_+^2=0,
+%  \qquad \rho^2:=r_+^2=-\frac{a_r}{b_r}.
+%  \label{eq:TW-balance}
+% \end{equation}
+% Its radial and transverse eigenvalues are
+% \begin{equation}
+%  \lambda_{\mathrm{rad}}=-2a_r,
+%  \qquad
+%  \lambda_{\mathrm{tr}}=a_r+c_r\rho^2
+%  =a_r\frac{b_r-c_r}{b_r}.
+%  \label{eq:TW-eigenvalues}
+% \end{equation}
+% A standing wave satisfies
+% \begin{equation}
+%  r_+=r_-=\rho,
+%  \qquad
+%  \rho^2=-\frac{a_r}{b_r+c_r}.
+%  \label{eq:SW-balance}
+% \end{equation}
+% The radial Jacobian is
+% \begin{equation}
+%  2\rho^2
+%  \begin{pmatrix}b_r&c_r\\c_r&b_r\end{pmatrix},
+%  \label{eq:SW-Jacobian}
+% \end{equation}
+% with symmetric and antisymmetric eigenvalues
+% \begin{equation}
+%  \lambda_{\mathrm{sym}}=-2a_r,
+%  \qquad
+%  \lambda_{\mathrm{asym}}=2\rho^2(b_r-c_r).
+%  \label{eq:SW-eigenvalues}
+% \end{equation}
+% Consequently the nonzero equilibria modulo phase are
+% \begin{equation}
+% \begin{array}{c|c|c|c}
+%  \text{state}&(r_+,r_-)&\text{existence}&\text{amplitude stability}\\ \hline
+%  \text{traveling wave}&(\rho,0)\text{ or }(0,\rho)
+%  &\rho^2=-a_r/b_r>0&c_r-b_r<0\\
+%  \text{standing wave}&(\rho,\rho)
+%  &\rho^2=-a_r/(b_r+c_r)>0&c_r-b_r>0
+% \end{array}.
+%  \label{eq:state-table}
+% \end{equation}
+% The imaginary parts give the phase equations
+% \begin{align}
+%  (\theta_+)_\tau&=\Im(a)+\Im(b)r_+^2+\Im(c)r_-^2,\\
+%  (\theta_-)_\tau&=\Im(a)+\Im(b)r_-^2+\Im(c)r_+^2,
+% \end{align}
+% and hence only phase drift and frequency corrections in the unforced
+% problem.  The leading physical patterns are
+% \begin{align}
+%  u_{\mathrm{TW}}(x,t)
+%  &\sim2\epsilon\rho\RePart\left[
+%  \Phi\ee^{\ii(\omega_0t\pm k_0x+\theta)}\right],
+%  \label{eq:TW-pattern}\\
+%  u_{\mathrm{SW}}(x,t)
+%  &\sim4\epsilon\rho\cos(k_0x+\vartheta_x)
+%  \RePart\left[
+%  \Phi\ee^{\ii(\omega_0t+\vartheta_t)}\right].
+%  \label{eq:SW-pattern}
+% \end{align}
+
+
+% \newpage
+
+% \subsection{Leading forcing resonances}
+
+% The DC responses merely shift the linear coefficient.  Define
+% \begin{align}
+%  \chi_0={}&2\one{n=2}\one{\omega=0}\,
+%  \Psi^*\cQ(\Phi,p_0+\overline{p_0})
+%  \notag\\
+%  &+2\one{m=2}\one{k=0}\,
+%  \Psi^*\cQ(\Phi,s_0+\overline{s_0}).
+%  \label{eq:DC-shift}
+% \end{align}
+% Then $a$ is replaced by $a+\chi_0$ in both equations.
+
+% For temporal $2{:}1$ forcing, take
+% \begin{equation}
+%  n=2,
+%  \qquad \omega=2\omega_0+\epsilon^2\delta_t,
+%  \qquad
+%  \eta_t:=2\Psi^*\cQ\left(
+%  \overline\Phi,R(2\omega_0,0)P\right).
+%  \label{eq:temporal-coefficient}
+% \end{equation}
+% The slow factor is $\ee^{\ii\delta_t\tau}$, and
+% \begin{subequations}
+% \label{eq:temporal-amplitude}
+% \begin{align}
+%  A_\tau&=A(a+b|A|^2+c|B|^2)
+%  +\eta_t\ee^{\ii\delta_t\tau}\overline B,\\
+%  B_\tau&=B(a+b|B|^2+c|A|^2)
+%  +\eta_t\ee^{\ii\delta_t\tau}\overline A.
+% \end{align}
+% \end{subequations}
+
+% For spatial $2{:}1$ forcing, take
+% \begin{equation}
+%  m=2,
+%  \qquad k=2k_0,
+%  \qquad
+%  \eta_x^+=2\Psi^*\cQ(\Phi,R(0,2k_0)S),
+%  \quad
+%  \eta_x^-=2\Psi^*\cQ(\Phi,R(0,-2k_0)\overline S).
+%  \label{eq:spatial-coefficients}
+% \end{equation}
+% Then
+% \begin{subequations}
+% \label{eq:spatial-amplitude}
+% \begin{align}
+%  A_\tau&=A(a+b|A|^2+c|B|^2)+\eta_x^+B,\\
+%  B_\tau&=B(a+b|B|^2+c|A|^2)+\eta_x^-A.
+% \end{align}
+% \end{subequations}
+
+% If both $2{:}1$ conditions hold, the contributions add:
+% \begin{subequations}
+% \label{eq:combined-amplitude}
+% \begin{align}
+%  A_\tau={}&A(a+\chi_0+b|A|^2+c|B|^2)
+%  +\eta_t\ee^{\ii\delta_t\tau}\overline B+\eta_x^+B,
+%  \label{eq:combined-A}\\
+%  B_\tau={}&B(a+\chi_0+b|B|^2+c|A|^2)
+%  +\eta_t\ee^{\ii\delta_t\tau}\overline A+\eta_x^-A.
+%  \label{eq:combined-B}
+% \end{align}
+% \end{subequations}
+% With $A=\widetilde A\ee^{\ii\delta_t\tau/2}$ and
+% $B=\widetilde B\ee^{\ii\delta_t\tau/2}$, this becomes autonomous after the
+% replacement $a+\chi_0\mapsto a+\chi_0-\ii\delta_t/2$.  Explicitly,
+% \begin{equation}
+%  A_\tau=\ee^{\ii\delta_t\tau/2}
+%  \left(\widetilde A_\tau+\frac{\ii\delta_t}{2}\widetilde A\right),
+%  \qquad
+%  \ee^{\ii\delta_t\tau}\overline B
+%  =\ee^{\ii\delta_t\tau/2}\overline{\widetilde B},
+% \end{equation}
+% and similarly for the second equation.
+
+% The decomposition \eqref{eq:u2F} is linear, so at cubic order
+% \begin{equation}
+%  2\cQ(u_1,u_2^F)
+%  =2\cQ(u_1,u_{2,t}^F)+2\cQ(u_1,u_{2,x}^F).
+%  \label{eq:forcing-additivity}
+% \end{equation}
+% The first temporal--spatial product occurs one order later:
+% \begin{equation}
+%  2\cQ(\epsilon^2u_{2,t}^F,\epsilon^2u_{2,x}^F)
+%  =O(\epsilon^4).
+%  \label{eq:no-forcing-cross-term}
+% \end{equation}
+% Thus \eqref{eq:combined-amplitude} contains the complete leading combination.
+% Temporal forcing couples a mode to the conjugate counter-propagating mode;
+% spatial forcing couples the two nonconjugate traveling modes.  Their
+% phase-locked asymptotic states are the roots of the right-hand side of the
+% autonomous form of \eqref{eq:combined-amplitude}; stability is determined by
+% its $4\times4$ real Jacobian.  No additional universal stability inequality
+% exists without the complex values of $a,b,c,\eta_t,\eta_x^\pm$.
+
+\end{document}

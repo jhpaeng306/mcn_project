@@ -1,0 +1,18 @@
+class,layer,sign,cell_count,unique_models,broader_identity
+i1Htr3a,L1,inhibitory,999,2,Htr3a/VIP-Lamp5-Sncg-like
+E2/3,L2/3,excitatory,12689,1,intratelencephalic pyramidal
+i2/3Pvalb,L2/3,inhibitory,640,3,PV
+i2/3Sst,L2/3,inhibitory,464,4,SST
+i2/3Htr3a,L2/3,inhibitory,1107,8,Htr3a/VIP-Lamp5-Sncg-like
+E4,L4,excitatory,10254,31,local/IT pyramidal
+i4Pvalb,L4,inhibitory,963,2,PV
+i4Sst,L4,inhibitory,553,2,SST
+i4Htr3a,L4,inhibitory,270,1,Htr3a/VIP-Lamp5-Sncg-like
+E5,L5,excitatory,7569,27,IT/ET/NP pyramidal aggregate
+i5Pvalb,L5,inhibitory,613,9,PV
+i5Sst,L5,inhibitory,555,5,SST
+i5Htr3a,L5,inhibitory,117,4,Htr3a/VIP-Lamp5-Sncg-like
+E6,L6,excitatory,12882,5,IT/CT pyramidal aggregate
+i6Pvalb,L6,inhibitory,1052,4,PV
+i6Sst,L6,inhibitory,1059,4,SST
+i6Htr3a,L6,inhibitory,192,2,Htr3a/VIP-Lamp5-Sncg-like

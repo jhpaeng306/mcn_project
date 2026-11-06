@@ -1,10 +1,48 @@
-# Python-generated files
+# Python
 __pycache__/
 *.py[oc]
 build/
 dist/
 wheels/
 *.egg-info
-
-# Virtual environments
 .venv
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Simulation data (regenerate with the code)
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.pkl
+*.mp4
+*.gif
+simulations/output/
+output/simulations/
+results/
+
+# Notebook exports
+*.nbconvert.ipynb
+simulations/analysis.html
+
+# LaTeX build files
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.tmp
+
+# OS and editors
+.DS_Store
+.vscode/
+.idea/

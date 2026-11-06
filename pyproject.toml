@@ -14,4 +14,11 @@ dependencies = [
 viz = []
 
 [dependency-groups]
-dev = []
+dev = [
+    "ipython>=9.15.0",
+    "pytest>=9.1.1",
+    "ruff>=0.16.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

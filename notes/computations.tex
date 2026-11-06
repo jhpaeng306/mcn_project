@@ -1,0 +1,982 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\cc}{\text{c.c.}}
+\newcommand{\T}{\mathbb{T}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\DeclareMathOperator{\RePart}{Re}
+\DeclareMathOperator{\spanop}{span}
+
+\title{Multiple-Scales Computations for Proposal 3}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Purpose and scope}
+
+This note carries out the general calculation proposed for a one-dimensional,
+translation- and reflection-invariant pattern-forming system near a finite
+wavenumber Hopf (Turing--Hopf) bifurcation.  The calculation is fully explicit
+in terms of the Fourier matrices of the linear operator and the quadratic and
+cubic multilinear maps.  Numerical values cannot be produced until the
+specific matrices, kernels, and forcing vectors are supplied.
+
+Two corrections to the handwritten derivation are important from the outset.
+
+\begin{enumerate}[label=\arabic*.]
+  \item The modes with spatial wavenumbers $+k_0$ and $-k_0$ have independent
+  complex amplitudes.  They must be denoted, for example, by $A(\tau)$ and
+  $B(\tau)$.  Setting them equal in advance restricts the calculation to a
+  standing-wave subspace and makes it impossible to decide between standing
+  and traveling waves.
+
+  \item If the slow time is $\tau=\epsilon^2t$, the chain rule is
+  \begin{equation}
+    \partial_t=\partial_s+\epsilon^2\partial_\tau,
+    \qquad s=t,
+    \label{eq:chain-rule}
+  \end{equation}
+  not $\partial_s+\epsilon\partial_\tau$.  The latter belongs to the different
+  scaling $\tau=\epsilon t$.
+\end{enumerate}
+
+\section{Equation, notation, and hypotheses}
+
+\subsection{Corrected notation}
+
+The proposal uses $Q$ both for the quadratic nonlinearity and for a forcing
+vector.  To avoid that collision, write the equation as
+\begin{align}
+  u_t={}&\cL_0u+p\cL_1u+\cQ(u,u)+\cC(u,u,u) \notag\\
+       &+\epsilon^n\left(P\ee^{\ii\omega t}+\overline P\ee^{-\ii\omega t}\right)
+       +\epsilon^m\left(S\ee^{\ii kx}+\overline S\ee^{-\ii kx}\right),
+  \label{eq:pde}
+\end{align}
+where
+\begin{itemize}
+  \item $u(x,t)\in\mathbb{R}^d$ and $x\in\T:=\mathbb{R}/(2\pi\mathbb{Z})$;
+  \item $p$ is the bifurcation parameter (called $\lambda$ in the proposal);
+  \item $\cQ$ is a symmetric bilinear map and $\cC$ is a symmetric trilinear
+  map, both extended complex linearly during the calculation;
+  \item $P,S\in\mathbb{C}^d$ are the temporal- and spatial-forcing vectors.
+\end{itemize}
+Any quadratic or cubic form has a symmetric multilinear polarization, so the
+symmetry assumptions on $\cQ$ and $\cC$ lose no generality.  If an implementation
+stores a nonsymmetric bilinear map, every occurrence of $2\cQ(a,b)$ below must
+be replaced by $\cQ(a,b)+\cQ(b,a)$.
+
+For each integer spatial Fourier mode $h$, define matrices $M_j(h)$ by
+\begin{equation}
+  \cL_j\!\left(v\ee^{\ii hx}\right)
+  =M_j(h)v\ee^{\ii hx},
+  \qquad j=0,1.
+  \label{eq:fourier-symbol}
+\end{equation}
+\paragraph{Meaning and construction of $M_j(h)$.}
+On the $2\pi$-periodic domain, a vector field has the Fourier expansion
+\begin{equation}
+  u(x,t)=\sum_{h\in\mathbb Z}\widehat u_h(t)\ee^{\ii hx},
+  \qquad \widehat u_h(t)\in\mathbb C^d.
+\end{equation}
+Translation invariance prevents the linear operator from mixing different
+values of $h$.  It can change only the $d$ component amplitudes of a pure
+mode, so its action on that mode is represented by the $d\times d$ matrix
+$M_j(h)$.  Consequently
+\begin{equation}
+  \cL_j u=\sum_{h\in\mathbb Z}M_j(h)\widehat u_h\ee^{\ii hx}.
+\end{equation}
+The matrices are obtained by applying $\cL_j$ to $v\ee^{\ii hx}$ and using
+the Fourier replacement rules
+\begin{equation}
+  \partial_x\mapsto \ii h,\qquad
+  \partial_{xx}\mapsto-h^2,\qquad
+  W*\mapsto\widehat W(h).
+\end{equation}
+For example, with
+$\widehat W(h)=\int_0^{2\pi}W(z)\ee^{-\ii hz}\,dz$,
+\begin{equation}
+  W*\left(a\ee^{\ii h\,\cdot}\right)(x)
+  =\widehat W(h)a\ee^{\ii hx}.
+\end{equation}
+Thus a differential operator $A+D\partial_{xx}+C\partial_x$ has symbol
+$A-h^2D+\ii hC$, while a neural-field convolution contributes the appropriate
+$\widehat W_{ab}(h)$ to each population-to-population matrix entry.  If
+$\cL(p)=\cL_0+p\cL_1+O(p^2)$, then similarly
+$M(h,p)=M_0(h)+pM_1(h)+O(p^2)$, so $M_1(h)=\partial_pM(h,0)$.
+
+Because the original operator is real, complex conjugating
+\eqref{eq:fourier-symbol} gives
+$M_j(-h)=\overline{M_j(h)}$.  If it also commutes with reflection
+$x\mapsto-x$, then $M_j(-h)=M_j(h)$; for neural fields this usually follows
+from even coupling kernels.  Hence the $+h$ and $-h$ modes have the same
+linear spectrum, although their amplitudes remain independent until a
+standing-wave restriction is imposed.
+
+\subsection{Finite-wavenumber Hopf hypothesis}
+
+Let $k_0\in\mathbb{Z}\setminus\{0\}$ and $\omega_0>0$.  Assume
+\begin{equation}
+  M_0(k_0)\Phi=\ii\omega_0\Phi,
+  \qquad
+  M_0(k_0)^*\Psi=-\ii\omega_0\Psi,
+  \qquad
+  \Psi^*\Phi=1.
+  \label{eq:eigenvectors}
+\end{equation}
+Thus $\Phi$ is a right eigenvector and $\Psi$ is the adjoint/left
+eigenvector.  The star is the conjugate transpose; a plain transpose is not
+sufficient after complexifying the problem.
+
+Let $\nu(h,p)$ denote the eigenvalue branch through
+$\nu(k_0,0)=\ii\omega_0$.  Standard eigenvalue perturbation gives
+\begin{equation}
+  \partial_p\nu(k_0,0)=\Psi^*M_1(k_0)\Phi.
+  \label{eq:eigenvalue-derivative}
+\end{equation}
+The transversality condition remembered as ``$d\lambda/dp>0$'' is more
+precisely
+\begin{equation}
+  \RePart\!\left(\Psi^*M_1(k_0)\Phi\right)>0.
+  \label{eq:transversality}
+\end{equation}
+The imaginary part only changes the oscillation frequency to leading order.
+
+We also assume that there are no accidental quadratic resonances: the matrices
+\begin{equation}
+  2\ii\omega_0I-M_0(0),\quad
+  2\ii\omega_0I-M_0(\pm2k_0),\quad
+  -M_0(0),\quad -M_0(\pm2k_0)
+  \label{eq:nonresonance-matrices}
+\end{equation}
+are invertible.  If one is singular, the center space is larger and the
+two-amplitude normal form derived here is not closed.
+
+\section{Scaling and the three order equations}
+
+Use the weakly nonlinear Hopf scaling
+\begin{equation}
+  p=\epsilon^2\mu,
+  \qquad s=t,
+  \qquad \tau=\epsilon^2t,
+  \qquad
+  u=\epsilon u_1+\epsilon^2u_2+\epsilon^3u_3+O(\epsilon^4).
+  \label{eq:scaling}
+\end{equation}
+If one instead writes $p=\epsilon p_1+\epsilon^2p_2+\cdots$, consistency with
+the slow time $\tau=\epsilon^2t$ requires $p_1=0$ and $p_2=\mu$.  A nonzero
+$p_1$ generally creates resonant evolution on the faster scale
+$\tau=\epsilon t$.
+
+Define
+\begin{equation}
+  \cD:=\partial_s-\cL_0
+  \label{eq:D-definition}
+\end{equation}
+and let $F_j$ denote the part of the two external forcings whose exponent is
+$\epsilon^j$:
+\begin{align}
+  F_j={}&\bm{1}_{\{n=j\}}
+  \left(P\ee^{\ii\omega s}+\overline P\ee^{-\ii\omega s}\right)\notag\\
+  &+\bm{1}_{\{m=j\}}
+  \left(S\ee^{\ii kx}+\overline S\ee^{-\ii kx}\right).
+  \label{eq:Fj}
+\end{align}
+Substitution of \eqref{eq:scaling} into \eqref{eq:pde}, followed by collecting
+powers of $\epsilon$, gives the complete first three equations:
+\begin{subequations}
+\label{eq:moment-equations}
+\begin{align}
+  O(\epsilon):\quad
+  &\cD u_1=F_1,
+  \label{eq:o1}\\
+  O(\epsilon^2):\quad
+  &\cD u_2=\cQ(u_1,u_1)+F_2,
+  \label{eq:o2}\\
+  O(\epsilon^3):\quad
+  &\cD u_3=-\partial_\tau u_1+\mu\cL_1u_1
+  +2\cQ(u_1,u_2)+\cC(u_1,u_1,u_1)+F_3.
+  \label{eq:o3}
+\end{align}
+\end{subequations}
+These are order equations, sometimes informally called the first, second, and
+third ``moment'' equations.  Sections \ref{sec:u1}--\ref{sec:normal-form}
+first derive the unforced normal form.  Section \ref{sec:forcing} then restores
+every forcing term.
+
+\section{The \texorpdfstring{$O(\epsilon)$}{O(epsilon)} solution}
+\label{sec:u1}
+
+Temporarily put $F_1=0$.  Introduce the fast phases
+\begin{equation}
+  \xi_+=\omega_0s+k_0x,
+  \qquad
+  \xi_-=\omega_0s-k_0x,
+  \qquad
+  E_\pm=\ee^{\ii\xi_\pm}.
+  \label{eq:phases}
+\end{equation}
+The four-dimensional real kernel of $\cD$ is
+\begin{equation}
+  \ker\cD=spanop_{\mathbb{R}}
+  \left\{\Phi E_+,\Phi E_-,\overline\Phi\,\overline E_+,
+  \overline\Phi\,\overline E_-\right\}.
+\end{equation}
+Consequently the most general real leading-order solution is
+\begin{equation}
+  u_1=A(\tau)\Phi E_+ +B(\tau)\Phi E_-+\cc
+  \label{eq:u1}
+\end{equation}
+or, with the conjugates shown,
+\begin{equation}
+  u_1=A\Phi E_+ +B\Phi E_-
+  +\overline A\,\overline\Phi\,\overline E_+
+  +\overline B\,\overline\Phi\,\overline E_-.
+  \label{eq:u1-full}
+\end{equation}
+The amplitudes $A$ and $B$ vary only on the slow time $\tau$.  The choice
+$A=B$ is a standing-wave restriction, while $B=0$ or $A=0$ produces one of
+the two traveling-wave directions.
+
+\section{The complete \texorpdfstring{$O(\epsilon^2)$}{O(epsilon squared)} calculation}
+\label{sec:u2}
+
+\subsection{Why the \texorpdfstring{$O(\epsilon)$}{O(epsilon)} parameter
+coefficient vanishes}
+
+\begin{equation}
+  p=\epsilon p_1+\epsilon^2p_2+\cdots,
+  \qquad p_1,p_2\in\mathbb{R}.
+  \label{eq:p-preliminary-scaling}
+\end{equation}
+Before imposing the distinguished scaling in \eqref{eq:scaling}, take
+\eqref{eq:p-preliminary-scaling} as the more general real-parameter
+expansion.  The linear operator and its spatial Fourier symbol expand as
+\begin{equation}
+  \cL(p)=\cL_0+p\cL_1+O(p^2),
+  \qquad
+  M(h,p)=M_0(h)+pM_1(h)+O(p^2).
+  \label{eq:L-preliminary-expansion}
+\end{equation}
+Since $u=\epsilon u_1+\epsilon^2u_2+\cdots$, these expansions give
+\begin{equation}
+  p\cL_1u=\epsilon^2p_1\cL_1u_1+O(\epsilon^3).
+\end{equation}
+Thus, temporarily setting the external forcing to zero as in the unforced
+normal-form calculation, the second-order equation would be
+\begin{equation}
+  \cD u_2=\cQ(u_1,u_1)+p_1\cL_1u_1.
+  \label{eq:o2-preliminary}
+\end{equation}
+
+The four critical spatio-temporal waves in \eqref{eq:u1-full} are
+\begin{equation}
+  \Phi E_+,\qquad \Phi E_-,\qquad
+  \overline\Phi\,\overline E_+,\qquad
+  \overline\Phi\,\overline E_-.
+\end{equation}
+Translation invariance makes $\cL_1$ diagonal in spatial Fourier modes, so
+\begin{align}
+  \cL_1u_1={}&A M_1(k_0)\Phi E_+
+  +B M_1(-k_0)\Phi E_- \notag\\
+  &+\overline A\,\overline{M_1(k_0)\Phi}\,\overline E_+
+  +\overline B\,\overline{M_1(-k_0)\Phi}\,\overline E_-.
+  \label{eq:L1-u1-four-waves}
+\end{align}
+Every term in \eqref{eq:L1-u1-four-waves} has one of the four critical
+phases.  Hence $p_1\cL_1u_1$ is resonant with $\cD$.
+
+The corresponding adjoint critical waves are
+\begin{equation}
+  V_+=\Psi E_+,\qquad V_-=\Psi E_-,\qquad
+  \overline V_+=\overline\Psi\,\overline E_+,\qquad
+  \overline V_-=\overline\Psi\,\overline E_-.
+\end{equation}
+Apply the Fredholm alternative to \eqref{eq:o2-preliminary}, using the
+normalized double integral \eqref{eq:inner-product}.  The expansion below
+shows that $\cQ(u_1,u_1)$ contains no critical phase, while distinct
+space--time Fourier harmonics are orthogonal.  Projection onto the two
+independent complex adjoint modes and their conjugates therefore gives
+\begin{subequations}
+\label{eq:o2-four-projections}
+\begin{align}
+  0&=\ip{V_+}{\cQ(u_1,u_1)+p_1\cL_1u_1}
+    =p_1A\alpha_+,
+  &\alpha_+&:=\Psi^*M_1(k_0)\Phi,\\
+  0&=\ip{V_-}{\cQ(u_1,u_1)+p_1\cL_1u_1}
+    =p_1B\alpha_-,
+  &\alpha_-&:=\Psi^*M_1(-k_0)\Phi,\\
+  0&=\ip{\overline V_+}{\cQ(u_1,u_1)+p_1\cL_1u_1}
+    =p_1\overline A\,\overline{\alpha_+},&&\\
+  0&=\ip{\overline V_-}{\cQ(u_1,u_1)+p_1\cL_1u_1}
+    =p_1\overline B\,\overline{\alpha_-}.&&
+\end{align}
+\end{subequations}
+The last two conditions are the conjugates of the first two, so there are two
+independent complex solvability conditions, equivalently four real ones.
+
+These Fredholm coefficients are exactly the derivatives of the two critical
+eigenvalue branches.  For $\sigma\in\{+,-\}$, put $h_\sigma=\sigma k_0$ and
+let
+\begin{equation}
+  M(h_\sigma,p)\Phi_\sigma(p)
+  =\nu_\sigma(p)\Phi_\sigma(p),
+  \qquad
+  \nu_\sigma(0)=\ii\omega_0,\qquad
+  \Phi_\sigma(0)=\Phi.
+\end{equation}
+Reflection symmetry permits the same normalized adjoint eigenvector $\Psi$
+at $h_+=k_0$ and $h_-=-k_0$.  Differentiating at $p=0$ yields
+\begin{equation}
+  M_1(h_\sigma)\Phi+M_0(h_\sigma)\Phi_\sigma'(0)
+  =\nu_\sigma'(0)\Phi+\ii\omega_0\Phi_\sigma'(0).
+\end{equation}
+Left multiplication by $\Psi^*$ cancels the terms containing
+$\Phi_\sigma'(0)$ because
+$\Psi^*M_0(h_\sigma)=\ii\omega_0\Psi^*$, and $\Psi^*\Phi=1$ gives
+\begin{equation}
+  \boxed{
+  \alpha_\pm=\Psi^*M_1(\pm k_0)\Phi
+  =\partial_p\nu_\pm(0).}
+  \label{eq:alpha-eigenvalue-derivatives}
+\end{equation}
+Here $M_1(\pm k_0)$ is the file's notation for the Fourier symbol often
+written $\widehat{\cL}_1(\pm k_0)$.
+
+By reflection symmetry, $\nu_+(p)=\nu_-(p)$ and
+$\alpha_+=\alpha_-$.  The transverse-crossing assumption
+\eqref{eq:transversality} therefore implies
+\begin{equation}
+  \RePart(\alpha_\pm)>0,
+  \qquad\text{in particular}\qquad \alpha_\pm\ne0.
+\end{equation}
+If the leading critical solution is nontrivial, then $(A,B)\ne(0,0)$.
+At least one of the first two conditions in \eqref{eq:o2-four-projections}
+then forces
+\begin{equation}
+  \boxed{p_1=0.}
+  \label{eq:p1-zero}
+\end{equation}
+Thus the $O(\epsilon)$ parameter displacement is not compatible with a
+nonzero $O(\epsilon)$ critical amplitude on the slow scale
+$\tau=\epsilon^2t$.  From this point onward one must use
+\begin{equation}
+  p=\epsilon^2p_2+\cdots=\epsilon^2\mu+\cdots,
+  \label{eq:p-distinguished-after-solvability}
+\end{equation}
+so the parameter term first enters the resonant solvability condition at
+$O(\epsilon^3)$.  With $p_1=0$, \eqref{eq:o2-preliminary} reduces to the
+unforced version of \eqref{eq:o2}, and the second-order calculation proceeds
+as follows.
+
+Define the two basic quadratic vectors
+\begin{equation}
+  q_{20}:=\cQ(\Phi,\Phi),
+  \qquad
+  q_{11}:=\cQ(\Phi,\overline\Phi).
+  \label{eq:q20q11}
+\end{equation}
+For a real symmetric quadratic form, $q_{11}$ is real.  Direct multiplication
+of all four terms in \eqref{eq:u1-full} gives
+\begin{align}
+\cQ(u_1,u_1)={}&q_{20}
+  \left(A^2E_+^2+B^2E_-^2+2AB E_+E_-\right)+\cc\notag\\
+&+2q_{11}\left(
+  |A|^2+|B|^2
+  +A\overline B E_+\overline E_-
+  +\overline A B\overline E_+E_-
+  \right).
+\label{eq:Q-u1-expanded}
+\end{align}
+The phase products are
+\begin{equation}
+\begin{gathered}
+  E_+^2=\ee^{2\ii(\omega_0s+k_0x)},\qquad
+  E_-^2=\ee^{2\ii(\omega_0s-k_0x)},\\
+  E_+E_-=\ee^{2\ii\omega_0s},\qquad
+  E_+\overline E_-=\ee^{2\ii k_0x},\qquad
+  \overline E_+E_-=\ee^{-2\ii k_0x}.
+\end{gathered}
+\label{eq:phase-products}
+\end{equation}
+Thus the quadratic nonlinearity generates precisely the harmonics
+\begin{equation}
+  (\Omega,h)=(\pm2\omega_0,\pm2k_0),\quad
+  (\pm2\omega_0,0),\quad (0,\pm2k_0),\quad (0,0).
+\end{equation}
+None is critical under the nonresonance hypothesis.
+
+For later use define the resolvent
+\begin{equation}
+  R(\Omega,h):=\left(\ii\Omega I-M_0(h)\right)^{-1}.
+  \label{eq:resolvent}
+\end{equation}
+Define the second-order response vectors
+\begin{subequations}
+\label{eq:h-vectors}
+\begin{align}
+  h_{20}^{+}&=R(2\omega_0,2k_0)q_{20},
+  &h_{20}^{-}&=R(2\omega_0,-2k_0)q_{20},\\
+  h_{20}^{0}&=2R(2\omega_0,0)q_{20},
+  &h_{11}^{0}&=2R(0,0)q_{11},\\
+  h_{11}^{+}&=2R(0,2k_0)q_{11},
+  &h_{11}^{-}&=2R(0,-2k_0)q_{11}.
+\end{align}
+\end{subequations}
+The factors of two in \eqref{eq:h-vectors} come directly from
+\eqref{eq:Q-u1-expanded}.  Since
+\begin{equation}
+  \cD\left(v\ee^{\ii(\Omega s+hx)}\right)
+  =\left(\ii\Omega I-M_0(h)\right)v\ee^{\ii(\Omega s+hx)},
+  \label{eq:D-mode}
+\end{equation}
+a particular solution of \eqref{eq:o2}, with no kernel component added, is
+\begin{align}
+u_2={}&A^2h_{20}^{+}E_+^2+B^2h_{20}^{-}E_-^2
+       +ABh_{20}^{0}E_+E_-+\cc\notag\\
+&+(|A|^2+|B|^2)h_{11}^{0}
+  +A\overline B h_{11}^{+}E_+\overline E_-
+  +\overline A B h_{11}^{-}\overline E_+E_-.
+\label{eq:u2}
+\end{align}
+Reality and reflection symmetry imply the needed conjugacy relations among
+$h_{20}^{\pm}$ and $h_{11}^{\pm}$.  A homogeneous kernel contribution to
+$u_2$ can be absorbed into a near-identity redefinition of $A$ and $B$, so the
+choice \eqref{eq:u2} is the standard normalization.
+
+\section{Fredholm alternative and the adjoint double integral}
+\label{sec:fredholm}
+
+Let
+\begin{equation}
+  T_0=\frac{2\pi}{\omega_0}
+\end{equation}
+and use the normalized space--time inner product
+\begin{equation}
+  \ip{v}{w}
+  :=\frac{1}{2\pi T_0}
+  \int_0^{T_0}\int_0^{2\pi}v(s,x)^*w(s,x)\,dx\,ds.
+  \label{eq:inner-product}
+\end{equation}
+Periodic integration by parts shows that
+\begin{equation}
+  \cD^*=-\partial_s-\cL_0^*.
+  \label{eq:adjoint-D}
+\end{equation}
+Indeed, the adjoint critical functions
+\begin{equation}
+  V_+=\Psi E_+,
+  \qquad V_-=\Psi E_-
+  \label{eq:adjoint-modes}
+\end{equation}
+satisfy $\cD^*V_\pm=0$ because
+\begin{equation}
+  \left(-\ii\omega_0I-M_0(k_0)^*\right)\Psi=0.
+\end{equation}
+If one defines the leading operator with the opposite sign,
+$\widetilde\cD=\cL_0-\partial_s$, its adjoint also changes by an overall sign.
+This explains handwritten variants resembling
+$-\partial_s+M_0(k_0)^T$; all variants give the same solvability condition when
+used consistently.
+
+The Fredholm alternative says that
+\begin{equation}
+  \cD w=f
+\end{equation}
+has a $T_0$-periodic-in-$s$, $2\pi$-periodic-in-$x$ solution only if $f$ is
+orthogonal to every element of $\ker\cD^*$.  At third order this means
+\begin{subequations}
+\label{eq:fredholm-integrals}
+\begin{align}
+0={}&\frac{1}{2\pi T_0}
+\int_0^{T_0}\int_0^{2\pi}
+\Psi^*\ee^{-\ii(\omega_0s+k_0x)}F^{(3)}(s,x)\,dx\,ds,
+\label{eq:fredholm-plus}\\
+0={}&\frac{1}{2\pi T_0}
+\int_0^{T_0}\int_0^{2\pi}
+\Psi^*\ee^{-\ii(\omega_0s-k_0x)}F^{(3)}(s,x)\,dx\,ds,
+\label{eq:fredholm-minus}
+\end{align}
+\end{subequations}
+where, without forcing for the moment,
+\begin{equation}
+  F^{(3)}=-\partial_\tau u_1+\mu\cL_1u_1
+  +2\cQ(u_1,u_2)+\cC(u_1,u_1,u_1).
+  \label{eq:F3-unforced}
+\end{equation}
+The two integrals simply extract the coefficients of $E_+$ and $E_-$ and
+then left-multiply those vector coefficients by $\Psi^*$.
+
+\section{The complete resonant \texorpdfstring{$O(\epsilon^3)$}{O(epsilon cubed)} terms}
+\label{sec:o3-resonance}
+
+Only terms proportional to $E_+$ enter \eqref{eq:fredholm-plus}; terms
+proportional to $E_-$ enter \eqref{eq:fredholm-minus}.  Orthogonality of all
+other Fourier harmonics makes them integrate to zero.
+
+\subsection{Slow derivative and parameter terms}
+
+The $E_+$ coefficient is
+\begin{equation}
+  \left[-\partial_\tau u_1\right]_{E_+}=-A_\tau\Phi,
+  \qquad
+  \left[\mu\cL_1u_1\right]_{E_+}
+  =\mu A M_1(k_0)\Phi.
+  \label{eq:linear-resonant}
+\end{equation}
+The corresponding $E_-$ terms are obtained by replacing $A$ by $B$.
+
+\subsection{Cubic term}
+
+To obtain $E_+$ from three first-order phases, the allowed products are
+\begin{equation}
+  E_+E_+\overline E_+=E_+,
+  \qquad
+  E_+E_-\overline E_-=E_+.
+\end{equation}
+There are three permutations of the first product and six permutations of
+the second.  Hence
+\begin{align}
+\left[\cC(u_1,u_1,u_1)\right]_{E_+}
+={}&3A|A|^2\cC(\Phi,\Phi,\overline\Phi)\notag\\
+&+6A|B|^2\cC(\Phi,\Phi,\overline\Phi).
+\label{eq:C-resonant}
+\end{align}
+
+\subsection{Quadratic feedback through \texorpdfstring{$u_2$}{u2}}
+
+The complete list of phase pairings from $u_1u_2$ that produce $E_+$ is
+\begin{align*}
+E_+\cdot1&=E_+,
+&\overline E_+\cdot E_+^2&=E_+,\\
+\overline E_-\cdot(E_+E_-)&=E_+,
+&E_-\cdot(E_+\overline E_-)&=E_+.
+\end{align*}
+Using \eqref{eq:u2}, these four pairings give
+\begin{align}
+\left[2\cQ(u_1,u_2)\right]_{E_+}
+={}&2A(|A|^2+|B|^2)\cQ(\Phi,h_{11}^{0})\notag\\
+&+2A|A|^2\cQ(\overline\Phi,h_{20}^{+})\notag\\
+&+2A|B|^2\cQ(\overline\Phi,h_{20}^{0})\notag\\
+&+2A|B|^2\cQ(\Phi,h_{11}^{+}).
+\label{eq:Q-feedback-resonant}
+\end{align}
+It is useful to collect the self- and cross-interaction vectors:
+\begin{subequations}
+\label{eq:G-vectors}
+\begin{align}
+G_{\mathrm{s}}={}&
+  2\cQ(\Phi,h_{11}^{0})
+ +2\cQ(\overline\Phi,h_{20}^{+})
+ +3\cC(\Phi,\Phi,\overline\Phi),
+\label{eq:Gs}\\
+G_{\mathrm{c}}={}&
+  2\cQ(\Phi,h_{11}^{0})
+ +2\cQ(\overline\Phi,h_{20}^{0})
+ +2\cQ(\Phi,h_{11}^{+})
+ +6\cC(\Phi,\Phi,\overline\Phi).
+\label{eq:Gc}
+\end{align}
+\end{subequations}
+Therefore the full $E_+$ vector coefficient in \eqref{eq:F3-unforced} is
+\begin{equation}
+  -A_\tau\Phi+\mu A M_1(k_0)\Phi
+  +A|A|^2G_{\mathrm{s}}+A|B|^2G_{\mathrm{c}}.
+  \label{eq:F3-Eplus}
+\end{equation}
+Reflection symmetry produces the $E_-$ coefficient
+\begin{equation}
+  -B_\tau\Phi+\mu B M_1(k_0)\Phi
+  +B|B|^2G_{\mathrm{s}}+B|A|^2G_{\mathrm{c}}.
+  \label{eq:F3-Eminus}
+\end{equation}
+
+\section{Unforced amplitude equations}
+\label{sec:normal-form}
+
+Apply $\Psi^*$ to \eqref{eq:F3-Eplus} and
+\eqref{eq:F3-Eminus}, use $\Psi^*\Phi=1$, and define
+\begin{equation}
+  a:=\mu\Psi^*M_1(k_0)\Phi,
+  \qquad
+  b:=\Psi^*G_{\mathrm{s}},
+  \qquad
+  c:=\Psi^*G_{\mathrm{c}}.
+  \label{eq:abc}
+\end{equation}
+The Turing--Hopf normal form is
+\begin{subequations}
+\label{eq:normal-form}
+\begin{align}
+  A_\tau&=A\left(a+b|A|^2+c|B|^2\right),
+  \label{eq:A-normal}\\
+  B_\tau&=B\left(a+b|B|^2+c|A|^2\right).
+  \label{eq:B-normal}
+\end{align}
+\end{subequations}
+The coefficients are generally complex.  Their imaginary parts correct the
+temporal phases/frequencies; their real parts determine amplitudes and
+stability.
+
+Writing $A=r_+\ee^{\ii\theta_+}$ and
+$B=r_-\ee^{\ii\theta_-}$ yields
+\begin{subequations}
+\begin{align}
+  (r_+)_\tau&=r_+\left(a_r+b_r r_+^2+c_r r_-^2\right),\\
+  (r_-)_\tau&=r_-\left(a_r+b_r r_-^2+c_r r_+^2\right),
+\end{align}
+\end{subequations}
+where $a_r=\RePart(a)$, $b_r=\RePart(b)$, and $c_r=\RePart(c)$.
+
+For $a_r>0$ just beyond onset:
+\begin{itemize}
+  \item A traveling wave has $(r_+,r_-)=(\rho,0)$ or $(0,\rho)$ with
+  \begin{equation}
+    \rho^2=-\frac{a_r}{b_r}.
+  \end{equation}
+  It exists supercritically if $b_r<0$ and is stable to the opposite traveling
+  mode if $c_r-b_r<0$.
+
+  \item A standing wave has $r_+=r_-=\rho$ with
+  \begin{equation}
+    \rho^2=-\frac{a_r}{b_r+c_r}.
+  \end{equation}
+  It exists supercritically if $b_r+c_r<0$ and is stable to amplitude
+  imbalance if $c_r-b_r>0$.
+\end{itemize}
+To leading order, the physical patterns are
+\begin{align}
+  u_{\mathrm{TW}}&\simeq
+  2\epsilon\rho\RePart\!\left(
+  \Phi\ee^{\ii(\omega_0t\pm k_0x+\theta)}\right),\\
+  u_{\mathrm{SW}}&\simeq
+  4\epsilon\rho\cos(k_0x+\vartheta_x)
+  \RePart\!\left(\Phi\ee^{\ii(\omega_0t+\vartheta_t)}\right).
+\end{align}
+
+\section{External forcing and resonance selection}
+\label{sec:forcing}
+
+\subsection{A bookkeeping rule that retains every term}
+
+Associate a fast frequency--wavenumber pair with each first-order factor:
+\begin{equation}
+\begin{array}{c|cccccc}
+\text{factor}&A& B&\overline A&\overline B&P&S\\ \hline
+(\Omega,h)&(\omega_0,k_0)&(\omega_0,-k_0)&
+(-\omega_0,-k_0)&(-\omega_0,k_0)&(\omega,0)&(0,k)
+\end{array}
+\label{eq:harmonic-table}
+\end{equation}
+Conjugate forcing factors have pairs $(-\omega,0)$ and $(0,-k)$.
+Multiplication adds the pairs.  A term is resonant in the $A$ equation exactly
+when its sum is $(\omega_0,k_0)$, and it is resonant in the $B$ equation
+exactly when its sum is $(\omega_0,-k_0)$.
+
+There is also an amplitude-order rule.  Each critical factor costs one power
+of $\epsilon$, each $P$ or $\overline P$ costs $n$ powers, and each $S$ or
+$\overline S$ costs $m$ powers.  A term competes with the cubic normal form
+when the total cost is three.
+
+For computer algebra or a model-specific calculation, write
+$\widehat u_j(\Omega,h)$ for the coefficient of
+$\ee^{\ii(\Omega s+hx)}$ in $u_j$.  For every noncritical harmonic,
+\begin{align}
+\widehat u_2(q)=R(q)\bigg[&
+  \sum_{q_1+q_2=q}
+  \cQ\!\left(\widehat u_1(q_1),\widehat u_1(q_2)\right)
+  +\widehat F_2(q)\bigg],
+\label{eq:harmonic-u2}
+\end{align}
+where $q=(\Omega,h)$ and $R(q)=R(\Omega,h)$.  At a critical harmonic
+$q_c=(\omega_0,\pm k_0)$, the complete third-order vector is
+\begin{align}
+\widehat F^{(3)}(q_c)={}&
+  -\partial_\tau\widehat u_1(q_c)
+  +\mu M_1(\pm k_0)\widehat u_1(q_c)+\widehat F_3(q_c)
+  \notag\\
+&+\sum_{q_1+q_2=q_c}\left[
+  \cQ(\widehat u_1(q_1),\widehat u_2(q_2))
+ +\cQ(\widehat u_2(q_1),\widehat u_1(q_2))\right]
+\notag\\
+&+\sum_{q_1+q_2+q_3=q_c}
+  \cC(\widehat u_1(q_1),\widehat u_1(q_2),
+  \widehat u_1(q_3)).
+\label{eq:full-harmonic-F3}
+\end{align}
+The Fredholm condition is simply $\Psi^*\widehat F^{(3)}(q_c)=0$.
+Equations \eqref{eq:harmonic-u2}--\eqref{eq:full-harmonic-F3} are an exhaustive
+recipe: they include the many nonresonant forcing products, forcing-induced
+mean fields, and coefficient shifts that are easy to miss by hand.
+
+\subsection{Why neither separated forcing is directly resonant}
+
+The temporal forcing has pair $(\omega,0)$.  Even when $\omega=\omega_0$, its
+spatial projection onto $\ee^{\pm\ii k_0x}$ vanishes because $k_0\ne0$.
+The spatial forcing has pair $(0,k)$.  Even when $k=k_0$, its temporal
+projection onto $\ee^{\ii\omega_0s}$ vanishes because $\omega_0\ne0$.
+Therefore neither separated forcing appears as a direct additive term in
+\eqref{eq:normal-form}.  Nonlinearity must mix harmonics.
+
+For a noncritical external harmonic define its linear response vectors
+\begin{equation}
+  p_\omega:=R(\omega,0)P,
+  \qquad
+  s_k^+:=R(0,k)S,
+  \qquad
+  s_k^-:=R(0,-k)\overline S.
+  \label{eq:forced-responses}
+\end{equation}
+
+\subsection{Temporal \texorpdfstring{$2{:}1$}{2:1} parametric resonance}
+
+Let the temporal forcing be $O(\epsilon^2)$, so $n=2$, and take
+\begin{equation}
+  \omega=2\omega_0+\epsilon^2\delta_t.
+\end{equation}
+Its second-order response is
+$p_2\ee^{2\ii\omega_0s}\ee^{\ii\delta_t\tau}$ with
+\begin{equation}
+  p_2=R(2\omega_0,0)P.
+\end{equation}
+The products
+\begin{equation}
+  (2\omega_0,0)+(-\omega_0,k_0)=(\omega_0,k_0),
+\end{equation}
+and
+\begin{equation}
+  (2\omega_0,0)+(-\omega_0,-k_0)=(\omega_0,-k_0)
+\end{equation}
+couple conjugate counter-propagating modes.  The forced normal form acquires
+\begin{subequations}
+\begin{align}
+  A_\tau&=A(a+b|A|^2+c|B|^2)
+  +\eta_t\ee^{\ii\delta_t\tau}\overline B,\\
+  B_\tau&=B(a+b|B|^2+c|A|^2)
+  +\eta_t\ee^{\ii\delta_t\tau}\overline A,
+\end{align}
+\end{subequations}
+where, for symmetric $\cQ$,
+\begin{equation}
+  \eta_t=2\Psi^*\cQ(\overline\Phi,p_2).
+  \label{eq:eta-time}
+\end{equation}
+Thus temporal forcing at twice the Hopf frequency parametrically locks pairs
+of counter-propagating waves.  The exponent $n=2$ is required because the
+forcing response multiplies one $O(\epsilon)$ critical mode and must enter at
+$O(\epsilon^3)$.
+
+\subsection{Spatial \texorpdfstring{$2{:}1$}{2:1} parametric resonance}
+
+Let the spatial forcing be $O(\epsilon^2)$, so $m=2$, and choose
+$k=2k_0$.  Put
+\begin{equation}
+  s_2^+=R(0,2k_0)S,
+  \qquad
+  s_2^-=R(0,-2k_0)\overline S.
+\end{equation}
+Because
+\begin{equation}
+  (0,2k_0)+(\omega_0,-k_0)=(\omega_0,k_0),
+\end{equation}
+and the conjugate relation holds for the other direction, the normal form is
+\begin{subequations}
+\begin{align}
+  A_\tau&=A(a+b|A|^2+c|B|^2)+\eta_x^+B,\\
+  B_\tau&=B(a+b|B|^2+c|A|^2)+\eta_x^-A,
+\end{align}
+\end{subequations}
+with
+\begin{equation}
+  \eta_x^+=2\Psi^*\cQ(\Phi,s_2^+),
+  \qquad
+  \eta_x^-=2\Psi^*\cQ(\Phi,s_2^-).
+  \label{eq:eta-space}
+\end{equation}
+For a real cosine forcing in a reflection-symmetric system, these coefficients
+obey the corresponding conjugacy relation.  This term linearly scatters a
+right-traveling mode into a left-traveling mode and tends to pin standing
+waves to the imposed spatial pattern.
+
+\subsection{Mixed additive spatio-temporal resonance}
+
+The product of the temporal and spatial responses has pairs
+$(\omega,\pm k)$.  It is additive at the critical harmonic when
+\begin{equation}
+  \omega=\omega_0+\epsilon^2\delta,
+  \qquad k=k_0.
+  \label{eq:mixed-resonance}
+\end{equation}
+To enter at the same $O(\epsilon^3)$ order as the cubic normal form, its power
+must satisfy
+\begin{equation}
+  n+m=3.
+  \label{eq:nplusm}
+\end{equation}
+For positive natural numbers this gives $(n,m)=(1,2)$ or $(2,1)$.  Define
+\begin{equation}
+  p_0=R(\omega_0,0)P,
+  \qquad
+  s_0^+=R(0,k_0)S,
+  \qquad
+  s_0^-=R(0,-k_0)\overline S.
+\end{equation}
+The additive terms are
+\begin{equation}
+  f_+=2\Psi^*\cQ(p_0,s_0^+),
+  \qquad
+  f_-=2\Psi^*\cQ(p_0,s_0^-).
+  \label{eq:mixed-coefficients}
+\end{equation}
+The normal form therefore contains
+\begin{subequations}
+\begin{align}
+  A_\tau&=A(a+b|A|^2+c|B|^2)
+  +f_+\ee^{\ii\delta\tau}+\text{other allowed forcing terms},\\
+  B_\tau&=B(a+b|B|^2+c|A|^2)
+  +f_-\ee^{\ii\delta\tau}+\text{other allowed forcing terms}.
+\end{align}
+\end{subequations}
+Here ``other allowed forcing terms'' matters when one forcing is
+$O(\epsilon)$: two copies of that response together with one critical mode
+also cost three powers of $\epsilon$ and can shift the linear coefficient.
+Those shifts are generated without omission by
+\eqref{eq:harmonic-u2}--\eqref{eq:full-harmonic-F3}.
+
+\subsection{Summary of the leading resonance balances}
+
+\begin{center}
+\begin{tabular}{@{}L{0.22\textwidth}L{0.19\textwidth}L{0.24\textwidth}L{0.24\textwidth}@{}}
+\toprule
+Mechanism & Exponent balance & Frequency/wavenumber condition & Amplitude-equation effect \\
+\midrule
+Unforced saturation & $1+1+1=3$ & automatic & $A|A|^2$, $A|B|^2$ and reflected terms \\
+Parameter variation & $2+1=3$ & critical mode & $aA$, $aB$ \\
+Temporal parametric forcing & $n+1=3$, hence $n=2$ & $\omega=2\omega_0+O(\epsilon^2)$ & $\overline B$ in the $A$ equation and $\overline A$ in the $B$ equation \\
+Spatial parametric forcing & $m+1=3$, hence $m=2$ & $k=2k_0$ & $B$ in the $A$ equation and $A$ in the $B$ equation \\
+Mixed additive forcing & $n+m=3$ & $\omega=\omega_0+O(\epsilon^2)$, $k=k_0$ & constants $f_\pm\ee^{\ii\delta\tau}$ \\
+Forcing-induced linear shift & $2n+1=3$ or $2m+1=3$ & forcing and its conjugate have zero net pair & $|P|^2A$ for $n=1$, or $|S|^2A$ for $m=1$, and reflected terms \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+More complicated resonances require no new principle.  Form every allowed
+quadratic or cubic monomial, add its frequency--wavenumber pairs from
+\eqref{eq:harmonic-table}, check whether the result is
+$(\omega_0,\pm k_0)$, and check whether its $\epsilon$ cost is three.  If a
+resonant term appears already at order two, the $\tau=\epsilon^2t$ scaling is
+inconsistent; the forcing must be weakened or a faster slow time must be
+introduced.
+
+\section{Specialization to the excitatory--inhibitory neural field}
+
+For the neural field in the proposal, write $U=(u,v)^T$ and linearize about a
+spatially uniform equilibrium.  Let $f_e^{(r)}$ and $f_i^{(r)}$ denote the
+$r$th derivatives of the firing-rate function evaluated at the excitatory and
+inhibitory equilibrium inputs.  With Fourier coefficients
+$\widehat W_{ab}(h)$, the linear Fourier matrix is
+\begin{equation}
+M_0(h)=
+\begin{pmatrix}
+\dfrac{-1+f_e'\widehat W_{ee}(h)}{\tau_e}
+&\dfrac{-f_e'\widehat W_{ie}(h)}{\tau_e}\\[6pt]
+\dfrac{f_i'\widehat W_{ei}(h)}{\tau_i}
+&\dfrac{-1-f_i'\widehat W_{ii}(h)}{\tau_i}
+\end{pmatrix}.
+\label{eq:neural-M0}
+\end{equation}
+For fields $U=(u,v)^T$ and $V=(\widetilde u,\widetilde v)^T$, define
+\begin{align}
+\ell_e(U)&=W_{ee}*u-W_{ie}*v,
+&\ell_i(U)&=W_{ei}*u-W_{ii}*v.
+\end{align}
+Then the polarized Taylor terms are
+\begin{equation}
+\cQ(U,V)=
+\begin{pmatrix}
+\dfrac{f_e''}{2\tau_e}\ell_e(U)\ell_e(V)\\[5pt]
+\dfrac{f_i''}{2\tau_i}\ell_i(U)\ell_i(V)
+\end{pmatrix},
+\label{eq:neural-Q}
+\end{equation}
+and
+\begin{equation}
+\cC(U,V,W)=
+\begin{pmatrix}
+\dfrac{f_e'''}{6\tau_e}\ell_e(U)\ell_e(V)\ell_e(W)\\[5pt]
+\dfrac{f_i'''}{6\tau_i}\ell_i(U)\ell_i(V)\ell_i(W)
+\end{pmatrix}.
+\label{eq:neural-C}
+\end{equation}
+Equations \eqref{eq:neural-M0}--\eqref{eq:neural-C}, together with the choice
+of bifurcation parameter that determines $M_1(h)$, provide every object needed
+in \eqref{eq:h-vectors}, \eqref{eq:G-vectors}, and \eqref{eq:abc}.
+
+\section{Model-specific computation checklist}
+
+For a concrete parameter set, the calculation can be completed in the
+following order.
+\begin{enumerate}[label=\arabic*.]
+  \item Compute $M_0(h)$ and scan integer $h$ for a simple pair
+  $\pm\ii\omega_0$ crossing at $h=\pm k_0$.
+  \item Compute $\Phi$ and $\Psi$ from \eqref{eq:eigenvectors}, then normalize
+  $\Psi^*\Phi=1$.
+  \item Verify the transversality condition \eqref{eq:transversality} and the
+  nonresonance/invertibility conditions \eqref{eq:nonresonance-matrices}.
+  \item Evaluate $q_{20}$ and $q_{11}$ from \eqref{eq:q20q11}.
+  \item Solve the six small linear systems in \eqref{eq:h-vectors}; explicit
+  matrix inversion is unnecessary and numerically less stable.
+  \item Form $G_{\mathrm{s}}$ and $G_{\mathrm{c}}$ from
+  \eqref{eq:G-vectors}, then project with $\Psi^*$ to obtain $a,b,c$.
+  \item Compare $\RePart(b)$ and $\RePart(c)$ using the criteria in
+  Section \ref{sec:normal-form}.
+  \item Add the desired forcing harmonics using
+  \eqref{eq:harmonic-u2}--\eqref{eq:full-harmonic-F3}.  The resonance table
+  determines which choices of $n,m,\omega,k$ affect the leading amplitude
+  equations.
+\end{enumerate}
+
+\section{What cannot be made numerical yet}
+
+The derivation above is complete at the abstract level, but the following data
+are required for numerical coefficients:
+\begin{itemize}
+  \item the exact entries of $M_0(h)$ and $M_1(h)$, or equivalently all neural
+  kernels, time constants, equilibrium values, and the parameter being varied;
+  \item the components and phases of the forcing vectors $P$ and $S$;
+  \item the intended temporal and spatial resonance, including any detuning;
+  \item the convention for Fourier coefficients of the convolution kernels.
+\end{itemize}
+Once these are supplied, all remaining work consists of finite-dimensional
+linear solves and inner products listed in the checklist.
+
+\begin{thebibliography}{9}
+
+\bibitem{curtu-ermentrout}
+R. Curtu and B. Ermentrout,
+``Pattern Formation in a Network of Excitatory and Inhibitory Cells with
+Adaptation,''
+\emph{SIAM Journal on Applied Dynamical Systems}, 3(3), 191--231, 2004.
+\href{https://doi.org/10.1137/030600503}{doi:10.1137/030600503}.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,1671 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{booktabs,array,graphicx,microtype}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage{enumitem}
+
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\RePart}{\operatorname{Re}}
+\newcommand{\ImPart}{\operatorname{Im}}
+\newcommand{\T}{\mathsf T}
+\newcommand{\Mu}{\bm{\mu}}
+\newcommand{\cQ}{\mathcal Q}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cL}{\mathcal L}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{Amplitude Selection, V1 Connectivity, and Numerical Tests\\
+for the Spatio-temporal Hallucination Model}
+\author{}
+\date{August 17, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Main conclusions}
+
+The two critical waves have amplitudes $A$ and $B$.  Without forcing their
+cubic equations are
+\begin{equation}
+ \dot A=A(a+b|A|^2+c|B|^2),\qquad
+ \dot B=B(a+b|B|^2+c|A|^2).
+ \label{eq:unforced}
+\end{equation}
+Here and below the dot denotes the slow time.  There are only three generic
+amplitude states: rest, a traveling wave, and a standing wave.  Their
+existence and stability follow from two $2\times2$ Jacobians and are derived
+in Section~\ref{sec:equilibria}.
+
+Suppose each separated forcing is either absent or has order
+$\epsilon^2$, with temporal frequency $2\omega_0$ and spatial wavenumber
+$2k_0$.  A direct projection and a parity argument show that no additive
+critical forcing is produced: the reduced coefficient previously denoted by
+$f$ is identically zero in this regime.  After choosing the temporal and
+spatial origins, the two remaining parametric strengths are real and
+nonnegative:
+\begin{align}
+ \dot A&=A(a+b|A|^2+c|B|^2)+\eta_t\overline B+\eta_xB,\notag\\
+ \dot B&=B(a+b|B|^2+c|A|^2)+\eta_t\overline A+\eta_xA.
+ \label{eq:forced}
+\end{align}
+Section~\ref{sec:all-forced} derives \eqref{eq:forced} from the forcing
+orders, reconstructs every locked phase from the two amplitudes, reduces the
+equal-amplitude branches to a quadratic in the squared amplitude, reduces
+every unequal-amplitude branch to one scalar equation, and gives exact
+stability tests for the rest state, every equal branch, and every remaining
+complex equilibrium.
+
+For $K$ cell types, let $\Mu=(\mu_{ij})$ be the signed Gaussian masses and
+$\Sigma=(\sigma_{ij})$ the widths.  The exact Fourier connectivity is
+$\widehat J(q)_{ij}=\mu_{ij}\exp(-\sigma_{ij}^2|q|^2/2)$.  Each critical wave
+has one complex amplitude and one $K$-component eigenvector describing how
+all cell types participate.  For any active set $S$ of waves, the generic
+cubic equilibrium is $x_S=-G_{SS}^{-1}a_S$, with stability given by one active
+radial matrix and the invasion rates of the inactive waves.  Section
+\ref{sec:K-framework} derives these formulas and the resonant generalization.
+Section~\ref{sec:mixed-domain} extends them to
+$\mathbb S^1\times\mathbb R^d$, with one discrete orientation harmonic and a
+continuous $d$-dimensional cortical wavevector.
+
+V1 is not biologically an E/I two-population system.  The Allen VISp/ALM
+taxonomy has 133 transcriptomic types, and even the deliberately coarse
+data-driven V1 model of Billeh et al. uses 17 layer-by-class populations.
+MICrONS resolves cell-to-cell wiring at far finer scale, but no complete
+physiological gain matrix exists between all transcriptomic types.  Therefore
+this report separates measured type identity and connection probability from
+calibrated Wilson--Cowan gains.  The full published 17-by-17 probability table
+is supplied with the code; unknown entries are not relabeled as measurements.
+
+The computed coefficients for that example are
+\begin{equation}
+ \alpha=0.08100+0.05273\ii,\qquad
+ b=-0.11231-0.15236\ii,\qquad
+ c=-1.56376-0.65446\ii.
+ \label{eq:numerical-coefficients}
+\end{equation}
+Since $\RePart c<\RePart b<0$, the unforced cubic theory selects one traveling
+wave.  At $a=0.01$ and $\eta_t=\eta_x=0.04$, the real-coefficient projection
+predicts a stable standing state.  The full complex calculation places every
+equal-amplitude three-population branch outside stability, but the complete
+unequal-amplitude quartic reveals a stable exchange-broken locked pair.  This
+distinction is invisible if either the phases or the unequal-amplitude
+branches are discarded.
+
+The 2025 Drinnenberg et al. preprint identifies a functional split inside
+deep-L2/3 SST cells: general ensemble-response (SST-GER) neurons integrate
+broad excitatory activity and differ from local SST and PV cells.  Splitting
+the field into
+$(E,PV,\mathrm{SST\!-\!GER},\mathrm{SST\!-\!local},VIP)$ retains broad
+excitation and gives a finite-wave Hopf point at mode 4 and $14.04$ Hz, with
+\begin{equation}
+ b_5=-1.10320+0.06808\ii,\qquad
+ c_5=-2.86511-0.52395\ii.
+ \label{eq:five-coefficients}
+\end{equation}
+Thus the broader functional partition also selects a traveling wave before
+forcing.  Under the same symmetric forcing it has a stable complex locked
+standing state of amplitude $0.14949$ and phase $172.622^\circ$ modulo
+$180^\circ$.  These are existence calculations, not proof that the same
+mechanism generates human hallucinations.
+
+On a translation-invariant infinite line, continuous optimization over the
+wavevector gives a sharper distinction.  The three-population traveling wave
+saturates locally but fails the longitudinal Benjamin--Feir sideband test.
+The five-population wave passes finite-wave onset, local invasion, and the
+one-dimensional sideband test.  In an isotropic plane or hyperspace,
+rotational degeneracy still requires an angular or higher-order transverse
+stability calculation before the pattern can be called fully stable.
+
+\section{All amplitude equilibria and their stability}
+\label{sec:equilibria}
+
+\subsection{Reduction to the two real amplitudes}
+
+Write
+\begin{equation}
+ A=r_+\ee^{\ii\theta_+},\qquad
+ B=r_-\ee^{\ii\theta_-},\qquad r_+,r_-\geq0,
+\end{equation}
+and put $a_r=\RePart a$, $b_r=\RePart b$, and $c_r=\RePart c$.  Dividing the
+first equation in \eqref{eq:unforced} by $\ee^{\ii\theta_+}$ and separating
+real and imaginary parts gives
+\begin{align}
+ \dot r_+&=r_+(a_r+b_rr_+^2+c_rr_-^2),
+ &\dot\theta_+&=\ImPart a+\ImPart b\,r_+^2+\ImPart c\,r_-^2.
+ \label{eq:polarA}
+\end{align}
+The second equation gives the reflected pair
+\begin{align}
+ \dot r_-&=r_-(a_r+b_rr_-^2+c_rr_+^2),
+ &\dot\theta_-&=\ImPart a+\ImPart b\,r_-^2+\ImPart c\,r_+^2.
+ \label{eq:polarB}
+\end{align}
+Thus the imaginary parts change phase and frequency but do not change the
+amplitude equilibria.
+
+For compactness, set $x=r_+^2$ and $y=r_-^2$.  Multiplication of
+\eqref{eq:polarA} and \eqref{eq:polarB} by $2r_+$ and $2r_-$ gives
+\begin{equation}
+ \dot x=2x(a_r+b_rx+c_ry),\qquad
+ \dot y=2y(a_r+b_ry+c_rx).
+ \label{eq:squared}
+\end{equation}
+At an equilibrium, each right-hand side is zero.  If both $x$ and $y$ are
+nonzero, subtraction of the two bracketed equations gives
+\begin{equation}
+ (b_r-c_r)(x-y)=0.
+\end{equation}
+Therefore, when $b_r\ne c_r$, $b_r\ne0$, and $b_r+c_r\ne0$, every
+equilibrium is one of the following.
+The rest state is
+\begin{equation}
+ (x,y)=(0,0).
+ \label{eq:rest}
+\end{equation}
+The two traveling-wave states are
+\begin{equation}
+ (x,y)\in
+ \left\{\left(-\frac{a_r}{b_r},0\right),
+           \left(0,-\frac{a_r}{b_r}\right)\right\}.
+ \label{eq:tw}
+\end{equation}
+The standing-wave state is
+\begin{equation}
+ (x,y)=\left(-\frac{a_r}{b_r+c_r},
+             -\frac{a_r}{b_r+c_r}\right).
+ \label{eq:sw}
+\end{equation}
+The nonzero state exists exactly when the displayed squared amplitude is
+positive.  The divisions above lose the following degenerate cases.  A
+one-sided state with $x>0$ exists when
+\begin{equation}
+ a_r+b_rx=0.
+ \label{eq:unforced-one-sided-undivided}
+\end{equation}
+Thus $b_r=0$ gives no one-sided branch when $a_r\ne0$, but gives every
+$x>0$ when $a_r=0$.  When $b_r\ne c_r$, a two-sided state must have $x=y>0$
+and obey
+\begin{equation}
+ a_r+(b_r+c_r)x=0.
+ \label{eq:unforced-standing-undivided}
+\end{equation}
+Thus $b_r+c_r=0$ gives no standing branch when $a_r\ne0$, but leaves every
+$x=y>0$ unresolved at cubic order when $a_r=0$.  Finally, if $b_r=c_r\ne0$,
+the positive two-sided states form the continuum
+\begin{equation}
+ x+y=-\frac{a_r}{b_r}>0.
+ \label{eq:unforced-degenerate-circle}
+\end{equation}
+If $b_r=c_r=0$, positive two-sided states exist only when $a_r=0$, in which
+case every $x,y>0$ is a radial equilibrium.  Each continuum has a zero
+radial eigenvalue and requires higher-order terms for selection.
+
+\subsection{Jacobian calculation}
+
+The radial Jacobian before evaluating an equilibrium is
+\begin{equation}
+ J(r_+,r_-)=
+ \begin{pmatrix}
+ a_r+3b_rr_+^2+c_rr_-^2 & 2c_rr_+r_-\\
+ 2c_rr_+r_- & a_r+3b_rr_-^2+c_rr_+^2
+ \end{pmatrix}.
+ \label{eq:radial-J}
+\end{equation}
+At rest, both radial eigenvalues are $a_r$.  Hence rest is stable for
+$a_r<0$ and loses stability at $a_r=0$.
+
+For a traveling wave $(r_+,r_-)=(\rho,0)$,
+$\rho^2=-a_r/b_r$.  Substitution into \eqref{eq:radial-J} gives
+\begin{equation}
+ J_{\rm TW}=
+ \begin{pmatrix}
+ -2a_r&0\\0&a_r+c_r\rho^2
+ \end{pmatrix},
+\end{equation}
+and hence
+\begin{equation}
+ \lambda_{\rm radial}=-2a_r,\qquad
+ \lambda_{\rm opposite}=a_r\frac{b_r-c_r}{b_r}.
+ \label{eq:tw-eigs}
+\end{equation}
+The branch can be stable at cubic order only on the supercritical side
+$a_r>0$, $b_r<0$.  There the second eigenvalue is negative precisely when
+\begin{equation}
+ c_r<b_r.
+ \label{eq:tw-stability}
+\end{equation}
+
+For a standing wave $r_+=r_-=\rho$,
+$\rho^2=-a_r/(b_r+c_r)$, and
+\begin{equation}
+ J_{\rm SW}=2\rho^2
+ \begin{pmatrix}b_r&c_r\\c_r&b_r\end{pmatrix}.
+\end{equation}
+The symmetric and antisymmetric eigenvectors $(1,1)^T$ and $(1,-1)^T$ give
+\begin{equation}
+ \lambda_{\rm symmetric}=-2a_r,\qquad
+ \lambda_{\rm imbalance}=2\rho^2(b_r-c_r).
+ \label{eq:sw-eigs}
+\end{equation}
+Thus a supercritical standing wave requires $a_r>0$, $b_r+c_r<0$, and is
+stable to amplitude imbalance precisely when
+\begin{equation}
+ c_r>b_r.
+ \label{eq:sw-stability}
+\end{equation}
+The traveling- and standing-wave inequalities are complementary.  The two
+phase eigenvalues are zero because unforced time translation and spatial
+translation act on $\theta_++\theta_-$ and $\theta_+-\theta_-$.  Stability
+here therefore means orbital stability modulo those symmetries.
+
+The following table summarizes the nondegenerate supercritical cases.
+
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+State & Squared amplitude & Supercritical existence & Amplitude stability\\
+\midrule
+Rest & $0$ & all coefficients & $a_r<0$\\
+Traveling & $-a_r/b_r$ & $a_r>0$, $b_r<0$ & $c_r<b_r$\\
+Standing & $-a_r/(b_r+c_r)$ & $a_r>0$, $b_r+c_r<0$ & $c_r>b_r$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\input{notes/pure21_forcing}
+
+\section{Closed K-population Gaussian and wave framework}
+\label{sec:K-framework}
+
+\subsection{The two connectivity matrices}
+
+Let $u=(u_1,\ldots,u_K)^T$ collect the activities of $K$ cell populations.
+The signed Gaussian mass and width matrices are
+\begin{equation}
+ \Mu=(\mu_{ij})\in\mathbb R^{K\times K},\qquad
+ \Sigma=(\sigma_{ij})\in(0,\infty)^{K\times K},
+\end{equation}
+where row $i$ is the target and column $j$ is the source.  Normalize the
+Gaussian to unit mass and set
+\begin{align}
+ G_\sigma(x)&=\frac{1}{(2\pi\sigma^2)^{d/2}}
+ \exp\!\left(-\frac{|x|^2}{2\sigma^2}\right),
+ &J_{ij}(x)&=\mu_{ij}G_{\sigma_{ij}}(x).
+ \label{eq:gaussian}
+\end{align}
+Thus $\mu_{ij}=\int J_{ij}$ is the total signed connection gain, not its peak.
+If data give a Gaussian peak $p_{ij}$, then
+$\mu_{ij}=p_{ij}(2\pi)^{d/2}\sigma_{ij}^{d}$.  The field equation is
+\begin{equation}
+ \T\partial_tu=-u+F(J*u+I),\qquad
+ \T=\operatorname{diag}(\tau_1,\ldots,\tau_K),
+ \label{eq:field}
+\end{equation}
+with $F$ acting componentwise.  On $\mathbb R^d$, or on a torus using wrapped
+Gaussians, its Fourier connectivity matrix is the closed expression
+\begin{equation}
+ \widehat J(q)=\Mu\odot
+ \exp\!\left[-\frac{|q|^2}{2}\Sigma^{\odot2}\right],
+ \qquad
+ \widehat J(q)_{ij}=\mu_{ij}\ee^{-\sigma_{ij}^2|q|^2/2},
+ \label{eq:gaussian-symbol}
+\end{equation}
+where the exponential and powers are entrywise.  This is the only place where
+the Gaussian assumption enters the spectral calculation.
+
+\subsection{Homogeneous equilibria and exact field stability}
+
+Every homogeneous equilibrium $u^*$ is a root of the $K$ equations
+\begin{equation}
+ u^*=F(\Mu u^*+I).
+ \label{eq:homogeneous}
+\end{equation}
+This is an exact finite-dimensional reduction because every kernel has unit
+mass.  No formula by radicals exists for an arbitrary choice of $K$ nonlinear
+functions $F_i$.  On an affine or threshold-linear branch
+$F(h)=Sh+c$, however, the equilibrium is explicitly
+\begin{equation}
+ u^*=(I-S\Mu)^{-1}(SI+c),
+ \label{eq:affine-equilibrium}
+\end{equation}
+provided $I-S\Mu$ is nonsingular and the result satisfies the inequalities
+defining that branch.  For an invertible sigmoid, \eqref{eq:homogeneous} is
+equivalently $F^{-1}(u^*)-\Mu u^*=I$ and is solved as a $K$-variable root.
+
+Let $D_r=\operatorname{diag}(F_i^{(r)}(h_i^*))$, where
+$h^*=\Mu u^*+I$.  A perturbation $v\ee^{\lambda t+\ii q\cdot x}$ satisfies
+\begin{equation}
+ \lambda v=M(q)v,\qquad
+ M(q)=\T^{-1}\left[-I+D_1\widehat J(q)\right].
+ \label{eq:Mq}
+\end{equation}
+Consequently the equilibrium is linearly asymptotically stable precisely when
+\begin{equation}
+ \sup_{q\in\mathcal Q}\max_{1\leq s\leq K}
+ \RePart\lambda_s(M(q))<0,
+ \label{eq:exact-stability}
+\end{equation}
+where $\mathcal Q$ is continuous on $\mathbb R^d$ and is the reciprocal
+lattice on a periodic domain.  A zero of the left side at $q=0$ is a
+homogeneous instability; a zero first reached at $|q|>0$ is a pattern-forming
+instability.  This criterion includes every cell type and every spatial wave,
+without reducing $\Mu$ to an effective E/I difference.
+
+For modal vectors $v,w$ at wavevectors $q_1,q_2$, write
+$\ell_q(v)=\widehat J(q)v$.  Taylor expansion of $F$ gives the symmetric
+quadratic and cubic maps
+\begin{align}
+ \cQ_{q_1,q_2}(v,w)
+ &=\frac12\T^{-1}D_2
+ \left[\ell_{q_1}(v)\odot\ell_{q_2}(w)\right],
+ \label{eq:Qgaussian}\\
+ \cC_{q_1,q_2,q_3}(u,v,w)
+ &=\frac16\T^{-1}D_3
+ \left[\ell_{q_1}(u)\odot\ell_{q_2}(v)\odot\ell_{q_3}(w)\right].
+ \label{eq:Cgaussian}
+\end{align}
+Equations \eqref{eq:gaussian-symbol}, \eqref{eq:Mq},
+\eqref{eq:Qgaussian}, and \eqref{eq:Cgaussian} express the complete cubic
+local dynamics in terms of $\Mu$, $\Sigma$, $\T$, and the derivatives of the
+$K$ firing-rate functions.
+
+\subsection{Cell types carried by critical waves}
+
+Suppose $m$ critical wave types have wavevectors $q_\alpha$, frequencies
+$\omega_\alpha$, and right and adjoint cell-type vectors satisfying
+\begin{equation}
+ M(q_\alpha)\Phi_\alpha=\ii\omega_\alpha\Phi_\alpha,
+ \qquad M(q_\alpha)^*\Psi_\alpha=-\ii\omega_\alpha\Psi_\alpha,
+ \qquad \Psi_\alpha^*\Phi_\alpha=1.
+ \label{eq:eigenvectors}
+\end{equation}
+The leading wave superposition is
+\begin{equation}
+ u_i(x,t)=u_i^*+2\varepsilon\RePart\sum_{\alpha=1}^m
+ A_\alpha(T)\Phi_{i\alpha}
+ \ee^{\ii(q_\alpha\cdot x+\omega_\alpha t)}+O(\varepsilon^2),
+ \qquad T=\varepsilon^2t.
+ \label{eq:cell-wave-superposition}
+\end{equation}
+There is one complex dynamical variable $A_\alpha$ per wave, not per cell
+type.  The entry $\Phi_{i\alpha}$ gives the amplitude and phase with which
+cell type $i$ participates in wave $\alpha$.  Thus the $K$-cell biology is
+retained inside each wave rather than replaced by $K m$ redundant amplitude
+variables.
+
+For completeness, the general cubic projection can be written without
+listing every conjugate case.  Give every critical wave a signed copy
+$r=(\alpha,s)$, $s=\pm1$, and define
+\begin{equation}
+ z_{\alpha,+}=A_\alpha,\quad z_{\alpha,-}=\overline A_\alpha,
+ \quad q_{\alpha,s}=s q_\alpha,\quad
+ \omega_{\alpha,s}=s\omega_\alpha,\quad
+ \phi_{\alpha,+}=\Phi_\alpha,\quad
+ \phi_{\alpha,-}=\overline\Phi_\alpha.
+\end{equation}
+For a noncritical pair $(r,s)$, its slaved second-order cell-type response is
+\begin{equation}
+ H_{rs}=\left[\ii(\omega_r+\omega_s)I-M(q_r+q_s)\right]^{-1}
+ \cQ_{q_r,q_s}(\phi_r,\phi_s).
+ \label{eq:general-slaved-mode}
+\end{equation}
+The inverse is taken only off the critical eigenspace.  Summing over ordered
+signed indices, the amplitude equation through cubic order is
+\begin{align}
+ \dot A_\alpha={}&\lambda_\alpha A_\alpha
+ +\!\sum_{\substack{q_r+q_s=q_\alpha\\
+                     \omega_r+\omega_s=\omega_\alpha}}
+ \Psi_\alpha^*\cQ_{q_r,q_s}(\phi_r,\phi_s)z_rz_s\notag\\
+ &+\!\sum_{\substack{q_r+q_s+q_t=q_\alpha\\
+                     \omega_r+\omega_s+\omega_t=\omega_\alpha}}
+ \Psi_\alpha^*\!\left[
+ \cC_{q_r,q_s,q_t}(\phi_r,\phi_s,\phi_t)
+ +2\cQ_{q_r,q_s+q_t}(\phi_r,H_{st})\right]z_rz_sz_t
+ +\sum_{\beta=1}^m\left(
+ \eta^x_{\alpha\beta}A_\beta
+ +\eta^t_{\alpha\beta}\overline A_\beta\right).
+ \label{eq:general-resonant-amplitudes}
+\end{align}
+Here $\lambda_\alpha$ is the projected parameter detuning.
+$\eta^x_{\alpha\beta}$ is nonzero only when an order-$2$ spatial forcing
+harmonic scatters wave $\beta$ into wave $\alpha$, while
+$\eta^t_{\alpha\beta}$ is nonzero
+only when an order-$2$ temporal forcing harmonic scatters the conjugate of
+wave $\beta$ into wave $\alpha$.  They are the multi-wave analogues of
+$\eta_x$ and $\eta_t$ in \eqref{eq:forced}.  There is no additive vector in
+the order-$2$ or absent regime by \eqref{eq:pure21-even-lattice}.  The two
+equalities under each nonlinear sum are conservation of wavevector and
+temporal frequency.  If a quadratic pair is itself critical, it is retained
+in the first sum and is not inverted in
+\eqref{eq:general-slaved-mode}.  Equation
+\eqref{eq:general-resonant-amplitudes} is the desired wave-based dynamical
+system for arbitrary $K$ and any finite collection of interacting waves.
+
+\subsection{Closed equilibria and stability of a wave superposition}
+
+Away from special quadratic and phase resonances, translation and time-shift
+symmetry reduce \eqref{eq:general-resonant-amplitudes} to
+\begin{equation}
+ \dot A_\alpha=A_\alpha\left(\lambda_\alpha+
+ \sum_{\beta=1}^m g_{\alpha\beta}|A_\beta|^2\right),
+ \qquad \alpha=1,\ldots,m.
+ \label{eq:m-wave-amplitudes}
+\end{equation}
+Put $x_\alpha=|A_\alpha|^2$, $a_\alpha=\RePart\lambda_\alpha$, and
+$G_{\alpha\beta}=\RePart g_{\alpha\beta}$.  Then
+\begin{equation}
+ \dot x_\alpha=2x_\alpha\left(a_\alpha+
+ \sum_{\beta=1}^mG_{\alpha\beta}x_\beta\right).
+ \label{eq:intensity-system}
+\end{equation}
+Every equilibrium is indexed by its active wave set $S$.  If $G_{SS}$ is
+nonsingular, its closed form is
+\begin{equation}
+ x_S=-G_{SS}^{-1}a_S>0,\qquad x_\alpha=0\quad(\alpha\notin S).
+ \label{eq:all-wave-equilibria}
+\end{equation}
+Thus all generic cubic wave equilibria are obtained by checking the at most
+$2^m$ supports; negative components are discarded.  At such a state the
+active radial Jacobian and the inactive invasion rates are
+\begin{equation}
+ J_S=2\operatorname{diag}(x_S)G_{SS},\qquad
+ \nu_\alpha=2\left(a_\alpha+G_{\alpha S}x_S\right)
+ \quad(\alpha\notin S).
+ \label{eq:wave-stability}
+\end{equation}
+For one active wave $\alpha$, this reads
+$x_\alpha=-a_\alpha/G_{\alpha\alpha}$.  For two active waves $\alpha,\beta$,
+put
+$\Delta=G_{\alpha\alpha}G_{\beta\beta}
+-G_{\alpha\beta}G_{\beta\alpha}$.  Their explicit intensities are
+\begin{equation}
+ x_\alpha=\frac{G_{\alpha\beta}a_\beta
+ -G_{\beta\beta}a_\alpha}{\Delta},\qquad
+ x_\beta=\frac{G_{\beta\alpha}a_\alpha
+ -G_{\alpha\alpha}a_\beta}{\Delta}.
+ \label{eq:two-wave-general-root}
+\end{equation}
+These are retained only when both are positive; their radial and invasion
+stability then follows directly from \eqref{eq:wave-stability}.
+The wave superposition is asymptotically stable modulo phase symmetries if
+every eigenvalue of $J_S$ has negative real part and every $\nu_\alpha<0$.
+Its slow phase velocities are
+\begin{equation}
+ \dot\theta_\alpha=\ImPart\lambda_\alpha+
+ \sum_\beta\ImPart g_{\alpha\beta}x_\beta.
+\end{equation}
+They give nonlinear frequency corrections; forcing or resonant monomials can
+lock them and remove the neutral phase directions.  When such terms are
+present, equilibria are roots of the explicit polynomial system
+\eqref{eq:general-resonant-amplitudes}, and stability is decided by its real
+$2m\times2m$ Jacobian.  There is no universal radical formula for that fully
+resonant problem, but the dynamical system and Jacobian remain closed.
+
+\subsection{The counter-propagating pair as a special case}
+
+At a single critical $q_0$, write $\Phi=\Phi_1$, $\Psi=\Psi_1$ and
+\begin{equation}
+ R(\Omega,q)=\left(\ii\Omega I-M(q)\right)^{-1}.
+\end{equation}
+The second-order fields required for the self coefficient are
+\begin{align}
+ H_{11}^0&=2R(0,0)\cQ_{q_0,-q_0}(\Phi,\overline\Phi),\notag\\
+ H_{20}^{2q_0}&=R(2\omega_0,2q_0)\cQ_{q_0,q_0}(\Phi,\Phi),
+\end{align}
+and the self coefficient is
+\begin{align}
+ b=\Psi^*\big[&2\cQ_{q_0,0}(\Phi,H_{11}^0)
+ +2\cQ_{-q_0,2q_0}(\overline\Phi,H_{20}^{2q_0})\notag\\
+ &+3\cC_{q_0,q_0,-q_0}(\Phi,\Phi,\overline\Phi)\big].
+ \label{eq:bformula}
+\end{align}
+For the counter-propagating coefficient, define
+\begin{align}
+ H_{20}^{0}&=2R(2\omega_0,0)\cQ_{q_0,-q_0}(\Phi,\Phi),\notag\\
+ H_{11}^{2q_0}&=2R(0,2q_0)\cQ_{q_0,q_0}(\Phi,\overline\Phi),
+\end{align}
+and
+\begin{align}
+ c=\Psi^*\big[&2\cQ_{q_0,0}(\Phi,H_{11}^0)
+ +2\cQ_{q_0,0}(\overline\Phi,H_{20}^{0})
+ +2\cQ_{-q_0,2q_0}(\Phi,H_{11}^{2q_0})\notag\\
+ &+6\cC_{q_0,-q_0,q_0}(\Phi,\Phi,\overline\Phi)\big].
+ \label{eq:cformula}
+\end{align}
+If a scalar bifurcation parameter changes $M$ by $M_1$, then
+\begin{equation}
+ \alpha=\Psi^*M_1(q_0)\Phi,\qquad a=\mu\alpha.
+ \label{eq:alphaformula}
+\end{equation}
+This recovers \eqref{eq:unforced}: $g_{11}=g_{22}=b$ and
+$g_{12}=g_{21}=c$.  Every coefficient is obtained from $K$-vectors,
+$K\times K$ matrix solves, and adjoint projections.
+
+\section{Rigorous translation-invariant domain extensions}
+
+\subsection{Extension 1: the infinite line}
+\label{sec:nonperiodic}
+
+First let $\Omega=\mathbb R$.  The Fourier transform is continuous rather
+than a Fourier series.  Equations \eqref{eq:gaussian-symbol} and
+\eqref{eq:Mq} become
+\begin{align}
+ \widehat J(q)_{ij}&=\mu_{ij}\ee^{-\sigma_{ij}^2q^2/2},
+ &q&\in\mathbb R,\label{eq:R-symbol}\\
+ \partial_t\widehat v(q,t)&=M(q)\widehat v(q,t),
+ &M(q)&=\T^{-1}\left[-I+D_1\widehat J(q)\right].
+ \label{eq:R-linearization}
+\end{align}
+Equivalently, the linearized operator is the direct integral
+\begin{equation}
+ \mathcal F\mathcal L\mathcal F^{-1}
+ =\int_{\mathbb R}^{\oplus}M(q)\,dq,
+ \qquad
+ \operatorname{spec}(\mathcal L)
+ =\overline{\bigcup_{q\in\mathbb R}\operatorname{spec}(M(q))}.
+ \label{eq:R-direct-integral}
+\end{equation}
+Plancherel's theorem gives
+\begin{equation}
+ \|v(t)\|_{L^2}^2=
+ \int_{\mathbb R}\|\ee^{tM(q)}\widehat v(q,0)\|_{\mathbb C^K}^2\,dq.
+\end{equation}
+Hence a homogeneous equilibrium is exponentially stable when there are
+$C,\gamma>0$ such that
+\begin{equation}
+ \|\ee^{tM(q)}\|\leq C\ee^{-\gamma t}
+ \quad(q\in\mathbb R,t\geq0),
+ \label{eq:R-uniform-stability}
+\end{equation}
+For the Gaussian symbol this is equivalent to the spectral-gap condition
+\begin{equation}
+ \sup_{q\in\mathbb R}\max_s\RePart\lambda_s(M(q))<0.
+ \label{eq:R-spectral-gap}
+\end{equation}
+To see the nontrivial implication, use
+$M(q)\to-\T^{-1}$ as $|q|\to\infty$, so the matrix family is continuous on
+the compactification $\mathbb R\cup\{\infty\}$.  If the left side of
+\eqref{eq:R-spectral-gap} is $-2\gamma$, choose one contour $\Gamma$ enclosing
+all spectra in $\{\RePart z\le-\gamma\}$.  Then
+\begin{equation}
+ \ee^{tM(q)}=\frac{1}{2\pi\ii}\int_\Gamma
+ \ee^{tz}(zI-M(q))^{-1}\,dz,\qquad
+ \sup_q\|\ee^{tM(q)}\|\le
+ \frac{|\Gamma|}{2\pi}\sup_{q,z\in\Gamma}
+ \|(zI-M(q))^{-1}\|\ee^{-\gamma t}.
+ \label{eq:R-dunford-bound}
+\end{equation}
+The reverse implication follows by applying
+\eqref{eq:R-uniform-stability} to an eigenvector of $M(q)$.
+At threshold, a carrier satisfies
+\begin{equation}
+ M(q_0)\Phi=\ii\omega_0\Phi.
+ \label{eq:R-carrier-eigenproblem}
+\end{equation}
+It is a generalized Fourier mode rather than an $L^2(\mathbb R)$
+eigenfunction, because $\Phi\ee^{\ii q_0x}$ has constant modulus.
+Consequently the whole-line center spectrum is not a finite-dimensional
+eigenspace.  The two carrier amplitudes describe spatially uniform envelopes
+only; localized perturbations require the modulation equation derived in
+Extension 2.
+
+The extension used from this point onward is translation invariant.  Thus
+the spatial domain is $\mathbb R^d$, not a bounded subset, the coupling is a
+true convolution, and every nonlinear interaction retains exact wavevector
+conservation.  A bounded truncation is a different model because its edges
+break the translation group and pin the phase of a pattern.
+
+\subsection{Extension 2: non-periodic space in arbitrary dimension}
+\label{sec:high-dimensional}
+
+Let $x\in\mathbb R^d$ and allow a positive-definite covariance
+$C_{ij}\in\mathbb R^{d\times d}$ for each ordered cell-type pair:
+\begin{align}
+ G_{C_{ij}}(x)&=\frac{
+ \exp[-\tfrac12x^TC_{ij}^{-1}x]}
+ {(2\pi)^{d/2}\det(C_{ij})^{1/2}},
+ &J_{ij}(x)&=\mu_{ij}G_{C_{ij}}(x),\label{eq:anisotropic-G}\\
+ \widehat J(q)_{ij}&=\mu_{ij}
+ \exp[-\tfrac12q^TC_{ij}q],
+ &q&\in\mathbb R^d.
+ \label{eq:anisotropic-symbol}
+\end{align}
+The scalar-width model is recovered by $C_{ij}=\sigma_{ij}^2I_d$.  The full
+stability criterion is
+\begin{equation}
+ \sup_{q\in\mathbb R^d}\max_s\RePart\lambda_s\!\left(
+ \T^{-1}[-I+D_1\widehat J(q)]\right)<0.
+ \label{eq:Rd-stability}
+\end{equation}
+
+\subsubsection{Exact linear condition for a hallucination-like pattern}
+
+In this report, a hallucination-like state means a self-sustained,
+nonuniform cortical solution of the field model.  This mathematical
+definition does not by itself establish a subjective human hallucination.
+Let $\delta$ move the homogeneous equilibrium through onset and define
+\begin{equation}
+ M(q,\delta)=\T^{-1}\left[-I+D_1(\delta)\widehat J(q,\delta)\right],
+ \qquad
+ s(q,\delta)=\max_{1\le j\le K}
+ \RePart\lambda_j(M(q,\delta)).
+ \label{eq:pattern-spectral-abscissa}
+\end{equation}
+The homogeneous state is exponentially stable exactly when
+\begin{equation}
+ \sup_{q\in\mathbb R^d}s(q,\delta)<0.
+ \label{eq:homogeneous-Rd-gap}
+\end{equation}
+A finite-wave stationary or oscillatory instability occurs at
+$\delta=0$ if there are $q_0\ne0$, a simple eigenvalue branch
+$\lambda_*$, and $\omega_0\geq0$ such that
+\begin{equation}
+ \lambda_*(q_0,0)=\ii\omega_0,
+ \qquad
+ s(0,0)<0,
+ \qquad
+ \sup_{q\in\mathbb R^d}s(q,0)=0.
+ \label{eq:finite-wave-threshold}
+\end{equation}
+The crossing is nondegenerate at an isolated anisotropic maximum when
+\begin{equation}
+ \partial_\delta\RePart\lambda_*(q_0,0)>0,
+ \qquad
+ \nabla_q\RePart\lambda_*(q_0,0)=0,
+ \qquad
+ \xi^T\nabla_q^2\RePart\lambda_*(q_0,0)\xi<0
+ \quad(\xi\ne0).
+ \label{eq:finite-wave-nondegeneracy}
+\end{equation}
+For isotropic kernels, write $r=|q|$.  The critical set is the sphere
+$|q|=q_0$, so the tangential Hessian directions are neutral by rotation
+symmetry and the correct radial condition is
+\begin{equation}
+ \partial_r\RePart\lambda_*(q_0,0)=0,
+ \qquad
+ \partial_r^2\RePart\lambda_*(q_0,0)<0.
+ \label{eq:isotropic-radial-maximum}
+\end{equation}
+The case $\omega_0=0$ is a stationary finite-wave instability.  The case
+$\omega_0>0$ is a finite-wave Hopf instability and produces oscillating or
+traveling cortical patterns.  Immediately above onset, the necessary linear
+pattern condition is therefore
+\begin{equation}
+ s(0,\delta)<0,
+ \qquad
+ \sup_{q\ne0}s(q,\delta)>0.
+ \label{eq:linear-hallucination-condition}
+\end{equation}
+This says that a nonzero spatial scale grows while the spatially homogeneous
+mode remains damped.  It is not yet sufficient, because nonlinear growth
+must saturate and the resulting pattern must resist all long-wave
+modulations.
+
+Assume the critical eigenvalue bands are simple and smooth, all other bands
+remain uniformly separated from the imaginary axis, and the first crossing
+occurs at a finite set $q_1,\ldots,q_m$.  The cell-resolved expansion is then
+\begin{equation}
+ u_i(x,t)=u_i^*+2\varepsilon\RePart\sum_{\alpha=1}^m
+ A_\alpha(X,T)\Phi_{i\alpha}
+ \ee^{\ii(q_\alpha\cdot x+\omega_\alpha t)}+O(\varepsilon^2),
+ \quad X=\varepsilon x,\ T=\varepsilon^2t.
+ \label{eq:Rd-envelope-ansatz}
+\end{equation}
+Let $\lambda_\alpha(q,\delta)$ be the simple eigenvalue branch and put
+$\delta=\varepsilon^2\mu$.  Its Taylor expansion is
+\begin{align}
+ \lambda_\alpha(q_\alpha+\varepsilon\kappa,\varepsilon^2\mu)
+ ={}&\ii\omega_\alpha
+ +\varepsilon\nabla_q\lambda_\alpha(q_\alpha,0)\cdot\kappa\notag\\
+ &+\varepsilon^2\left[
+ \alpha_\alpha\mu+\frac12\kappa^TH_\alpha\kappa\right]
+ +O(\varepsilon^3),
+ \label{eq:dispersion-expansion}
+\end{align}
+where
+\begin{equation}
+ \alpha_\alpha=\partial_\delta\lambda_\alpha(q_\alpha,0),
+ \qquad H_\alpha=\nabla_q^2\lambda_\alpha(q_\alpha,0).
+\end{equation}
+After removing the order-$\varepsilon$ transport by a comoving coordinate,
+the envelope equation whose Fourier symbol matches
+\eqref{eq:dispersion-expansion} is
+\begin{equation}
+ \partial_TA_\alpha=\alpha_\alpha\mu A_\alpha
+ -\frac12\sum_{r,s=1}^d(H_\alpha)_{rs}
+ \partial_{X_rX_s}A_\alpha
+ +A_\alpha\sum_{\beta=1}^m
+ g_{\alpha\beta}|A_\beta|^2.
+ \label{eq:high-dimensional-CGL}
+\end{equation}
+Indeed, substituting $A_\alpha=\ee^{\ii\kappa\cdot X+\Lambda T}$ into the
+linear part gives
+\begin{equation}
+ \Lambda=\alpha_\alpha\mu+\frac12\kappa^TH_\alpha\kappa,
+\end{equation}
+which is exactly the order-$\varepsilon^2$ term in
+\eqref{eq:dispersion-expansion}.
+
+The finite-dimensional wave equations describe only envelopes that are
+constant in $X$.  To test a constant equilibrium against every localized
+sideband, denote the local right-hand side of
+\eqref{eq:high-dimensional-CGL} by $\mathcal N(A,\overline A)$ after removing
+the derivative term.  Define its doubled real-linear Jacobian by
+\begin{equation}
+ \mathbb J_0=
+ D_{(A,\overline A)}
+ \begin{pmatrix}\mathcal N\\ \overline{\mathcal N}\end{pmatrix}
+ \bigg|_{A=A^*}.
+ \label{eq:sideband-J0}
+\end{equation}
+For a perturbation proportional to
+$\ee^{\ii\kappa\cdot X+\Lambda T}$, put
+\begin{equation}
+ d_\alpha(\kappa)=\frac12\kappa^TH_\alpha\kappa.
+ \label{eq:sideband-symbol}
+\end{equation}
+The exact $2m\times2m$ sideband matrix is
+\begin{equation}
+ \mathbb J(\kappa)=\mathbb J_0+
+ \operatorname{diag}\!\left(
+ d_1(\kappa),\ldots,d_m(\kappa),
+ \overline{d_1(\kappa)},\ldots,
+ \overline{d_m(\kappa)}\right).
+ \label{eq:sideband-J}
+\end{equation}
+Therefore orbital modulational stability requires
+\begin{equation}
+ \max_{\lambda\in\operatorname{spec}(\mathbb J(\kappa))}
+ \RePart\lambda<0
+ \quad(\kappa\ne0),
+ \qquad
+ \operatorname{spec}(\mathbb J(0))
+ \subset\{z:\RePart z<0\}\cup\{0\}.
+ \label{eq:sideband-stability}
+\end{equation}
+The kernel at $\kappa=0$ must consist exactly of the phase and translation
+directions generated by symmetry.  If
+$\lambda^{\rm sym}_\ell(\kappa)$ are the spectral branches issuing from
+that kernel, diffusive decay requires constants $c,\kappa_0>0$ such that
+\begin{equation}
+ \RePart\lambda^{\rm sym}_\ell(\kappa)
+ \leq-c|\kappa|^2
+ \qquad(0<|\kappa|<\kappa_0).
+ \label{eq:sideband-diffusive-decay}
+\end{equation}
+The Jacobian test in
+\eqref{eq:wave-stability} is precisely the $\kappa=0$ part and is not, by
+itself, a sideband-stability test.
+
+\subsubsection{Necessary and sufficient conditions within the amplitude regime}
+
+Let $S$ be the active set of a finite planform and let
+$x_S=-G_{SS}^{-1}a_S$.  Within the validity of the cubic modulation
+equations, existence and homogeneous-amplitude stability are equivalent to
+\begin{equation}
+ x_S>0,
+ \qquad
+ \max_{\lambda\in\operatorname{spec}(J_S)}\RePart\lambda<0,
+ \qquad
+ \nu_\alpha<0\quad(\alpha\notin S).
+ \label{eq:local-hallucination-condition}
+\end{equation}
+Here $J_S$ and $\nu_\alpha$ are given exactly by
+\eqref{eq:wave-stability}.  The planform is a stable hallucination-like state
+precisely when 
+\eqref{eq:local-hallucination-condition},
+\eqref{eq:sideband-stability}, and
+\eqref{eq:sideband-diffusive-decay} all hold.  A spatially varying prescribed
+input is absent from this criterion: it would select an origin and break
+translation invariance.  Spatially uniform parameter changes or temporal
+forcing can preserve the spatial translation group.
+
+For isotropic kernels, $M(q)$ depends only on $|q|$ and the critical set is
+the sphere $|q|=q_0$.  It is then not a finite-dimensional center eigenspace.
+The correct leading superposition is
+\begin{equation}
+ u_i(x,t)=u_i^*+2\varepsilon\RePart
+ \int_{\mathbb S^{d-1}}
+ A(\xi,X,T)\Phi_i(\xi)
+ \ee^{\ii(q_0\xi\cdot x+\omega_0t)}\,d\xi+O(\varepsilon^2).
+ \label{eq:spherical-superposition}
+\end{equation}
+Its cubic interactions obey
+\begin{equation}
+ q_0(\xi_1+\xi_2-\xi_3)=q_0\xi,\qquad
+ \omega_1+\omega_2-\omega_3=\omega,
+ \label{eq:spherical-resonance}
+\end{equation}
+and their coefficients are still obtained from
+\eqref{eq:Qgaussian}--\eqref{eq:general-slaved-mode}.  Choosing a finite
+planform $\{\xi_1,\ldots,\xi_m\}$ and restricting to spatially constant
+envelopes reduces
+\eqref{eq:spherical-superposition} to the finite wave system
+\eqref{eq:m-wave-amplitudes}.  Its equilibria and homogeneous-amplitude
+stability are exactly \eqref{eq:all-wave-equilibria}--
+\eqref{eq:wave-stability}; sidebands are governed by
+\eqref{eq:sideband-J}.
+
+For two wavevectors separated by $\vartheta$,
+\begin{equation}
+ |q_j+q_k|=2q_0\cos(\vartheta/2),\qquad
+ |q_j-q_k|=2q_0\sin(\vartheta/2),
+\end{equation}
+so $g_{jk}=c(\vartheta)$ is obtained by evaluating the resolvents at these
+two magnitudes.  For a regular $m$-wave planform with common cross-coupling
+$c_*$,
+\begin{equation}
+ \rho^2=-\frac{a_r}{b_r+(m-1)c_{*,r}},\qquad
+ \lambda_{\rm sym}=-2a_r,\qquad
+ \lambda_{\rm tr}=2\rho^2(b_r-c_{*,r}).
+ \label{eq:Rd-regular-planform}
+\end{equation}
+The transverse eigenvalue $\lambda_{\rm tr}$ has multiplicity $m-1$.
+For a single active traveling direction, the local conditions reduce to
+\begin{equation}
+ \rho^2=-\frac{a_r}{b_r}>0,
+ \qquad
+ -2a_r<0,
+ \qquad
+ 2a_r\left(1-\frac{c_r}{b_r}\right)<0.
+ \label{eq:single-wave-local-condition}
+\end{equation}
+Thus $a_r>0$, $b_r<0$, and $c_r<b_r$ give a supercritical traveling wave
+that is stable against invasion by its counterpropagating partner.  With
+$d\geq2$, however, the isotropic critical sphere contains every direction.
+If $c_r(\vartheta)$ is the real cross-coupling at angular separation
+$\vartheta$, stability of a single active direction against all other
+critical directions requires
+\begin{equation}
+ \nu(\vartheta)=2a_r\left(1-
+ \frac{c_r(\vartheta)}{b_r}\right)<0
+ \qquad(0<\vartheta\leq\pi).
+ \label{eq:angular-invasion-condition}
+\end{equation}
+Thus the one-dimensional coefficient $c=c(\pi)$ is a complete angular
+invasion test on $\mathbb R$, whose critical set is $\{-q_0,q_0\}$, but not
+on a plane or hyperspace.  There one must verify
+\eqref{eq:angular-invasion-condition} over the full angular continuum.
+
+On the infinite line, the single-wave envelope can be written in a comoving
+and corotating frame as
+\begin{equation}
+ \partial_TA=aA+D\partial_{XX}A+b|A|^2A,
+ \qquad
+ D=-\frac12\partial_q^2\lambda_*(q_0,0).
+ \label{eq:single-wave-CGL}
+\end{equation}
+Put $D=D_r+\ii D_i$ and $b=b_r+\ii b_i$.  The uniform traveling state is
+\begin{equation}
+ A_*(T)=\rho\ee^{\ii\Omega T},
+ \qquad
+ \rho^2=-\frac{a_r}{b_r},
+ \qquad
+ \Omega=a_i+b_i\rho^2.
+ \label{eq:single-wave-CGL-state}
+\end{equation}
+Write $A=A_*(1+u+\ii v)$ and take a sideband proportional to
+$\ee^{\ii\kappa X}$.  Direct linearization gives
+\begin{equation}
+ \partial_T
+ \begin{pmatrix}u\\v\end{pmatrix}
+ =\begin{pmatrix}
+ 2\rho^2b_r-D_r\kappa^2&D_i\kappa^2\\
+ 2\rho^2b_i-D_i\kappa^2&-D_r\kappa^2
+ \end{pmatrix}
+ \begin{pmatrix}u\\v\end{pmatrix}.
+ \label{eq:single-wave-sideband-matrix}
+\end{equation}
+Its trace and determinant are
+\begin{equation}
+ \operatorname{tr}\mathbb J(\kappa)
+ =2\rho^2b_r-2D_r\kappa^2,
+ \qquad
+ \det\mathbb J(\kappa)
+ =\kappa^2\left[|D|^2\kappa^2
+ -2\rho^2(b_rD_r+b_iD_i)\right].
+ \label{eq:single-wave-trace-determinant}
+\end{equation}
+The two-dimensional Hurwitz criterion is therefore necessary and sufficient
+for every nonzero sideband:
+\begin{equation}
+ D_r>0,
+ \qquad
+ b_r<0,
+ \qquad
+ b_rD_r+b_iD_i<0.
+ \label{eq:single-wave-BF-condition}
+\end{equation}
+Equivalently, when $D_rb_r\ne0$, the Benjamin--Feir number must satisfy
+\begin{equation}
+ \mathcal B=1+\frac{D_i}{D_r}\frac{b_i}{b_r}>0.
+ \label{eq:Benjamin-Feir-number}
+\end{equation}
+
+The continuous-wavevector calculation changes the periodic-box numbers
+slightly.  If $\chi$ is the common coupling scale, the three-population
+infinite-line onset is
+\begin{equation}
+ \begin{aligned}
+ \chi_c&=0.9999159,
+ &q_0&=0.380160\,(0.1\,{\rm mm})^{-1},\\
+ f_0&=14.1042\,{\rm Hz},
+ &s(0,0)&=-0.0017022\,{\rm ms}^{-1},\\
+ \partial_q^2\RePart\lambda_*&=-0.0642473.
+ \end{aligned}
+ \label{eq:three-pop-continuous-onset}
+\end{equation}
+Its continuous-onset coefficients and longitudinal diffusion are
+\begin{equation}
+ \begin{aligned}
+ b_3^\infty&=-0.073616-0.172897\ii,
+ &c_3^\infty(\pi)&=-1.485777-0.626915\ii,\\
+ D_3&=0.032124-0.024065\ii,
+ &\mathcal B_3&=-0.75944.
+ \end{aligned}
+ \label{eq:three-pop-continuous-coefficients}
+\end{equation}
+At $a_r=0.01$, its local amplitude is $\rho=0.36856$ and its
+counterpropagating invasion rate is $-0.38365$.  It passes the local
+amplitude test but fails \eqref{eq:single-wave-BF-condition}; the selected
+traveling wave is longitudinally sideband-unstable on the infinite line at
+cubic order.
+
+For the five-population model, the corresponding values are
+\begin{equation}
+ \begin{aligned}
+ \chi_c&=1.0390375,
+ &q_0&=0.491786\,(0.1\,{\rm mm})^{-1},\\
+ f_0&=13.7341\,{\rm Hz},
+ &s(0,0)&=-0.0072509\,{\rm ms}^{-1},\\
+ \partial_q^2\RePart\lambda_*&=-0.1153424.
+ \end{aligned}
+ \label{eq:five-pop-continuous-onset}
+\end{equation}
+and
+\begin{equation}
+ \begin{aligned}
+ b_5^\infty&=-0.778597+0.066322\ii,
+ &c_5^\infty(\pi)&=-2.537480-0.379713\ii,\\
+ D_5&=0.057671+0.002692\ii,
+ &\mathcal B_5&=0.99602.
+ \end{aligned}
+ \label{eq:five-pop-continuous-coefficients}
+\end{equation}
+At $a_r=0.01$, its local amplitude is $\rho=0.11333$ and its
+counterpropagating invasion rate is $-0.04518$.  It satisfies the complete
+one-dimensional cubic test: finite-wave onset, supercritical saturation,
+counter-wave exclusion, and longitudinal sideband stability.
+
+A numerical scan of the angular coefficient gives
+\begin{equation}
+ \max_{0<\vartheta\leq\pi}c_{3,r}^\infty(\vartheta)
+ =-0.14723<b_{3,r}^\infty,
+ \qquad
+ \max_{0<\vartheta\leq\pi}c_{5,r}^\infty(\vartheta)
+ =-1.23240<b_{5,r}^\infty.
+ \label{eq:angular-scan-results}
+\end{equation}
+Thus both models pass the computed angular invasion test, although only the
+five-population model also passes the longitudinal sideband test.  This scan
+is numerical evidence, not an analytic bound over the angular continuum.
+For an isotropic plane or hyperspace, rotational degeneracy makes the real
+quadratic curvature vanish in directions tangent to the critical sphere:
+\begin{equation}
+ \xi^T\nabla_q^2\RePart\lambda_*(q_0)\xi
+ =\partial_r^2\RePart\lambda_*(q_0)
+ (\xi\cdot\widehat q_0)^2.
+ \label{eq:isotropic-tangential-degeneracy}
+\end{equation}
+Consequently full stability in $d\geq2$ additionally requires the angular
+amplitude problem or the higher-order transverse phase equation.  The
+present coefficients support, but do not yet prove, a stable isotropic
+plane or hyperspace pattern.  An anisotropic isolated maximum can instead be
+decided directly by \eqref{eq:sideband-J}--
+\eqref{eq:sideband-diffusive-decay} when its diffusion tensor has strictly
+damping real part.
+
+\subsection{Extension 3: one periodic and several non-periodic dimensions}
+\label{sec:mixed-domain}
+
+Let
+\begin{equation}
+ (\theta,x)\in\mathbb S^1\times\mathbb R^d,\qquad
+ 0\leq\theta<2\pi,\qquad x\in\mathbb R^d,
+\end{equation}
+and let $\ell_\theta$ convert angular separation to spatial units.  With an
+orientation width $\sigma_{ij}^\theta$ and spatial covariance $C_{ij}^x$,
+the normalized product kernel has symbol
+\begin{align}
+ e_{n,k}(\theta,x)&=\ee^{\ii(n\theta+k\cdot x)},
+ &n&\in\mathbb Z,\quad k\in\mathbb R^d,\notag\\
+ \widehat J(n,k)_{ij}
+ &=\mu_{ij}\exp\!\left[-\frac12\left(
+ \frac{(\sigma_{ij}^\theta)^2n^2}{\ell_\theta^2}
+ +k^TC_{ij}^xk\right)\right].
+ \label{eq:mixed-symbol}
+\end{align}
+Using one width matrix $\Sigma$ means
+$\sigma_{ij}^\theta=\sigma_{ij}$ and
+$C_{ij}^x=\sigma_{ij}^2I_d$.  The modal matrix and exact spectral condition
+are
+\begin{align}
+ M(n,k)&=\T^{-1}\left[-I+D_1\widehat J(n,k)\right],
+ \label{eq:mixed-M}\\
+ \sup_{n\in\mathbb Z,\,k\in\mathbb R^d}
+ \max_s\RePart\lambda_s(M(n,k))&<0.
+ \label{eq:mixed-stability}
+\end{align}
+The corresponding operator decomposition is
+\begin{equation}
+ \mathcal F_x\mathcal L\mathcal F_x^{-1}
+ =\bigoplus_{n\in\mathbb Z}
+ \int_{\mathbb R^d}^{\oplus}M(n,k)\,dk,
+ \qquad
+ \operatorname{spec}(\mathcal L)
+ =\overline{\bigcup_{n\in\mathbb Z,\,k\in\mathbb R^d}
+ \operatorname{spec}(M(n,k))}.
+ \label{eq:mixed-direct-integral}
+\end{equation}
+Assume a finite critical set $(n_\alpha,k_\alpha)$ with simple smooth
+eigenvalue bands.  After removing the group velocity in the non-periodic
+directions, the leading expansion is
+\begin{equation}
+ u_i(\theta,x,t)=u_i^*+2\varepsilon\RePart\sum_{\alpha=1}^m
+ A_\alpha(X,T)\Phi_{i\alpha}
+ \ee^{\ii(n_\alpha\theta+k_\alpha\cdot x+\omega_\alpha t)}
+ +O(\varepsilon^2),
+ \qquad X=\varepsilon x,\quad T=\varepsilon^2t.
+ \label{eq:mixed-superposition}
+\end{equation}
+The quadratic selection equations are
+\begin{equation}
+ n_r+n_s=n_\alpha,\qquad
+ k_r+k_s=k_\alpha,\qquad
+ \omega_r+\omega_s=\omega_\alpha,
+ \label{eq:mixed-quadratic-resonance}
+\end{equation}
+and the cubic selection equations are
+\begin{equation}
+ n_\beta+n_\gamma-n_\delta=n_\alpha,\qquad
+ k_\beta+k_\gamma-k_\delta=k_\alpha,\qquad
+ \omega_\beta+\omega_\gamma-\omega_\delta=\omega_\alpha.
+ \label{eq:mixed-resonance}
+\end{equation}
+Substitution of $(n,k)$ for $q$ in
+\eqref{eq:general-slaved-mode}--\eqref{eq:general-resonant-amplitudes} gives
+all local mixed-domain coefficients.  Denote that local polynomial by
+$\mathcal N_\alpha^{\rm mix}(A,\overline A)$ and let
+\begin{equation}
+ H_\alpha^x=
+ \nabla_k^2\lambda_\alpha(n_\alpha,k_\alpha).
+ \label{eq:mixed-Hessian}
+\end{equation}
+The non-periodic directions add the envelope derivatives
+\begin{equation}
+ \partial_TA_\alpha
+ =\mathcal N_\alpha^{\rm mix}(A,\overline A)
+ -\frac12\sum_{r,s=1}^d(H_\alpha^x)_{rs}
+ \partial_{X_rX_s}A_\alpha.
+ \label{eq:mixed-envelope}
+\end{equation}
+Constant-envelope equilibria are the roots of
+$\mathcal N^{\rm mix}=0$.  Their full stability is obtained from
+\eqref{eq:sideband-J}--\eqref{eq:sideband-stability} with $H_\alpha$
+replaced by $H_\alpha^x$.  This separates the discrete orientation
+selection rule from continuous cortical sidebands.
+
+The mixed domain has the same onset conditions as
+\eqref{eq:finite-wave-threshold}--\eqref{eq:finite-wave-nondegeneracy} after
+replacing $q$ by $(n,k)$ and differentiating only in the continuous variable
+$k$.  The critical label must satisfy $(n_0,k_0)\ne(0,0)$, while the
+homogeneous sector $(0,0)$ remains stable.  If orientation is axial,
+$\theta\equiv\theta+\pi$, only even $n$ occur on the $2\pi$ circle.
+
+\section{A three-population V1 example with broad excitation}
+
+\subsection{What is measured and what is calibrated}
+
+Billeh et al. constructed a data-driven mouse V1 model with Gaussian
+distance-dependent connection probabilities.  Their kernel convention was
+$\exp(-r^2/s^2)$, so the standard deviation in \eqref{eq:gaussian} is
+$s/\sqrt2$.  The reported or assumed local widths used here are
+\begin{center}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Connection & $s$ ($\mu$m) & standard deviation $s/\sqrt2$ ($\mu$m)\\
+\midrule
+E $\to$ E   & 114 & 80.6\\
+E $\to$ PV  & 92  & 65.1\\
+E $\to$ SST & 103 & 72.8\\
+PV $\to$ E  & 95  & 67.2\\
+SST $\to$ E & 85  & 60.1\\
+inhibitory $\to$ inhibitory & 120 & 84.9\\
+\bottomrule
+\end{tabular}
+\end{center}
+Thus E--E is broader than direct PV--E and SST--E in this local mouse-V1
+dataset.  This supports the concern that the broad-inhibition assumption of a
+two-population lateral-inhibition model should not be read literally.
+
+The population weights below are dimensionless Wilson--Cowan gains calibrated
+to put the measured width ratios near a finite-wave Hopf point.  They are
+\emph{not} converted synaptic conductances:
+\begin{equation}
+ W=\begin{pmatrix}
+ 22.1035&-14.3515&-10.3472\\
+ 18.1160& -8.9407&-12.8206\\
+  9.4942& -2.5978& -7.3034
+ \end{pmatrix},
+ \label{eq:Wnumeric}
+\end{equation}
+with rows $(E,PV,SST)$ as targets and columns $(E,PV,SST)$ as sources.  The
+time constants are $(10,12,35)$ ms, the sigmoid equilibrium is
+$\overline u=(0.2,0.2,0.2)$, and the cortical patch is $4.760$ mm long.
+Biases co-vary with the common coupling scale so this equilibrium stays fixed.
+
+The first crossing occurs at coupling scale $1.0000165$ and Fourier mode 3:
+\begin{equation}
+ q_0=0.39598\,(0.1\,\mathrm{mm})^{-1},\qquad
+ \omega_0=0.089403\,\mathrm{ms}^{-1},\qquad
+ f_0=14.2289\,\mathrm{Hz}.
+\end{equation}
+The cortical wavelength is $4.760/3=1.587$ mm.  At the same point, the
+homogeneous mode has growth rate $-0.001695$ ms$^{-1}$, so the instability is
+genuinely spatial rather than a homogeneous Hopf instability.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{output/simulations/linear_spectrum.png}
+\caption{Leading eigenvalue across spatial modes.  Mode 3 crosses first while
+mode 0 remains damped.}
+\label{fig:spectrum}
+\end{figure}
+
+The coefficient calculation from
+\eqref{eq:bformula}--\eqref{eq:alphaformula} gives
+\eqref{eq:numerical-coefficients}.  In particular, the broad E--E connection
+does not prevent pattern formation once PV and SST are dynamically distinct.
+The mechanism uses the full three-dimensional eigenstructure and cannot be
+reduced to the sign of one difference of Gaussians.
+
+\subsection{What biological data justify}
+
+Three levels of evidence establish that V1 is more than a simple E/I split.
+\begin{enumerate}[label=\arabic*.]
+ \item Tasic et al. identified 111 transcriptomic types in mouse VISp.  Gouwens
+ et al. measured 1,938 visual-cortical neurons and identified 17
+ electrophysiological, 38 morphological, and 46 combined morpho-electric
+ types.  Billeh et al. retained 17 coarse classes in a model of about 230,000
+ mouse-V1 neurons.
+ \item Adult mouse visual-cortex recordings show cell-type-specific connection
+ motifs among morphologically defined interneurons.  Large-scale mouse and
+ human recordings further show that inhibitory synaptic dynamics align with
+ the presynaptic subclass.  Collapsing PV, SST, and VIP/Htr3a into one
+ inhibitory variable discards exactly the differences that can change a Hopf
+ instability.
+ \item Horizontal axon collaterals of layer 2/3 pyramidal neurons extend for
+ millimeters in tree-shrew V1 and become feature-specific outside roughly
+ $500\,\mu$m.  Therefore broad and anisotropic excitation is anatomically
+ plausible, especially in species with orientation maps.  A single isotropic
+ Gaussian is already a major simplification.
+\end{enumerate}
+
+The rigorous conclusion is limited but useful: a model with broad excitation,
+several inhibitory time scales, and cell-class-specific connections can have
+a stable homogeneous state and a finite-wave oscillatory instability with
+plausible cortical spatial and temporal scales.  The present data do not
+identify the Wilson--Cowan gain matrix uniquely, and they do not establish
+that three populations are necessary.  Necessity would require ruling out all
+two-population kernels and nonlinearities, which the current evidence cannot
+do.
+
+\section{Cell-type and connection audit, then a five-population test}
+\label{sec:cell-audit}
+
+\subsection{The word ``all'' depends on measurement resolution}
+
+The finest transcriptomic inventory and the finest complete dynamical model
+are not the same object.  The Allen VISp/ALM SMART-seq taxonomy contains 133
+types: 56 glutamatergic, 61 GABAergic, and 16 non-neuronal types
+\cite{tasic2018}.  These identities do not come with a measured all-pairs
+physiological connection matrix.  At the next coarser scale, Patch-seq and
+anatomical work distinguish excitatory IT, ET, NP, and CT families and
+inhibitory Pvalb, Sst, Vip, Lamp5, and Sncg families.  Still finer names can be
+useful for targeting, but they cannot be inserted into \eqref{eq:field} until
+their density, time scale, gain, and source--target coupling are known.
+
+The Billeh model is presently the useful complete intermediate scale.  Its 17
+populations and cell counts are
+\begin{center}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Layer & excitatory & Pvalb & Sst & Htr3a\\
+\midrule
+L1   & --     & --   & --   & 999\\
+L2/3 & 12,689 & 640  & 464  & 1,107\\
+L4   & 10,254 & 963  & 553  & 270\\
+L5   & 7,569  & 613  & 555  & 117\\
+L6   & 12,882 & 1,052& 1,059& 192\\
+\bottomrule
+\end{tabular}
+\end{center}
+Its published $17\times17$ table reports connection probability at a planar
+separation of $75\,\mu$m.  The machine-readable transcription is
+\texttt{data/billeh\_connection\_probabilities\_75um.csv}.  A blank remains
+``undetermined''; it is not converted to a measured zero.  Billeh et al.
+reported that 89 of 289 entries were undetermined and set them to zero when
+instantiating the circuit \cite{billeh2020}.  Probability alone is not the
+field weight $W_{ij}$: unitary PSP, convergence, population density, firing
+gain, delay, and synaptic dynamics must also be combined.
+
+Several reliable motifs survive across resolutions.  Pvalb cells provide
+fast perisomatic inhibition and strong Pvalb--Pvalb coupling.  Sst cells act
+more slowly on distal dendrites, avoid some within-Sst connections, and
+inhibit several other classes.  Vip/Htr3a cells include disinhibitory cells
+that preferentially target Sst.  Excitatory connections depend on distance
+and functional similarity.  The MICrONS volume adds more than 0.5 billion
+synapses across more than 200,000 cells; a proofread column resolved 1,352
+neurons and more than 70,000 inhibitory synapses, including 18 connectivity
+motif groups and widespread interneuron target specificity
+\cite{microns2025,schneidermizell2025}.  This evidence argues for testing
+several resolutions, not for claiming a completed fine-type matrix.
+
+\subsection{Application after splitting SST-GER from local SST}
+
+Drinnenberg et al. found that a median $66.1\%$ of labeled deep-L2/3 SST cells
+met their general ensemble-response criterion, while $33.9\%$ did not
+\cite{drinnenberg2025}.  The following five-population test preserves that
+split.  Rows are targets and columns are sources in the order
+$(E,PV,S_G,S_L,VIP)$:
+{\small
+\begin{equation}
+W_5=\begin{pmatrix}
+22.1035&-14.3515&-6.8395&-3.5077&-1.2000\\
+18.1160& -8.9407&-8.4744&-4.3462&-1.5000\\
+12.5000& -2.5978&-4.8276&-2.4759&-6.0000\\
+ 7.5000& -2.5978&-4.8276&-2.4759&-6.0000\\
+ 8.0000& -2.0000&-3.3050&-1.6950&-1.0000
+\end{pmatrix}.
+\label{eq:Wfive}
+\end{equation}
+}
+The Billeh width ratios are retained except for E input to SST-GER, whose
+standard deviation is set to $175\,\mu$m, inside the $125$--$225\,\mu$m range
+explored by the preprint's broad-integration model.  The time constants are
+$(10,12,45,25,20)$ ms.  The SST split and width are data-constrained; the
+five-population gains in \eqref{eq:Wfive} are calibrated hypotheses, not
+measured conductances.
+
+The first instability occurs at scale $1.03988$, mode 4, wavelength
+$1.190$ mm, and frequency $14.038$ Hz.  The homogeneous growth rate is still
+$-0.00719$ ms$^{-1}$.  Projection gives \eqref{eq:five-coefficients}, hence
+$\RePart c_5<\RePart b_5<0$ and one traveling wave is locally selected.  For
+$a=0.01$, $\eta_t=\eta_x=0.04$, and zero detuning, the full complex
+equal-amplitude state has
+$r=0.14949$, $\phi=172.622^\circ$ modulo $180^\circ$, and Jacobian
+eigenvalues
+\begin{equation}
+(-0.17302,-0.08170,-0.08000,-0.07861),
+\end{equation}
+so it is asymptotically stable.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.49\textwidth]{output/simulations/five_population_unforced.png}
+\includegraphics[width=0.49\textwidth]{output/simulations/five_population_combined.png}
+\caption{Five-population field.  Left: above onset, one counter-propagating
+mode dominates.  Right: below onset, combined $2{:}1$ forcing makes the two
+critical amplitudes nearly equal and pins the response.}
+\label{fig:five-field}
+\end{figure}
+
+\section{Hallucination patterns explained by the model}
+
+Let retinal polar coordinates be $(r,\theta)$ and approximate the
+retino-cortical map by
+\begin{equation}
+ X=\log(r/r_0),\qquad Y=\theta.
+ \label{eq:logmap}
+\end{equation}
+A cortical plane wave becomes the visual-field image
+\begin{equation}
+ P(r,\theta)=\cos\!\left(k_X\log(r/r_0)+k_Y\theta+\varphi\right).
+ \label{eq:visual-pattern}
+\end{equation}
+Consequently
+\begin{center}
+\begin{tabular}{@{}L{0.24\textwidth}L{0.26\textwidth}L{0.38\textwidth}@{}}
+\toprule
+Cortical planform & Visual-field form & Common report\\
+\midrule
+$\cos(kX)$ & concentric rings & target, tunnel, funnel\\
+$\cos(nY)$ & radial spokes & pinwheel, wheel, rays, cobweb-like spokes\\
+$\cos(kX+nY)$ & logarithmic spiral & spiral, rotating or rocking form\\
+three waves at $120^\circ$ & distorted lattice & honeycomb, grid, checkerboard\\
+irregular band-limited waves & mottled or labyrinthine form & ripples, lines,
+zigzags, TV-like structure\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{output/simulations/retinotopic_hallucination_gallery.png}
+\caption{Static model percepts obtained by applying the inverse logarithmic
+retino-cortical map.  These are explanatory images, not flickering stimuli.}
+\label{fig:gallery}
+\end{figure}
+
+These classes are observed outside mathematics.  Allefeld et al. exposed 20
+participants to a spatially uniform $1$--$50$ Hz Ganzfeld scan.  They retained
+168 recurring percepts and classified lines, ripples, tunnels, honeycombs,
+wheels, rasters, and spirals; individual percept frequencies were often stable
+across repeated scans, but frequency did not determine a unique percept.
+The multistability of symmetry-related amplitude states is consistent with
+that ambiguity.  A 2023 experiment with 20 screened participants compared
+3, 8, 10, and 18 Hz rhythmic and arrhythmic stimulation and found the
+strongest geometric forms and dynamics at 10 Hz rhythmic flicker.  The 2011
+model produced primarily stripes at high forcing frequency and hexagons at
+low forcing frequency, with two frequency islands.  These comparisons support
+the model class, but they do not prove that every reported pattern originates
+in V1.  Color, complex imagery, retinal phosphenes, thalamic effects, and
+higher visual areas require additional mechanisms.
+
+\section{Numerical implementation and results}
+
+The file \texttt{neural\_field.py} accepts any number of populations, a signed
+connectivity matrix, a Gaussian width for every source--target pair, time
+constants, sigmoid gains, a homogeneous rest state, dimension, boundary
+condition, and weak forcing.  It provides:
+\begin{itemize}
+ \item 1D and 2D simulations;
+ \item periodic, reflecting, and zero exterior boundaries;
+ \item direct $1{:}1$, temporal $2{:}1$, spatial $2{:}1$, and combined weak
+ forcing;
+ \item automatic critical-mode and Gaussian normal-form coefficients;
+ \item Floquet exponents of every spatial mode about a forced uniform orbit;
+ \item exact four-real-dimensional amplitude integration and Jacobians;
+ \item static retino-cortical inputs and numerical temporal-drive arrays.
+\end{itemize}
+Periodic convolutions use Fourier multipliers
+$\exp(-\sigma^2|q|^2/2)$.  Reflecting and zero-boundary simulations use
+normalized Gaussian filtering in physical space.  Euler time stepping is
+used deliberately so the code remains transparent; $\Delta t=0.5$ ms is
+small relative to the shortest 10 ms population time constant.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.98\textwidth]{output/simulations/1d_periodic_unforced.png}
+\includegraphics[width=0.98\textwidth]{output/simulations/1d_periodic_combined.png}
+\caption{Top: above onset, one traveling mode dominates, as predicted by
+$\RePart c<\RePart b$.  Bottom: below onset, combined temporal and spatial
+$2{:}1$ forcing produces a standing, spatially pinned response.}
+\label{fig:fields}
+\end{figure}
+
+The periodic unforced run above onset has late projected amplitudes
+$\langle|A|\rangle=0.0103$ and $\langle|B|\rangle=0.1838$, so one direction
+dominates.  With spatial $2{:}1$ forcing below onset, the two means are
+$0.0800$ and $0.0681$, much closer to the standing-wave diagonal.  Reflecting
+boundaries reduce the late E standard deviation from $0.1229$ in the
+periodic combined-forcing run to $0.0773$ and visibly pin the edge response.
+The 2D runs form banded and labyrinthine finite-wavenumber activity rather
+than a homogeneous oscillation.  Exact values for every run are in
+\texttt{output/simulations/summary.json}.
+
+\section{Model inputs and the model-predicted frequency range}
+\label{sec:floquet-range}
+
+The five-population intrinsic frequency is $f_0=14.038$ Hz.  Direct and
+$2{:}1$ resonant guesses are therefore $14.038$ and $28.076$ Hz, but a guessed
+center frequency is not a range.  To calculate the range from the full field,
+let $\overline u_F(t)$ be the spatially uniform periodic solution under a
+uniform sinusoidal input of frequency $F$.  A perturbation of spatial mode
+$q$ satisfies
+\begin{equation}
+ \dot v_q=\T^{-1}\left[-I+D_1(t)\widehat W(q)\right]v_q,\qquad
+ D_1(t)=\operatorname{diag}F_i'(\overline h_{F,i}(t)).
+ \label{eq:floquet-variation}
+\end{equation}
+If $P_q(F)$ is the fundamental matrix after one forcing period $T_F$, define
+\begin{equation}
+ \gamma_q(F)=\frac1{T_F}\log\rho(P_q(F)).
+ \label{eq:floquet-growth}
+\end{equation}
+The uniform orbit is unstable to a pattern exactly when
+$\max_{q\ne0}\gamma_q(F)>0$.  This calculation includes the time-periodic
+sigmoid gain, switches among competing spatial modes, and requires no fitted
+normal-form forcing coefficient.
+
+Figure~\ref{fig:floquet} uses the five-population field at $0.99$ of critical
+coupling.  At model-input amplitude $0.025$, positive finite-mode growth
+occurs quasi-statically below approximately $8.8$ Hz, over the resolved bands
+$9.6$--$13.2$ Hz and a narrow neighborhood of $14.0$ Hz, and over two
+$2{:}1$ tongues near $25.0$--$26.6$ Hz and $27.2$--$28.6$ Hz.  Boundaries are
+grid estimates from $0.5$ Hz spacing and change with coupling, input
+amplitude, sigmoid operating point, and the population parameters.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{output/simulations/floquet_resonance_map.png}
+\caption{Left: maximum finite-mode Floquet growth versus temporal input
+frequency and model-input amplitude.  The black contour is zero growth.
+Right: the amplitude-$0.025$ slice; red shading marks model pattern growth.}
+\label{fig:floquet}
+\end{figure}
+
+The numerical input bundle contains static target and pinwheel arrays, their
+PNG renderings, and numerical time series at $f_0$ and $2f_0$ in
+\texttt{output/simulations/model\_inputs/}.  It contains no animation or
+autoplay display.  The computed Floquet intervals are a \emph{model
+pattern-forming range}; they are not a measured human hallucination threshold
+and they are not a safety range.  The Epilepsy Foundation identifies roughly
+$5$--$30$ Hz as particularly relevant for photosensitive seizures, overlapping
+the computed tongues, while W3C guidance avoids more than three flashes per
+second.  Therefore no high-contrast human-viewable flicker intended to provoke
+hallucinations is generated here.  Static high-contrast stripes and radial
+patterns can also be provocative for pattern-sensitive viewers, so the static
+arrays are model inputs rather than validated exposure stimuli.  Any human
+stimulation requires an approved
+clinical or psychophysics protocol with screening, luminance and contrast
+limits, field-size limits, emergency stopping, and informed consent.
+
+\section{Limitations and next experimental tests}
+
+\begin{enumerate}[label=\arabic*.]
+ \item The Gaussian width ratios are data-informed; the population weights in
+ \eqref{eq:Wnumeric} are calibrated.  Direct conversion from connection
+ probability and unitary synaptic strength to a Wilson--Cowan gain requires
+ cell density, convergence, release dynamics, operating point, and gain.
+ \item Mouse V1 has a salt-and-pepper orientation organization, while the
+ classical human hallucination theory uses orientation columns.  Human,
+ primate, carnivore, and tree-shrew horizontal connectivity should be used
+ when spatially precise human predictions are intended.
+ \item The cubic Turing--Hopf normal form explains the local high-frequency
+ stripe selection.  Low-frequency hexagons require the Floquet normal form
+ about the periodically forced homogeneous orbit and its quadratic term.
+ \item The logarithmic map predicts geometry, not color.  Color opponency needs
+ additional cone-opponent or cortical color populations.
+ \item The strongest test is quantitative: measure each participant's damped
+ visual frequency, then predict both the two forcing islands and the spatial
+ wavelength before collecting hallucination reports.
+\end{enumerate}
+
+\clearpage
+\appendix
+\section{One-page summary: large-scale cellular-resolution read/write}
+\label{app:drinnenberg}
+\small
+\textbf{Paper and question.}
+Drinnenberg et al., ``Large-scale cellular-resolution read/write of activity
+enables discovery of cell types defined by complex circuit properties,'' is a
+2025 bioRxiv preprint and has not been peer reviewed
+\cite{drinnenberg2025}.  The paper asks whether a cell type can be defined by
+how it participates in a large causal circuit experiment, rather than only by
+genes, morphology, or intrinsic physiology.  The central logic is to stimulate
+many precisely chosen excitatory ensembles, read thousands of non-targeted
+neurons, identify followers common to otherwise non-overlapping ensembles,
+then use cell labels and a probabilistic model to explain that response class.
+
+\textbf{Read/write experiment.}
+New transgenic and follower-focused preparations combined soma-enriched
+ChRmine with calcium indicators.  The platform controlled approximately
+$10^3$ cells and monitored up to $10^4$ cells within or across mouse visual
+areas.  In the main V1 experiment, 104 random, orientation-selective, or
+scene-selective L2/3 excitatory ensembles were tested in 10 awake mice.  Each
+ensemble had a median 50 targets and was driven for $1.5$ s at $32$ Hz while a
+median 8,318 non-targeted regions of interest were monitored.  Downstream
+activity decoded ensemble identity above chance; iso-tuned cells were
+recruited while orthogonally tuned cells were suppressed, consistent with
+like-to-like wiring.
+
+\textbf{Probabilistic model.}
+For a candidate follower, the connection probability from a pyramidal cell at
+distance $r$ was
+\begin{equation}
+ p(r)=A\exp[-r^2/(2\sigma^2)].
+\end{equation}
+If $p_c$ is this probability averaged over uniformly distributed targets, the
+probability of following an ensemble of $T$ targets with activation threshold
+$k$ is
+\begin{equation}
+ P_f=1-\sum_{j=0}^{k-1}\binom{T}{j}p_c^j(1-p_c)^{T-j},
+ \qquad \mathbb E[m]=M P_f
+\end{equation}
+for $M$ independently sampled ensembles.  With $M=10$, $T=50$, peak
+connectivity $A=0.2$, $\sigma=100\,\mu$m, and $k=5$, the expected number
+followed was only $0.004$ of 10.  Larger $\sigma$ helped, but a low $k$ was
+also necessary.  The model therefore predicted a broadly integrating,
+low-threshold inhibitory subtype rather than an ordinary local follower.
+
+\textbf{Results.}
+Single ensembles recruited $199\pm9$ positive followers ($2.5\%$ of the
+non-targeted population) and suppressed $267\pm14$ cells ($3.4\%$).  Of the
+positive followers, $18\pm3.8\%$ followed at least four ensembles, over
+20-fold the chance expectation $0.87\pm0.3\%$; $6.3\pm1.8\%$ followed at
+least eight.  These general ensemble-response (GER) neurons remained active
+more than $150\,\mu$m from the nearest target, were concentrated in deep
+L2/3, were broadly visually responsive, and were mutually correlated.
+Cell-type labeling showed PV neurons were suppressed, whereas SST neurons were
+increased.  A median $66.1\%$ of labeled SST cells met the GER criterion and
+$33.9\%$ did not; $53.5\%$ of all functionally identified GER cells carried
+the incomplete SST label, so the true SST fraction may be higher.
+
+\textbf{Connection to this model.}
+The result supports splitting SST-GER from local SST: the former receives a
+broader E kernel, has a lower effective threshold and longer integration time,
+and supplies dendritic feedback inhibition.  It does not provide a measured
+five-by-five gain matrix.  Equation~\eqref{eq:Wfive} is therefore a transparent
+hypothesis test.  Its finite-wave Hopf point and coefficients show that the
+functional split is sufficient to preserve pattern formation with broad
+excitation; they do not establish SST-GER dysfunction as a human
+hallucination mechanism.
+\normalsize
+\clearpage
+
+\begin{thebibliography}{99}
+
+\bibitem{rule2011}
+M. Rule, M. Stoffregen, and B. Ermentrout,
+``A Model for the Origin and Properties of Flicker-Induced Geometric
+Phosphenes,'' \emph{PLoS Computational Biology} 7, e1002158 (2011).
+\href{https://doi.org/10.1371/journal.pcbi.1002158}{doi:10.1371/journal.pcbi.1002158}.
+
+\bibitem{bressloff2002}
+P. Bressloff, J. Cowan, M. Golubitsky, P. Thomas, and M. Wiener,
+``What Geometric Visual Hallucinations Tell Us about the Visual Cortex,''
+\emph{Neural Computation} 14, 473--491 (2002).
+\href{https://doi.org/10.1162/089976602317250861}{doi:10.1162/089976602317250861}.
+
+\bibitem{allefeld2011}
+C. Allefeld, P. Putz, K. Kastner, and J. Wackermann,
+``Flicker-light induced visual phenomena: Frequency dependence and
+specificity of whole percepts and percept features,''
+\emph{Consciousness and Cognition} 20, 1344--1362 (2011).
+\href{https://doi.org/10.1016/j.concog.2010.10.026}{doi:10.1016/j.concog.2010.10.026}.
+
+\bibitem{bartossek2023}
+M. Bartossek et al.,
+``Effect of frequency and rhythmicity on flicker light-induced hallucinatory
+phenomena,'' \emph{PLoS ONE} 18, e0284271 (2023).
+\href{https://doi.org/10.1371/journal.pone.0284271}{doi:10.1371/journal.pone.0284271}.
+
+\bibitem{billock2007}
+V. Billock and B. Tsou,
+``Neural interactions between flicker-induced self-organized visual
+hallucinations and physical stimuli,'' \emph{PNAS} 104, 8490--8495 (2007).
+\href{https://doi.org/10.1073/pnas.0610813104}{doi:10.1073/pnas.0610813104}.
+
+\bibitem{billeh2020}
+Y. Billeh et al.,
+``Systematic Integration of Structural and Functional Data into Multi-scale
+Models of Mouse Primary Visual Cortex,'' \emph{Neuron} 106, 388--403 (2020).
+\href{https://doi.org/10.1016/j.neuron.2020.01.040}{doi:10.1016/j.neuron.2020.01.040}.
+
+\bibitem{tasic2018}
+B. Tasic et al.,
+``Shared and distinct transcriptomic cell types across neocortical areas,''
+\emph{Nature} 563, 72--78 (2018).
+\href{https://doi.org/10.1038/s41586-018-0654-5}{doi:10.1038/s41586-018-0654-5}.
+
+\bibitem{gouwens2019}
+N. Gouwens et al.,
+``Classification of electrophysiological and morphological neuron types in
+the mouse visual cortex,'' \emph{Nature Neuroscience} 22, 1182--1195 (2019).
+\href{https://doi.org/10.1038/s41593-019-0417-0}{doi:10.1038/s41593-019-0417-0}.
+
+\bibitem{jiang2015}
+X. Jiang et al.,
+``Principles of connectivity among morphologically defined cell types in
+adult neocortex,'' \emph{Science} 350, aac9462 (2015).
+\href{https://doi.org/10.1126/science.aac9462}{doi:10.1126/science.aac9462}.
+
+\bibitem{campagnola2022}
+L. Campagnola et al.,
+``Local Connectivity and Synaptic Dynamics in Mouse and Human Neocortex,''
+\emph{Science} 375, eabj5861 (2022).
+\href{https://doi.org/10.1126/science.abj5861}{doi:10.1126/science.abj5861}.
+
+\bibitem{bosking1997}
+W. Bosking, Y. Zhang, B. Schofield, and D. Fitzpatrick,
+``Orientation Selectivity and the Arrangement of Horizontal Connections in
+Tree Shrew Striate Cortex,'' \emph{Journal of Neuroscience} 17, 2112--2127
+(1997).
+\href{https://doi.org/10.1523/JNEUROSCI.17-06-02112.1997}{doi:10.1523/JNEUROSCI.17-06-02112.1997}.
+
+\bibitem{microns2025}
+MICrONS Consortium,
+``Functional connectomics spanning multiple areas of mouse visual cortex,''
+\emph{Nature} 640, 435--447 (2025).
+\href{https://doi.org/10.1038/s41586-025-08790-w}{doi:10.1038/s41586-025-08790-w}.
+
+\bibitem{schneidermizell2025}
+C. Schneider-Mizell et al.,
+``Inhibitory specificity from a connectomic census of mouse visual cortex,''
+\emph{Nature} 640, 448--458 (2025).
+\href{https://doi.org/10.1038/s41586-024-07780-8}{doi:10.1038/s41586-024-07780-8}.
+
+\bibitem{drinnenberg2025}
+A. Drinnenberg et al.,
+``Large-scale cellular-resolution read/write of activity enables discovery
+of cell types defined by complex circuit properties,'' bioRxiv (2025).
+\href{https://doi.org/10.1101/2025.10.21.683734}{doi:10.1101/2025.10.21.683734}.
+
+\bibitem{photosensitivity}
+Epilepsy Foundation,
+``Photosensitivity and Seizures.''
+\href{https://go.epilepsy.com/what-is-epilepsy/seizure-triggers/photosensitivity}{epilepsy.com}.
+
+\bibitem{wcag}
+W3C Web Accessibility Initiative,
+``Understanding Success Criterion 2.3.2: Three Flashes.''
+\href{https://www.w3.org/WAI/WCAG21/Understanding/three-flashes}{w3.org}.
+
+\end{thebibliography}
+
+\end{document}

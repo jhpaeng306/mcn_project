@@ -1,0 +1,571 @@
+\section{Amplitude equations and patterns}
+
+Considering only non-homogeneous forcing at $2\omega_0$ and $2k_0$, define
+the complex forcing coefficients
+\[
+ \eta_t\coloneqq
+ 2\Psi^*\cQ\!\left(\overline\Phi,p_{2\omega_0}\right),
+ \qquad
+ \eta_x\coloneqq
+ 2\Psi^*\cQ\!\left(\Phi,s_{2k_0}\right).
+\]
+Thus $\eta_t=0$ when $P=0$, and $\eta_x=0$ when $S=0$.  The amplitude
+equations are
+\begin{subequations}
+\label{eq:amplitude}
+\begin{align}
+ A_\tau&=A\left(a+b|A|^2+c|B|^2\right)
+          +\eta_t\overline B+\eta_xB,
+ \label{eq:A}\\
+ B_\tau&=B\left(a+b|B|^2+c|A|^2\right)
+          +\eta_t\overline A+\eta_xA.
+ \label{eq:B}
+\end{align}
+\end{subequations}
+Here $a,b,c,\eta_t,\eta_x\in\mathbb C$.  An equilibrium satisfies
+\begin{align}
+ 0&=A\left(a+b|A|^2+c|B|^2\right)
+       +\eta_t\overline B+\eta_xB,
+ \label{eq:A-equilibrium}\\
+ 0&=B\left(a+b|B|^2+c|A|^2\right)
+       +\eta_t\overline A+\eta_xA.
+ \label{eq:B-equilibrium}
+\end{align}
+
+\subsection{Nonzero equilibrium solution}
+
+Assume first that $A,B\neq0$.  Set
+\[
+ x=|A|^2,
+ \qquad
+ \zeta=\frac BA,
+ \qquad
+ u=\frac{\overline A}{A}.
+\]
+Then $|u|=1$, $|B|^2=|\zeta|^2x$, and, for some $\phi\in\mathbb R$,
+\[
+ A=\sqrt{x}\,\ee^{\ii\phi},
+ \qquad
+ u=\ee^{-2\ii\phi},
+ \qquad
+ B=\zeta A.
+\]
+Dividing \eqref{eq:A-equilibrium} by $A$, and dividing
+\eqref{eq:B-equilibrium} by $A$, gives
+\begin{align}
+ 0&=a+bx+c|\zeta|^2x
+      +\eta_t\overline\zeta u+\eta_x\zeta,
+ \label{eq:ratio-A}\\
+ 0&=\zeta\left(a+b|\zeta|^2x+cx\right)
+      +\eta_tu+\eta_x.
+ \label{eq:ratio-B}
+\end{align}
+Eliminating $u$ gives
+\begin{equation}
+ \left(1-|\zeta|^2\right)
+ \left[a+bx\left(1+|\zeta|^2\right)\right]
+ +\eta_x\left(\zeta-\overline\zeta\right)=0.
+ \label{eq:ratio-balance}
+\end{equation}
+The condition $|u|=1$ gives
+\begin{equation}
+ \left|
+ \eta_x+\zeta\left[a+\left(b|\zeta|^2+c\right)x\right]
+ \right|=|\eta_t|.
+ \label{eq:ratio-modulus}
+\end{equation}
+Equations \eqref{eq:ratio-balance} and \eqref{eq:ratio-modulus} are
+necessary and sufficient.  The following reduction gives their closed-form
+solution.
+
+Define the real invariants
+\[
+ x=|A|^2,
+ \qquad
+ T=x+|B|^2,
+ \qquad
+ D=x-|B|^2,
+\]
+and
+\[
+ A\overline B=h+\ii k,
+ \qquad
+ h,k\in\mathbb R.
+\]
+They satisfy
+\begin{equation}
+ h^2+k^2=x(T-x).
+ \label{eq:relative-phase-constraint}
+\end{equation}
+Multiplying \eqref{eq:A-equilibrium} by $\overline A$, multiplying
+\eqref{eq:B-equilibrium} by $\overline B$, and subtracting gives
+\begin{equation}
+ D(a+bT)-2\ii\eta_xk=0.
+ \label{eq:difference-balance}
+\end{equation}
+
+\subsubsection{Unequal intensities}
+
+Suppose $D\neq0$, hence $|A|\neq|B|$.  We consider the three forcing cases
+separately.
+
+\paragraph{Only spatial forcing: $\eta_t=0$ and $\eta_x\neq0$.}
+Set
+\[
+ K=\frac{k}{D}\in\mathbb R.
+\]
+Equation \eqref{eq:difference-balance} gives
+\begin{equation}
+ a+bT-2\ii\eta_xK=0,
+ \label{eq:spatial-TK-equation}
+\end{equation}
+and hence
+\begin{equation}
+ T=-\frac{\operatorname{Re}(\overline{\eta_x}a)}
+          {\operatorname{Re}(\overline{\eta_x}b)},
+ \qquad
+ K=\frac{\operatorname{Im}(\overline ba)}
+          {2\operatorname{Re}(\overline b\eta_x)}.
+ \label{eq:spatial-TK-solution}
+\end{equation}
+The remaining equations are
+\begin{align}
+ h^2
+ &=\frac{T^2}{4}-\left(K^2+\frac14\right)D^2,
+ \label{eq:spatial-h-constraint}\\
+ 0
+ &=\frac{|c-b|^2}{4}(T^2-D^2)
+   +2\operatorname{Re}\!\left(\overline{\eta_x}(c-b)\right)h
+   +(1+4K^2)|\eta_x|^2
+   +2TK\operatorname{Im}\!\left(\overline{\eta_x}(c-b)\right).
+ \label{eq:spatial-h-balance}
+\end{align}
+If $\operatorname{Re}(\overline{\eta_x}(c-b))\neq0$, eliminate $h$ to
+obtain
+\begin{equation}
+ \begin{aligned}
+ &\left[
+  \begin{aligned}
+   &\frac{|c-b|^2}{4}(T^2-D^2)+(1+4K^2)|\eta_x|^2\\
+   &\qquad
+    +2TK\operatorname{Im}\!\left(\overline{\eta_x}(c-b)\right)
+  \end{aligned}
+ \right]^2\\
+ &\qquad
+ =4\operatorname{Re}\!\left(\overline{\eta_x}(c-b)\right)^2
+ \left[
+  \frac{T^2}{4}-\left(K^2+\frac14\right)D^2
+ \right].
+ \end{aligned}
+ \label{eq:spatial-D-quadratic}
+\end{equation}
+This is quadratic in $D^2$.  Retain only real roots satisfying
+\begin{equation}
+ 0<D^2<T^2,
+ \qquad
+ \frac{T^2}{4}-\left(K^2+\frac14\right)D^2\geq0.
+ \label{eq:spatial-admissibility}
+\end{equation}
+For each root, take both signs of $D$ and compute
+\begin{equation}
+ \begin{aligned}
+ x&=\frac{T+D}{2},
+ &k&=KD,\\
+ h&=-\frac{
+ \dfrac{|c-b|^2}{4}(T^2-D^2)+(1+4K^2)|\eta_x|^2
+ +2TK\operatorname{Im}\!\left(\overline{\eta_x}(c-b)\right)}
+ {2\operatorname{Re}\!\left(\overline{\eta_x}(c-b)\right)},
+ &\zeta&=\frac{h-\ii k}{x}.
+ \end{aligned}
+ \label{eq:spatial-reconstruction}
+\end{equation}
+Then
+\begin{equation}
+ \eta_x+\zeta\left[a+b(T-x)+cx\right]=0,
+ \label{eq:spatial-ratio}
+\end{equation}
+and the equilibria are
+\begin{equation}
+ A=\sqrt{x}\,\ee^{\ii\phi},
+ \qquad
+ B=\zeta A,
+ \qquad
+ \phi\in\mathbb R.
+ \label{eq:spatial-equilibria}
+\end{equation}
+The arbitrary common phase follows from the spatial-forcing phase symmetry.
+
+\paragraph{Only temporal forcing: $\eta_t\neq0$ and $\eta_x=0$.}
+Equation \eqref{eq:difference-balance} gives
+\begin{equation}
+ T=-\frac ab\in\mathbb R_{>0}.
+ \label{eq:temporal-T}
+\end{equation}
+The modulus condition reduces to
+\begin{equation}
+ |c-b|^2x(T-x)=|\eta_t|^2.
+ \label{eq:temporal-x-balance}
+\end{equation}
+For $c\neq b$, the two exchange-related intensities are
+\begin{equation}
+ x_\pm=
+ \frac{T\pm\sqrt{T^2-4|\eta_t|^2/|c-b|^2}}{2}.
+ \label{eq:temporal-x-roots}
+\end{equation}
+Unequal-intensity equilibria exist when
+\begin{equation}
+ T^2>\frac{4|\eta_t|^2}{|c-b|^2}.
+ \label{eq:temporal-existence}
+\end{equation}
+For each $x=x_\pm$, choose an arbitrary $\delta\in\mathbb R$ and set
+\begin{equation}
+ \zeta=\sqrt{\frac{T-x}{x}}\,\ee^{\ii\delta},
+ \qquad
+ \ee^{-2\ii\phi}=-\frac{\zeta(c-b)x}{\eta_t}.
+ \label{eq:temporal-phase}
+\end{equation}
+The equilibria are
+\begin{equation}
+ A=\sqrt{x}\,\ee^{\ii\phi},
+ \qquad
+ B=\zeta A.
+ \label{eq:temporal-equilibria}
+\end{equation}
+The free value of $\delta$ represents the opposite-phase symmetry.
+
+\paragraph{Combined forcing: $\eta_t\neq0$ and $\eta_x\neq0$.}
+Compute $T$ and $K$ from \eqref{eq:spatial-TK-solution}.  The remaining
+equations are
+\begin{align}
+ h^2
+ &=\frac{T^2}{4}-\left(K^2+\frac14\right)D^2,
+ \label{eq:combined-h-constraint}\\
+ 0
+ &=\frac{|c-b|^2}{4}(T^2-D^2)
+   +2\operatorname{Re}\!\left(\overline{\eta_x}(c-b)\right)h
+   +|\eta_x|^2-|\eta_t|^2+4K^2|\eta_x|^2
+   +2TK\operatorname{Im}\!\left(\overline{\eta_x}(c-b)\right).
+ \label{eq:combined-h-balance}
+\end{align}
+If $\operatorname{Re}(\overline{\eta_x}(c-b))\neq0$, eliminate $h$ to
+obtain
+\begin{equation}
+ \begin{aligned}
+ &\left[
+  \begin{aligned}
+   &\frac{|c-b|^2}{4}(T^2-D^2)
+    +|\eta_x|^2-|\eta_t|^2+4K^2|\eta_x|^2\\
+   &\qquad
+    +2TK\operatorname{Im}\!\left(\overline{\eta_x}(c-b)\right)
+  \end{aligned}
+ \right]^2\\
+ &\qquad
+ =4\operatorname{Re}\!\left(\overline{\eta_x}(c-b)\right)^2
+ \left[
+  \frac{T^2}{4}-\left(K^2+\frac14\right)D^2
+ \right].
+ \end{aligned}
+ \label{eq:combined-D-quadratic}
+\end{equation}
+Retain only roots satisfying the conditions in
+\eqref{eq:spatial-admissibility}.  For each root, take both signs of $D$ and
+compute
+\begin{equation}
+ \begin{aligned}
+ x&=\frac{T+D}{2},
+ &k&=KD,\\
+ h&=-\frac{
+ \dfrac{|c-b|^2}{4}(T^2-D^2)
+ +|\eta_x|^2-|\eta_t|^2+4K^2|\eta_x|^2
+ +2TK\operatorname{Im}\!\left(\overline{\eta_x}(c-b)\right)}
+ {2\operatorname{Re}\!\left(\overline{\eta_x}(c-b)\right)},
+ &\zeta&=\frac{h-\ii k}{x}.
+ \end{aligned}
+ \label{eq:combined-reconstruction}
+\end{equation}
+The phase is fixed by
+\begin{equation}
+ \ee^{-2\ii\phi}
+ =-\frac{\eta_x+\zeta\left[a+b(T-x)+cx\right]}{\eta_t},
+ \label{eq:combined-phase}
+\end{equation}
+and the equilibria are
+\begin{equation}
+ A=\sqrt{x}\,\ee^{\ii\phi},
+ \qquad
+ B=\zeta A.
+ \label{eq:combined-equilibria}
+\end{equation}
+Thus both forcing terms generically fix the two phases.
+
+\paragraph{Consistency.}
+The preceding formulas assume nonzero denominators and admissible real
+roots.  If $\operatorname{Re}(\overline b\eta_x)=0$ in a case with
+$\eta_x\neq0$, solve
+\begin{equation}
+ \begin{pmatrix}
+  \operatorname{Re}b&2\operatorname{Im}\eta_x\\
+  \operatorname{Im}b&-2\operatorname{Re}\eta_x
+ \end{pmatrix}
+ \begin{pmatrix}T\\K\end{pmatrix}
+ =-
+ \begin{pmatrix}\operatorname{Re}a\\\operatorname{Im}a\end{pmatrix}.
+ \label{eq:TK-degenerate}
+\end{equation}
+If $\operatorname{Re}(\overline{\eta_x}(c-b))=0$, use the corresponding
+unsquared balance equation to solve for $D^2$, and then use the constraint
+equation to compute $h$.  An inconsistent system, $T\leq0$, or the absence
+of an admissible root gives no unequal-intensity equilibrium.  A
+rank-deficient consistent system may give a continuous family.  In the
+temporal-only case, $a+bT=0$ must have a positive real solution.  If $b=0$
+and $a\neq0$, no such equilibrium exists; if $a=b=0$, $T$ is not fixed by
+this equation and a degenerate family may occur.  Also, $c=b$ gives no
+unequal-intensity equilibrium when $\eta_t\neq0$.
+
+\subsubsection{Equal intensities}
+
+Suppose $D=0$, so $|A|=|B|=r$.  Equation
+\eqref{eq:difference-balance} gives $\eta_xk=0$.
+
+If $\eta_x\neq0$, then $k=0$ and hence
+\begin{equation}
+ B=\sigma A,
+ \qquad
+ \sigma\in\{1,-1\}.
+ \label{eq:parity-state}
+\end{equation}
+Set
+\[
+ d=b+c,
+ \qquad
+ g_\sigma=a+\sigma\eta_x,
+ \qquad
+ y=r^2.
+\]
+The equilibrium condition is
+\begin{equation}
+ g_\sigma+dy+\sigma\eta_t\ee^{-2\ii\phi}=0.
+ \label{eq:parity-balance}
+\end{equation}
+For $d\neq0$, define
+\begin{equation}
+ \Delta_\sigma=
+ \operatorname{Re}(g_\sigma\overline d)^2
+ -|d|^2\left(|g_\sigma|^2-|\eta_t|^2\right).
+ \label{eq:parity-discriminant}
+\end{equation}
+The possible amplitudes are
+\begin{equation}
+ y_{\sigma,\pm}=
+ \frac{-\operatorname{Re}(g_\sigma\overline d)
+       \pm\sqrt{\Delta_\sigma}}{|d|^2}.
+ \label{eq:parity-amplitudes}
+\end{equation}
+Retain only $\Delta_\sigma\geq0$ and $y_{\sigma,\pm}>0$.  If
+$\eta_t\neq0$, the phase is determined by
+\begin{equation}
+ \ee^{-2\ii\phi}
+ =-\frac{g_\sigma+dy}{\sigma\eta_t}.
+ \label{eq:parity-phase}
+\end{equation}
+If $\eta_t=0$, require $g_\sigma+dy=0$, and $\phi$ is arbitrary.  If
+$d=0$, use \eqref{eq:parity-balance} directly; it gives either no solution
+or a continuum of amplitudes.
+
+If $\eta_x=0$, write
+\[
+ A=r\ee^{\ii\phi},
+ \qquad
+ B=r\ee^{\ii\psi},
+ \qquad
+ \Theta=\phi+\psi.
+\]
+The equilibrium condition is
+\begin{equation}
+ a+(b+c)r^2+\eta_t\ee^{-\ii\Theta}=0.
+ \label{eq:temporal-equal-balance}
+\end{equation}
+Thus $|a+(b+c)r^2|=|\eta_t|$.  For $b+c\neq0$, the possible amplitudes are
+\begin{equation}
+ r_\pm^2=
+ \frac{-\operatorname{Re}\!\left(a\overline{(b+c)}\right)
+ \pm\sqrt{
+ \operatorname{Re}\!\left(a\overline{(b+c)}\right)^2
+ -|b+c|^2\left(|a|^2-|\eta_t|^2\right)}}{|b+c|^2}.
+ \label{eq:temporal-equal-amplitudes}
+\end{equation}
+For $\eta_t\neq0$, the phase sum is fixed by
+\begin{equation}
+ \ee^{-\ii\Theta}
+ =-\frac{a+(b+c)r^2}{\eta_t},
+ \label{eq:temporal-equal-phase}
+\end{equation}
+while $\phi-\psi$ is arbitrary.  If $\eta_t=0$, require
+$a+(b+c)r^2=0$, and both phases are arbitrary.
+
+\subsection{One-zero equilibrium solution}
+
+Let $A=0$ and $B=r\ee^{\ii\psi}\neq0$.  The equilibrium equations reduce
+to
+\begin{equation}
+ a+br^2=0,
+ \qquad
+ \eta_t\ee^{-2\ii\psi}+\eta_x=0.
+ \label{eq:B-only-balance}
+\end{equation}
+Hence, for $\eta_t\neq0$, this branch exists precisely when
+\begin{equation}
+ r^2=-\frac ab\in\mathbb R_{>0},
+ \qquad
+ |\eta_t|=|\eta_x|,
+ \qquad
+ \ee^{-2\ii\psi}=-\frac{\eta_x}{\eta_t}.
+ \label{eq:B-only-solution}
+\end{equation}
+If $\eta_t=0$, a one-zero equilibrium requires $\eta_x=0$ and
+$a+br^2=0$; its active phase is arbitrary.  The solution with $B=0$ and
+$A\neq0$ is obtained by exchanging $A$ and $B$.
+
+\subsection{Zero equilibrium solution}
+
+The zero equilibrium
+\begin{equation}
+ (A,B)=(0,0)
+ \label{eq:zero-equilibrium}
+\end{equation}
+always exists.
+
+\subsection{Stability}
+
+Stability here refers to the amplitude equations in slow time $\tau$.  Write
+$\mathbf A=(A,B)^\mathsf{T}$.  At an equilibrium $(A_*,B_*)$, the
+linearization has
+the form
+\begin{equation}
+ \delta\mathbf A_\tau
+ =M\,\delta\mathbf A+N\,\delta\overline{\mathbf A},
+ \label{eq:complex-linearization}
+\end{equation}
+where
+\begin{equation}
+ M=
+ \begin{pmatrix}
+  a+2b|A_*|^2+c|B_*|^2&cA_*\overline{B_*}+\eta_x\\
+  cB_*\overline{A_*}+\eta_x&a+2b|B_*|^2+c|A_*|^2
+ \end{pmatrix},
+ \label{eq:M-block}
+\end{equation}
+and
+\begin{equation}
+ N=
+ \begin{pmatrix}
+  bA_*^2&cA_*B_*+\eta_t\\
+  cA_*B_*+\eta_t&bB_*^2
+ \end{pmatrix}.
+ \label{eq:N-block}
+\end{equation}
+Since the system depends on complex conjugates, the eigenvalues of $M$ alone
+do not determine stability.  The correct four-dimensional real
+linearization is represented by
+\begin{equation}
+ \mathcal J=
+ \begin{pmatrix}
+  M&N\\
+  \overline N&\overline M
+ \end{pmatrix}.
+ \label{eq:doubled-Jacobian}
+\end{equation}
+An isolated equilibrium is asymptotically stable if and only if every
+eigenvalue of $\mathcal J$ has negative real part.
+
+For a direct algebraic test, write
+\begin{equation}
+ \det(\lambda I-\mathcal J)
+ =\lambda^4+\alpha_1\lambda^3+\alpha_2\lambda^2
+  +\alpha_3\lambda+\alpha_4.
+ \label{eq:quartic-characteristic}
+\end{equation}
+The coefficients $\alpha_j$ are real.  Strict stability is equivalent to
+\begin{equation}
+ \alpha_1,\alpha_2,\alpha_3,\alpha_4>0,
+ \qquad
+ \alpha_1\alpha_2>\alpha_3,
+ \qquad
+ \alpha_1\alpha_2\alpha_3>
+ \alpha_3^2+\alpha_1^2\alpha_4.
+ \label{eq:quartic-Hurwitz}
+\end{equation}
+This gives the stability of the unequal-intensity nonzero equilibria and the
+one-zero equilibria after substituting their closed-form values into
+\eqref{eq:M-block}--\eqref{eq:N-block}.
+
+For the equal-intensity state $B_*=\sigma A_*$, perturbations split into
+$\delta B=\kappa\delta A$, where $\kappa\in\{1,-1\}$.  Set
+\begin{align}
+ P_{\sigma\kappa}
+ &=a+\kappa\eta_x+
+   \left(2b+c+\kappa\sigma c\right)|A_*|^2,
+ \label{eq:P-parity}\\
+ Q_{\sigma\kappa}
+ &=\left(b+\kappa\sigma c\right)A_*^2+\kappa\eta_t.
+ \label{eq:Q-parity}
+\end{align}
+The two eigenvalues in this real two-dimensional block satisfy
+\begin{equation}
+ \lambda^2-2\operatorname{Re}(P_{\sigma\kappa})\lambda
+ +|P_{\sigma\kappa}|^2-|Q_{\sigma\kappa}|^2=0.
+ \label{eq:parity-characteristic}
+\end{equation}
+The equilibrium is stable if and only if, for both $\kappa=1$ and
+$\kappa=-1$,
+\begin{equation}
+ \operatorname{Re}(P_{\sigma\kappa})<0,
+ \qquad
+ |P_{\sigma\kappa}|^2>|Q_{\sigma\kappa}|^2.
+ \label{eq:parity-stability}
+\end{equation}
+
+For the one-zero equilibrium $(0,B_*)$, the blocks reduce to
+\begin{equation}
+ M_0=
+ \begin{pmatrix}
+  a+c|B_*|^2&\eta_x\\
+  \eta_x&a+2b|B_*|^2
+ \end{pmatrix},
+ \qquad
+ N_0=
+ \begin{pmatrix}
+  0&\eta_t\\
+  \eta_t&bB_*^2
+ \end{pmatrix}.
+ \label{eq:one-zero-blocks}
+\end{equation}
+Its stability follows from \eqref{eq:doubled-Jacobian} and
+\eqref{eq:quartic-Hurwitz}.  The case $(A_*,0)$ is obtained by exchanging the
+two amplitudes.
+
+At the zero equilibrium, define $Z_\sigma=A+\sigma B$ for
+$\sigma\in\{1,-1\}$.  The two exchange-parity blocks are
+\begin{equation}
+ (Z_\sigma)_\tau
+ =(a+\sigma\eta_x)Z_\sigma
+  +\sigma\eta_t\overline{Z_\sigma}.
+ \label{eq:zero-parity-block}
+\end{equation}
+Therefore the zero equilibrium is stable if and only if, for both
+$\sigma=1$ and $\sigma=-1$,
+\begin{equation}
+ \operatorname{Re}(a+\sigma\eta_x)<0,
+ \qquad
+ |a+\sigma\eta_x|^2>|\eta_t|^2.
+ \label{eq:zero-stability}
+\end{equation}
+
+For spatial forcing only, the common-phase symmetry gives one zero
+eigenvalue; orbital stability requires the other three eigenvalues to have
+negative real part.  For temporal forcing only, the opposite-phase symmetry
+gives the same conclusion.  When both forcing coefficients are nonzero, both
+phases are generically locked, and asymptotic stability requires all four
+eigenvalues to have negative real part.  These amplitude stability results
+give the leading local stability of the associated forced patterns near
+onset.

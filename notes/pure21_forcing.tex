@@ -1,0 +1,754 @@
+\section{Pure \texorpdfstring{$2{:}1$}{2:1} parametric forcing:
+\texorpdfstring{$f=0$}{f=0}}
+\label{sec:all-forced}
+
+\subsection{Why the reduced additive term is exactly absent}
+
+Use the weakly nonlinear scaling
+\begin{equation}
+ u=\epsilon u_1+\epsilon^2u_2+\epsilon^3u_3+O(\epsilon^4),
+ \qquad T=\epsilon^2t.
+ \label{eq:pure21-scaling}
+\end{equation}
+Each separated input is now restricted to one of two choices:
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Input & Present & Absent\\
+\midrule
+Temporal &
+$\epsilon^2(P\ee^{2\ii\omega_0t}+\overline P\ee^{-2\ii\omega_0t})$ &
+$0$\\
+Spatial &
+$\epsilon^2(S\ee^{2\ii k_0x}+\overline S\ee^{-2\ii k_0x})$ &
+$0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Thus $n=2$ when the temporal input is present and $m=2$ when the spatial
+input is present; \emph{absent} may equivalently be denoted by an infinite
+order.  The label $2{:}1$ is a resonance ratio, not an amplitude ratio: the
+forcing frequency or wavenumber is twice the corresponding critical carrier,
+\begin{equation}
+ \omega_F=2\omega_0,\qquad k_F=2k_0.
+ \label{eq:pure21-definition}
+\end{equation}
+The critical first-order field is
+\begin{equation}
+ u_1=A(T)\Phi\ee^{\ii(\omega_0t+k_0x)}
+ +B(T)\Phi\ee^{\ii(\omega_0t-k_0x)}+\mathrm{c.c.}
+ \label{eq:pure21-critical-field}
+\end{equation}
+The two forcing responses in $u_2$ are
+\begin{align}
+ p_2&=(2\ii\omega_0I-M_0(0))^{-1}P,\notag\\
+ s_2^+&=-M_0(2k_0)^{-1}S,\qquad
+ s_2^-=-M_0(-2k_0)^{-1}\overline S .
+ \label{eq:pure21-responses}
+\end{align}
+At order $\epsilon^3$, the quadratic term
+$2\cQ(u_1,u_2)$ contains
+\begin{align}
+ (2\omega_0,0)+(-\omega_0,k_0)&=(\omega_0,k_0),\notag\\
+ (2\omega_0,0)+(-\omega_0,-k_0)&=(\omega_0,-k_0),
+ \label{eq:pure21-temporal-selection}\\
+ (0,2k_0)+(\omega_0,-k_0)&=(\omega_0,k_0),\notag\\
+ (0,-2k_0)+(\omega_0,k_0)&=(\omega_0,-k_0).
+ \label{eq:pure21-spatial-selection}
+\end{align}
+Projection by the adjoint critical eigenvector therefore gives
+\begin{align}
+ \eta_t&=2\Psi^*\cQ(\overline\Phi,p_2),\notag\\
+ \eta_x^+&=2\Psi^*\cQ(\Phi,s_2^+),\qquad
+ \eta_x^-=2\Psi^*\cQ(\Phi,s_2^-).
+ \label{eq:pure21-eta}
+\end{align}
+Reflection symmetry and a choice of temporal and spatial origins reduce
+these to $\eta_t,\eta_x\geq0$ in \eqref{eq:forced}.
+
+The symbol $f$ was not a coefficient of the original unforced amplitude
+system.  It was introduced only as shorthand for a possible
+amplitude-independent critical residual in a more general forced reduction.
+If such a third-order residual had critical coefficients $R_+$ and $R_-$,
+the solvability projection would give
+\begin{equation}
+ f_+=\Psi^*R_+,
+ \qquad
+ f_-=\Psi^*R_-.
+ \label{eq:pure21-f-origin}
+\end{equation}
+The calculation below shows that $R_+=R_-=0$ for the present exact
+$2{:}1$-or-absent inputs, so neither $f_+$ nor $f_-$ appears in
+\eqref{eq:forced}.
+
+There are two separate reasons that no additive term occurs. First, a
+temporal forcing harmonic has pair $(2\omega_0,0)$ and a spatial forcing
+harmonic has pair $(0,\pm2k_0)$; neither equals either critical pair
+$(\omega_0,\pm k_0)$. Second, their first mixed product has order
+\begin{equation}
+ \epsilon^n\epsilon^m=\epsilon^4
+ \label{eq:pure21-order-four}
+\end{equation}
+and pair $(2\omega_0,\pm2k_0)$, so it is neither third order nor critical.
+More strongly, every amplitude-independent monomial formed only from the
+doubled forcing harmonics has pair
+\begin{equation}
+ (2j\omega_0,2\ell k_0),\qquad j,\ell\in\mathbb Z,
+ \label{eq:pure21-even-lattice}
+\end{equation}
+which cannot equal $(\omega_0,\pm k_0)$. Hence an analytic nonlinearity
+cannot generate an additive critical term from exact $2{:}1$ separated
+forcing at any order. In this report's regime,
+\begin{equation}
+ \boxed{f=0.}
+ \label{eq:pure21-fzero}
+\end{equation}
+An additive term would require a $1{:}1$ spatio-temporal harmonic, leakage
+outside the doubled forcing lattice, or explicit translation-breaking
+heterogeneity; none is assumed here.
+
+If the temporal frequency is
+$2\omega_0+\epsilon^2\delta_t$, the parametric terms initially contain
+$\ee^{\ii\delta_tT}$. The transformation
+\begin{equation}
+ A=\widetilde A\ee^{\ii\delta_tT/2},\qquad
+ B=\widetilde B\ee^{\ii\delta_tT/2}
+ \label{eq:pure21-detuning-transform}
+\end{equation}
+makes the system autonomous and replaces $a$ by
+$a-\ii\delta_t/2$. We therefore allow $a,b,c\in\mathbb C$ below and use
+\eqref{eq:forced} without tildes.
+
+\subsection{Exact polar equations and the definition of locking}
+
+Write
+\begin{equation}
+ A=r\ee^{\ii\phi},\qquad B=\rho\ee^{\ii\psi},
+ \qquad r,\rho\geq0,
+ \label{eq:general-polar-form}
+\end{equation}
+and separate
+\begin{align}
+ a+br^2+c\rho^2&=\alpha_A+\ii\beta_A,&
+ a+b\rho^2+cr^2&=\alpha_B+\ii\beta_B.
+ \label{eq:polar-local-coefficients}
+\end{align}
+For $r,\rho>0$, multiplication of \eqref{eq:forced} by
+$\ee^{-\ii\phi}$ and $\ee^{-\ii\psi}$ gives exactly
+\begin{align}
+ \dot r={}&r\alpha_A+\eta_t\rho\cos(\phi+\psi)
+ +\eta_x\rho\cos(\phi-\psi),
+ \label{eq:polar-r}\\
+ r\dot\phi={}&r\beta_A-\eta_t\rho\sin(\phi+\psi)
+ -\eta_x\rho\sin(\phi-\psi),
+ \label{eq:polar-phi}\\
+ \dot\rho={}&\rho\alpha_B+\eta_t r\cos(\phi+\psi)
+ +\eta_xr\cos(\phi-\psi),
+ \label{eq:polar-rho}\\
+ \rho\dot\psi={}&\rho\beta_B-\eta_t r\sin(\phi+\psi)
+ +\eta_xr\sin(\phi-\psi).
+ \label{eq:polar-psi}
+\end{align}
+A phase-locked equilibrium satisfies
+\begin{equation}
+ \dot r=\dot\rho=\dot\phi=\dot\psi=0.
+ \label{eq:general-locking-definition}
+\end{equation}
+The physical carrier still oscillates at frequency $\omega_0$; locking means
+that both slow amplitudes and both phase offsets relative to the forcing are
+constant.
+
+Put
+\begin{equation}
+ \Theta=\phi+\psi,\qquad \Delta=\phi-\psi.
+ \label{eq:phase-sum-difference}
+\end{equation}
+The radial equations contain
+\begin{equation}
+ C=\eta_t\cos\Theta+\eta_x\cos\Delta
+ \label{eq:phase-C}
+\end{equation}
+and are equivalent to
+\begin{equation}
+ r\alpha_A+\rho C=0,\qquad
+ \rho\alpha_B+rC=0.
+ \label{eq:general-radial-locking}
+\end{equation}
+Consequently
+\begin{equation}
+ C=-\frac{r}{\rho}\alpha_A
+   =-\frac{\rho}{r}\alpha_B,\qquad
+ r^2\alpha_A=\rho^2\alpha_B.
+ \label{eq:general-radial-compatibility}
+\end{equation}
+The phase equations give
+\begin{align}
+ T:=\eta_t\sin\Theta
+ &=\frac12\left(\frac{r}{\rho}\beta_A
+                 +\frac{\rho}{r}\beta_B\right),
+ \label{eq:phase-T}\\
+ X:=\eta_x\sin\Delta
+ &=\frac12\left(\frac{r}{\rho}\beta_A
+                 -\frac{\rho}{r}\beta_B\right).
+ \label{eq:phase-X}
+\end{align}
+For each $\varepsilon_t,\varepsilon_x\in\{-1,1\}$, positive amplitudes give
+a locked state if and only if
+\begin{align}
+ |T|&\leq\eta_t,\qquad |X|\leq\eta_x,
+ \label{eq:phase-sine-bounds}\\
+ -\frac{r}{\rho}\alpha_A
+ &=\varepsilon_t\sqrt{\eta_t^2-T^2}
+  +\varepsilon_x\sqrt{\eta_x^2-X^2},
+ \label{eq:general-phase-amplitude-closure}
+\end{align}
+together with the last equality in
+\eqref{eq:general-radial-compatibility}. The phases are then
+\begin{align}
+ \Theta&=\operatorname{atan2}\!\left(
+ T,\varepsilon_t\sqrt{\eta_t^2-T^2}\right),\notag\\
+ \Delta&=\operatorname{atan2}\!\left(
+ X,\varepsilon_x\sqrt{\eta_x^2-X^2}\right),
+ \label{eq:general-phase-reconstruction}\\
+ \phi&=\frac{\Theta+\Delta}{2},\qquad
+ \psi=\frac{\Theta-\Delta}{2}.
+ \label{eq:individual-phase-reconstruction}
+\end{align}
+These conditions are necessary and sufficient, not merely necessary.
+If $\eta_t=0$, the first sine condition is replaced by $T=0$, the term
+$\eta_t\cos\Theta$ is zero, and $\Theta$ is a neutral phase; the first
+$\operatorname{atan2}$ formula is then omitted.  If $\eta_x=0$, the second
+sine condition is replaced by $X=0$, the term $\eta_x\cos\Delta$ is zero,
+and $\Delta$ is neutral; the second $\operatorname{atan2}$ formula is
+omitted.  After assigning arbitrary values to the neutral phases,
+\eqref{eq:individual-phase-reconstruction} still reconstructs $\phi$ and
+$\psi$.  Thus no undefined $\operatorname{atan2}(0,0)$ is used when an input
+is absent.
+
+\subsection{A factorization that exhausts the positive amplitudes}
+
+Let $a_r=\RePart a$, $b_r=\RePart b$, and $c_r=\RePart c$. Expanding the
+last condition in \eqref{eq:general-radial-compatibility} gives
+\begin{align}
+ 0={}&r^2(a_r+b_rr^2+c_r\rho^2)
+ -\rho^2(a_r+b_r\rho^2+c_rr^2)\notag\\
+ ={}&(r^2-\rho^2)\left[a_r+b_r(r^2+\rho^2)\right].
+ \label{eq:forced-amplitude-factorization}
+\end{align}
+Therefore every positive equilibrium satisfies
+\begin{equation}
+ \boxed{r=\rho}
+\end{equation}
+or, when $b_r\ne0$, it satisfies
+\begin{equation}
+ \boxed{r^2+\rho^2=-\frac{a_r}{b_r}}.
+ \label{eq:equal-or-unequal}
+\end{equation}
+If $b_r=0$ and $a_r\ne0$, no unequal-amplitude state exists. If
+$a_r=b_r=0$, the factorization is degenerate and the necessary-and-sufficient
+closure \eqref{eq:phase-sine-bounds}--
+\eqref{eq:general-phase-amplitude-closure} is used directly.
+
+For the unequal class define only
+\begin{equation}
+ R=r^2+\rho^2=-\frac{a_r}{b_r},\qquad
+ \Pi=r\rho,\qquad
+ D=r^2-\rho^2=\pm\sqrt{R^2-4\Pi^2},
+ \label{eq:unequal-invariants}
+\end{equation}
+where $R>0$ and $0<\Pi<R/2$. The quantities in the phase closure reduce to
+\begin{align}
+ C&=(b_r-c_r)\Pi,
+ \label{eq:unequal-C}\\
+ T(\Pi)&=\frac{a_iR+b_iR^2+2(c_i-b_i)\Pi^2}{2\Pi},
+ \label{eq:unequal-T}\\
+ X(\Pi,D)&=\frac{D(a_i+b_iR)}{2\Pi},
+ \label{eq:unequal-X}
+\end{align}
+where $a_i=\ImPart a$, $b_i=\ImPart b$, and $c_i=\ImPart c$. Hence all
+unequal-amplitude equilibria are the roots $0<\Pi<R/2$ of
+\begin{equation}
+ (b_r-c_r)\Pi
+ =\varepsilon_t\sqrt{\eta_t^2-T(\Pi)^2}
+ +\varepsilon_x\sqrt{\eta_x^2-X(\Pi,D)^2},
+ \label{eq:unequal-scalar-equation}
+\end{equation}
+subject to $|T(\Pi)|\leq\eta_t$ and
+$|X(\Pi,D)|\leq\eta_x$. The two signs of $D$ give the exchanged states.
+Then
+\begin{equation}
+ r^2=\frac{R+D}{2},\qquad \rho^2=\frac{R-D}{2},
+ \label{eq:unequal-reconstruction}
+\end{equation}
+and the phases follow from
+\eqref{eq:general-phase-reconstruction}--
+\eqref{eq:individual-phase-reconstruction}.
+
+The remaining scalar problem can be reduced to a quartic without losing the
+sign information.  Put $z=\Pi^2$, $d_r=b_r-c_r$, and
+\begin{equation}
+ L=a_i+b_iR,
+ \qquad
+ N(z)=a_iR+b_iR^2+2(c_i-b_i)z.
+ \label{eq:unequal-polynomial-shortcuts}
+\end{equation}
+The two squared radical arguments, after multiplication by $4z$, are
+\begin{align}
+ U_0(z)&=4\eta_t^2z-N(z)^2,
+ \label{eq:unequal-U0}\\
+ V_0(z)&=4\eta_x^2z-(R^2-4z)L^2.
+ \label{eq:unequal-V0}
+\end{align}
+Thus the unsquared equation has
+\begin{equation}
+ C=d_r\sqrt z,
+ \qquad
+ \eta_t^2-T^2=\frac{U_0(z)}{4z},
+ \qquad
+ \eta_x^2-X^2=\frac{V_0(z)}{4z}.
+ \label{eq:unequal-radical-arguments}
+\end{equation}
+Eliminating the two square roots gives the explicit quartic equation
+\begin{equation}
+ 16d_r^2z^2V_0(z)
+ -\left[4d_r^2z^2+V_0(z)-U_0(z)\right]^2=0.
+ \label{eq:unequal-quartic}
+\end{equation}
+Every unequal equilibrium gives a root of \eqref{eq:unequal-quartic}.  A
+quartic root is retained exactly when
+\begin{equation}
+ 0<z<\frac{R^2}{4},
+ \qquad U_0(z)\geq0,
+ \qquad V_0(z)\geq0,
+ \label{eq:unequal-quartic-filter}
+\end{equation}
+and it satisfies the original signed equation
+\eqref{eq:unequal-scalar-equation} for at least one pair
+$(\varepsilon_t,\varepsilon_x)$.  This final unsquared test removes every
+extraneous root introduced by squaring.  Consequently there are at most four
+admissible unequal products $\Pi$ at generic cubic order, and the two signs
+of $D$ reconstruct the exchanged states.
+
+\subsection{Closed equal-amplitude solutions at every phase}
+
+Let $r=\rho>0$ and first assume $\eta_x>0$. Then
+\eqref{eq:phase-X} gives $\sin\Delta=0$, so
+\begin{equation}
+ B=\varepsilon A,\qquad \varepsilon\in\{1,-1\},\qquad
+ A=r\ee^{\ii\phi},\qquad x=r^2.
+ \label{eq:equal-general-phase-ansatz}
+\end{equation}
+With $s=b+c$ and
+\begin{equation}
+ h_\varepsilon(x)=a+\varepsilon\eta_x+sx,
+ \label{eq:equal-h}
+\end{equation}
+the equilibrium equation is
+\begin{equation}
+ h_\varepsilon(x)+\varepsilon\eta_t\ee^{-2\ii\phi}=0.
+ \label{eq:equal-general-phase-balance}
+\end{equation}
+For $\eta_t>0$, taking the modulus gives
+\begin{equation}
+ |s|^2x^2+2\RePart\!\left[
+ (a+\varepsilon\eta_x)\overline s\right]x
+ +|a+\varepsilon\eta_x|^2-\eta_t^2=0.
+ \label{eq:equal-general-phase-quadratic}
+\end{equation}
+Put
+\begin{equation}
+ D_\varepsilon=
+ \RePart\!\left[(a+\varepsilon\eta_x)\overline s\right]^2
+ -|s|^2\left(|a+\varepsilon\eta_x|^2-\eta_t^2\right).
+ \label{eq:equal-general-phase-discriminant}
+\end{equation}
+For $s\ne0$, all squared amplitudes are
+\begin{equation}
+ x_{\varepsilon,\pm}=
+ \frac{-\RePart[(a+\varepsilon\eta_x)\overline s]
+ \pm\sqrt{D_\varepsilon}}{|s|^2},
+ \label{eq:equal-general-phase-roots}
+\end{equation}
+retaining exactly the roots with $D_\varepsilon\geq0$ and
+$x_{\varepsilon,\pm}>0$. The corresponding phases are
+\begin{align}
+ \ee^{-2\ii\phi}
+ &=-\frac{h_\varepsilon(x)}{\varepsilon\eta_t},
+ \label{eq:equal-general-phase-exponential}\\
+ \phi&=-\frac12\arg\!\left[
+ -\frac{h_\varepsilon(x)}{\varepsilon\eta_t}\right]\pmod{\pi}.
+ \label{eq:equal-general-phase-angle}
+\end{align}
+The two values modulo $2\pi$ differ by $\pi$ and give the sign-related
+states $(A,B)$ and $(-A,-B)$.
+
+If $s=0$, the modulus equation is independent of $x$.  There is no positive
+equal-amplitude branch unless
+\begin{equation}
+ |a+\varepsilon\eta_x|=\eta_t.
+ \label{eq:equal-degenerate-condition}
+\end{equation}
+When this equality holds and $\eta_t>0$, every $x>0$ satisfies the
+cubic-order modulus condition and its phase is given by
+\eqref{eq:equal-general-phase-exponential}.  If $\eta_t=0$, the undivided
+condition is $a+\varepsilon\eta_x=0$ and the common phase is neutral.  Each
+continuum is a degeneracy of the cubic truncation and must be resolved by
+quintic terms.
+
+For temporal forcing alone, $\eta_x=0$ and $\eta_t>0$, the positive
+equal-amplitude family
+does not require $B=\pm A$.  Instead, for $x=r^2$ it is
+\begin{equation}
+ A=r\ee^{\ii(\Theta+\Delta)/2},\qquad
+ B=r\ee^{\ii(\Theta-\Delta)/2},\qquad
+ |a+sx|=\eta_t,\qquad
+ \ee^{-\ii\Theta}=-\frac{a+sx}{\eta_t},
+ \label{eq:temporal-only-equal-family}
+\end{equation}
+where $\Delta$ is arbitrary.  This gives the general locked phase rather
+than only the special choices $B=\pm A$.
+
+The cases in which one or both inputs are absent follow without a limiting
+ambiguity:
+\begin{center}
+\begin{tabular}{@{}L{0.18\textwidth}L{0.36\textwidth}L{0.34\textwidth}@{}}
+\toprule
+Forcing present & Equal-amplitude condition & Phase information\\
+\midrule
+Temporal and spatial &
+$|a+\varepsilon\eta_x+sx|=\eta_t$ &
+$\Delta=0$ or $\pi$; $\phi$ from
+\eqref{eq:equal-general-phase-angle}\\
+Temporal only &
+$|a+sx|=\eta_t$ &
+$\Theta$ is locked by
+$a+sx+\eta_t\ee^{-\ii\Theta}=0$; $\Delta$ is neutral\\
+Spatial only &
+$a+\varepsilon\eta_x+sx=0$ &
+$\Delta=0$ or $\pi$; the common phase is neutral\\
+Neither &
+$a+sx=0$ for a stationary complex equilibrium &
+both group phases are neutral; Section~\ref{sec:equilibria} gives the more
+general relative equilibria\\
+\bottomrule
+\end{tabular}
+\end{center}
+With no forcing, a radial equilibrium whose imaginary frequency correction
+is nonzero is a relative equilibrium rather than a stationary point in the
+chosen rotating frame.
+
+\subsection{Exceptional one-sided states}
+
+Polar coordinates omit $r=0$ or $\rho=0$, so return to
+\eqref{eq:forced}. If $A=0$ and $B=\rho\ee^{\ii\psi}\ne0$, then
+\begin{equation}
+ \eta_t\overline B+\eta_xB=0,\qquad
+ a+b\rho^2=0.
+ \label{eq:one-sided-conditions}
+\end{equation}
+If at least one parametric forcing is present, the first equation implies
+\begin{equation}
+ \eta_t=\eta_x>0,\qquad
+ \ee^{2\ii\psi}=-1,
+ \label{eq:one-sided-phase}
+\end{equation}
+and, when $b\ne0$, the second requires the complex number $-a/b$ to be real
+and positive, with $\rho^2=-a/b$.  If $b=0$, it instead requires $a=0$ and
+leaves every $\rho>0$ unresolved at cubic order.  Exchanging $A$ and $B$
+gives the other one-sided state.
+If $\eta_t\ne\eta_x$, no nonzero one-sided equilibrium exists. These
+codimension conditions explain why generic parametric forcing converts
+unforced traveling waves into two-component locked states.
+When $\eta_t=\eta_x=0$, the first condition in
+\eqref{eq:one-sided-conditions} disappears and the usual unforced
+one-sided traveling-wave relative equilibria of
+Section~\ref{sec:equilibria} return.
+
+\subsection{Why the equilibrium list is exhaustive}
+
+Every point $(A,B)\in\mathbb C^2$ belongs to exactly one of the disjoint
+amplitude classes
+\begin{equation}
+ (|A|,|B|)=(0,0),\qquad
+ |A||B|=0<|A|+|B|,\qquad
+ |A|=|B|>0,\qquad
+ |A|\ne|B|,\quad |A||B|>0.
+ \label{eq:forced-exhaustive-partition}
+\end{equation}
+The first class is rest.  The second is exactly the one-sided calculation
+\eqref{eq:one-sided-conditions}.  In the third class, the phase equations
+give either \eqref{eq:equal-general-phase-roots}--
+\eqref{eq:equal-general-phase-angle}, the temporal-only family
+\eqref{eq:temporal-only-equal-family}, or one of the absent-input rows in
+the table above.  In the fourth class,
+\eqref{eq:forced-amplitude-factorization} forces
+\eqref{eq:equal-or-unequal}, and the necessary-and-sufficient phase closure
+reduces it to \eqref{eq:unequal-scalar-equation}.  Hence these formulas omit
+no complex equilibrium.  The exceptional coefficient cases $b_r=0$ or
+$a_r=b_r=0$ are not divided by; they are decided directly by
+\eqref{eq:general-radial-compatibility} and
+\eqref{eq:general-phase-amplitude-closure}.
+
+\subsection{Closed real-coefficient classification}
+
+For real $a,b,c$ and real $A,B$, put
+\begin{equation}
+ q=\eta_t+\eta_x,\qquad s=b+c,\qquad d=b-c.
+ \label{eq:forcing-combinations}
+\end{equation}
+Adding and subtracting the two equilibrium equations gives
+\begin{align}
+ 0&=(A-B)\left[a-q+b(A^2+B^2)+dAB\right],
+ \label{eq:forced-difference}\\
+ 0&=(A+B)\left[a+q+b(A^2+B^2)-dAB\right].
+ \label{eq:forced-sum}
+\end{align}
+Therefore the complete real list is:
+\begin{align}
+ &(A,B)=(0,0),\notag\\
+ &(A,B)=(r,r),\qquad r^2=-\frac{a+q}{s}>0,
+ \label{eq:real-in-phase}\\
+ &(A,B)=(r,-r),\qquad r^2=-\frac{a-q}{s}>0,
+ \label{eq:real-antiphase}
+\end{align}
+plus exchange-broken states. When $bd\ne0$, the latter satisfy
+\begin{equation}
+ A^2+B^2=-\frac{a}{b},\qquad AB=\frac{q}{d}.
+ \label{eq:real-broken-invariants}
+\end{equation}
+Writing $U=-a/b$ and $P=q/d$, they exist exactly when
+\begin{equation}
+ U+2P\geq0,\qquad U-2P\geq0,
+ \label{eq:real-broken-existence}
+\end{equation}
+and all sign-related and exchanged roots are
+\begin{equation}
+ A=\frac{\sigma\sqrt{U+2P}+\tau\sqrt{U-2P}}{2},\qquad
+ B=\frac{\sigma\sqrt{U+2P}-\tau\sqrt{U-2P}}{2},
+ \quad \sigma,\tau\in\{-1,1\}.
+ \label{eq:real-broken-roots}
+\end{equation}
+Equalities in \eqref{eq:real-broken-existence} merge this family with an
+equal or anti-equal branch. If $b=0$, $d=0$, or $s=0$, the undivided
+factorization \eqref{eq:forced-difference}--\eqref{eq:forced-sum} gives the
+corresponding degenerate cases without losing a branch.
+
+\subsection{Exact stability: rest and every equal-amplitude branch}
+
+At the rest state, exchange-symmetric and exchange-antisymmetric
+perturbations satisfy
+\begin{equation}
+ \dot z_\kappa=(a+\kappa\eta_x)z_\kappa
+ +\kappa\eta_t\overline z_\kappa,\qquad \kappa\in\{1,-1\}.
+ \label{eq:rest-exchange-modes}
+\end{equation}
+Their characteristic polynomials and eigenvalues are
+\begin{align}
+ 0={}&\lambda^2-2\RePart(a+\kappa\eta_x)\lambda
+ +|a+\kappa\eta_x|^2-\eta_t^2,
+ \label{eq:rest-characteristic}\\
+ \lambda_{\kappa,\pm}
+ ={}&\RePart a+\kappa\eta_x
+ \pm\sqrt{\eta_t^2-(\ImPart a)^2}.
+ \label{eq:rest-eigenvalues}
+\end{align}
+The square root is imaginary when its argument is negative. The rest state
+is asymptotically stable if and only if, for both $\kappa=\pm1$,
+\begin{equation}
+ \RePart(a+\kappa\eta_x)<0,\qquad
+ |a+\kappa\eta_x|^2>\eta_t^2.
+ \label{eq:rest-stability}
+\end{equation}
+
+Now let $B=\varepsilon A$, $A=r\ee^{\ii\phi}$, and $x=r^2$. The full
+$4\times4$ linearization splits exactly into the two exchange sectors
+$\delta B=\kappa\delta A$. In sector $\kappa$ it is the scalar
+conjugate-linear equation
+\begin{equation}
+ \delta\dot A=P_\kappa\delta A+Q_\kappa\delta\overline A,
+ \label{eq:equal-sector-linearization}
+\end{equation}
+where
+\begin{align}
+ P_\kappa&=
+ a+\left[2b+c+\kappa\varepsilon c\right]x+\kappa\eta_x,
+ \label{eq:equal-sector-P}\\
+ Q_\kappa&=
+ x\ee^{2\ii\phi}(b+\kappa\varepsilon c)+\kappa\eta_t.
+ \label{eq:equal-sector-Q}
+\end{align}
+The two eigenvalues in that sector obey
+\begin{equation}
+ \lambda^2-2\RePart P_\kappa\,\lambda
+ +|P_\kappa|^2-|Q_\kappa|^2=0
+ \label{eq:equal-sector-characteristic}
+\end{equation}
+and therefore
+\begin{equation}
+ \lambda_{\kappa,\pm}
+ =\RePart P_\kappa
+ \pm\sqrt{|Q_\kappa|^2-(\ImPart P_\kappa)^2}.
+ \label{eq:equal-sector-eigenvalues}
+\end{equation}
+Thus an equal-amplitude locked state is asymptotically stable if and only if,
+for each $\kappa=\pm1$,
+\begin{equation}
+ \boxed{\RePart P_\kappa<0,\qquad
+ |P_\kappa|^2>|Q_\kappa|^2.}
+ \label{eq:equal-sector-stability}
+\end{equation}
+If one forcing is absent, the continuous symmetry it leaves unbroken
+produces the expected zero eigenvalue; stability is then orbital after
+removing that neutral group direction.
+
+\subsection{Exact stability at every remaining complex root}
+
+Let the right-hand side of the first equation in \eqref{eq:forced} be
+$F_A$. Its Wirtinger derivatives are
+\begin{align}
+ \partial_A F_A&=a+2b|A|^2+c|B|^2,
+ &\partial_{\overline A}F_A&=bA^2,\notag\\
+ \partial_B F_A&=cA\overline B+\eta_x,
+ &\partial_{\overline B}F_A&=cAB+\eta_t.
+ \label{eq:wirtinger}
+\end{align}
+The derivatives of $F_B$ follow by exchanging $A$ and $B$. The real matrix
+of $z\mapsto Pz+Q\overline z$ is
+\begin{equation}
+ \mathcal R(P,Q)=
+ \begin{pmatrix}
+ \RePart(P+Q)&-\ImPart(P-Q)\\
+ \ImPart(P+Q)& \RePart(P-Q)
+ \end{pmatrix}.
+ \label{eq:realification}
+\end{equation}
+Using \eqref{eq:realification} on the four derivative pairs in
+\eqref{eq:wirtinger} and its exchanged copy produces the exact real
+$4\times4$ Jacobian
+\begin{equation}
+ J=\begin{pmatrix}
+ \mathcal R(a+2b|A|^2+c|B|^2,bA^2)&
+ \mathcal R(cA\overline B+\eta_x,cAB+\eta_t)\\
+ \mathcal R(cB\overline A+\eta_x,cAB+\eta_t)&
+ \mathcal R(a+2b|B|^2+c|A|^2,bB^2)
+ \end{pmatrix}.
+ \label{eq:full-forced-Jacobian}
+\end{equation}
+This formula applies at any root reconstructed above, including the
+codimension-one-sided states.
+
+For a coefficient-only stability test, write
+\begin{equation}
+ \det(\lambda I-J)=
+ \lambda^4+h_1\lambda^3+h_2\lambda^2+h_3\lambda+h_4,
+ \label{eq:quartic-characteristic}
+\end{equation}
+where no eigenvalue calculation is required:
+\begin{align}
+ h_1&=-\operatorname{tr}J,\notag\\
+ h_2&=\frac12\left[(\operatorname{tr}J)^2-\operatorname{tr}(J^2)\right],
+ \notag\\
+ h_3&=-\frac16\left[(\operatorname{tr}J)^3
+ -3\operatorname{tr}J\,\operatorname{tr}(J^2)
+ +2\operatorname{tr}(J^3)\right],\notag\\
+ h_4&=\det J.
+ \label{eq:quartic-coefficients}
+\end{align}
+The root is asymptotically stable if and only if the quartic
+Routh--Hurwitz inequalities hold:
+\begin{equation}
+ h_1,h_2,h_3,h_4>0,\qquad
+ h_1h_2>h_3,\qquad
+ h_1h_2h_3>h_3^2+h_1^2h_4.
+ \label{eq:quartic-hurwitz}
+\end{equation}
+Equations \eqref{eq:unequal-scalar-equation} and
+\eqref{eq:quartic-hurwitz} therefore give a complete existence-and-stability
+algorithm for every unequal complex phase-locked state.  Applying the same
+Jacobian and Hurwitz test to \eqref{eq:one-sided-conditions} gives the exact
+stability of every exceptional one-sided state.
+
+\subsection{Application to the computed three- and five-population coefficients}
+
+For the real-coefficient projection, take $a=0.01$ and
+$\eta_t=\eta_x=0.04$. The real parts of
+\eqref{eq:numerical-coefficients} give
+\begin{equation}
+ (A,B)=(0,0),\qquad (A,B)=(r,r),\qquad(A,B)=(-r,-r),
+ \qquad r=0.23173.
+\end{equation}
+The rest state is unstable. Each nonzero state has eigenvalues
+\begin{equation}
+ (-0.18000,-0.00412,-0.08000,-0.08000)
+\end{equation}
+and is asymptotically stable within this real-coefficient projection. These
+real states are not equilibria of the full complex-coefficient normal form.
+
+At zero detuning, retain the complete complex values of $b,c$ and apply
+\eqref{eq:equal-general-phase-roots}--
+\eqref{eq:equal-general-phase-angle}. The exact sector formula
+\eqref{eq:equal-sector-eigenvalues} gives:
+\begin{center}
+\begin{tabular}{@{}lrrrrl@{}}
+\toprule
+Model & $\varepsilon$ & $r$ & $\phi$ (degrees) & $\max\RePart\lambda$ & Stability\\
+\midrule
+Three-population & $+1$ & 0.20564 & 150.732 & 0.00100 & unstable\\
+Three-population & $+1$ & 0.07843 &  93.563 & 0.07839 & unstable\\
+Three-population & $-1$ & 0.07617 &  86.639 & 0.08000 & unstable\\
+Five-population  & $+1$ & 0.14949 & 172.622 & $-0.07861$ & stable\\
+Five-population  & $+1$ & 0.05024 &  90.824 & 0.07991 & unstable\\
+Five-population  & $-1$ & 0.05016 &  89.178 & 0.08000 & unstable\\
+\bottomrule
+\end{tabular}
+\end{center}
+Thus all equal-amplitude branches of the full three-population model are
+unstable at this forcing, although the large branch is only weakly unstable.
+The five-population model has the stable complex locked state
+\begin{equation}
+ (A,B)=\left(0.14949\ee^{\ii\,172.622^\circ},
+              0.14949\ee^{\ii\,172.622^\circ}\right)
+ \label{eq:five-complex-locked-state}
+\end{equation}
+and its sign-related partner.
+
+The equal-amplitude table is not the complete numerical list.  For both
+models the one-sided condition fails because $-a/b$ is not real.  Solving
+the quartic \eqref{eq:unequal-quartic} and applying the unsquared filter
+\eqref{eq:unequal-scalar-equation} gives the following representatives:
+\begin{center}
+\begin{tabular}{@{}lrrrrrl@{}}
+\toprule
+Model & $r$ & $\rho$ & $\phi$ (degrees) & $\psi$ (degrees) &
+$\max\RePart\lambda$ & Stability\\
+\midrule
+Three-population & 0.06978 & 0.29011 & $-24.559$ & $-66.184$ &
+ 0.01390 & unstable\\
+Three-population & 0.15984 & 0.25197 & $-26.250$ & $-35.442$ &
+ $-0.00181$ & stable\\
+Five-population & 0.00077 & 0.09520 & $-16.561$ & 89.904 &
+ 0.07233 & unstable\\
+\bottomrule
+\end{tabular}
+\end{center}
+Each row has an exchanged partner obtained by interchanging
+$(r,\phi)$ with $(\rho,\psi)$, and each of those has a sign-related partner
+obtained by adding $180^\circ$ to both phases.  Substitution into the full
+four-real-dimensional system gives residuals below $2\times10^{-17}$ before
+rounding the displayed values.
+
+Therefore the complete calculation changes the activation-pattern
+conclusion for the three-population coefficients: although every
+equal-amplitude locked branch is unstable, there is a stable
+exchange-broken phase-locked pair.  For the five-population coefficients,
+the stable state remains the equal-amplitude branch
+\eqref{eq:five-complex-locked-state}; its unequal pair is unstable.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{output/simulations/amplitude_phase_diagrams.png}
+\caption{Amplitude phase diagrams using the computed real cubic coefficients.
+White circles are stable states and the cross is the unstable unforced
+standing wave.}
+\label{fig:phase}
+\end{figure}

@@ -1,0 +1,274 @@
+\section{Pattern-forming condition for $K$ populations}
+\label{sec:K-pattern-condition}
+
+We now state the connectivity conditions under which a $K$-population
+Gaussian neural field can undergo the finite-wavenumber Hopf bifurcation
+assumed in \eqref{eq:Hopf_assumption}.  Set $d=K$ and let
+\begin{equation}
+ \mathsf W(p)=\mathsf W_0+p\mathsf W_1
+ \in\mathbb R^{K\times K}
+ \label{eq:K-strength-matrix}
+\end{equation}
+be the signed integrated-strength matrix.  Rows are target populations and
+columns are source populations.  Let
+\begin{equation}
+ \Sigma=(\Sigma_{ij})\in[0,\infty)^{K\times K}
+ \label{eq:K-variance-matrix}
+\end{equation}
+be the Gaussian-variance matrix.  Thus the Fourier connectivity at spatial
+mode $h$ is
+\begin{equation}
+ \widehat{\mathsf J}(h,p)
+ =\mathsf W(p)\odot
+ \exp\left(-\frac{h^2}{2}\Sigma\right),
+ \qquad
+ \widehat{\mathsf J}_{ij}(h,p)
+ =W_{ij}(p)\exp\left(-\frac{\Sigma_{ij}h^2}{2}\right).
+ \label{eq:K-Fourier-connectivity}
+\end{equation}
+Here the exponential and product are entrywise.  If $\sigma_{ij}$ denotes
+the standard deviation instead, then $\Sigma_{ij}=\sigma_{ij}^2$.
+
+Let
+\begin{equation}
+ \mathsf T=\operatorname{diag}(\tau_1,\ldots,\tau_K),
+ \qquad
+ \mathsf D_*=\operatorname{diag}(g_1,\ldots,g_K),
+ \qquad g_j>0,
+ \label{eq:K-time-gain-matrices}
+\end{equation}
+where $g_j$ is the derivative of the $j$th firing-rate function at the
+homogeneous equilibrium.  For the convention in which each firing rate is
+applied before convolution, the linear Fourier matrix is
+\begin{equation}
+ M(h,p)=\mathsf T^{-1}
+ \left[-I+\widehat{\mathsf J}(h,p)\mathsf D_*\right].
+ \label{eq:K-linear-matrix}
+\end{equation}
+If the firing rate is applied after recurrent summation, replace
+$\widehat{\mathsf J}(h,p)\mathsf D_*$ by
+$\mathsf D_*\widehat{\mathsf J}(h,p)$.  The conditions below are otherwise
+unchanged.
+
+Define the spectral growth rate
+\begin{equation}
+ s(h,p)=max_{\lambda\in\operatorname{spec}M(h,p)}
+ \operatorname{Re}\lambda.
+ \label{eq:K-spectral-growth}
+\end{equation}
+The connectivity is capable of producing a spatial pattern if, for some
+parameter value, the homogeneous mode is stable while a nonzero spatial mode
+is unstable:
+\begin{equation}
+ s(0,p)<0,
+ \qquad
+ s(h,p)>0
+ \quad\text{for some }h\neq0.
+ \label{eq:K-pattern-capability}
+\end{equation}
+At the first pattern-forming threshold $p=p_c$, there must be a
+$k_0\neq0$ such that
+\begin{equation}
+ s(0,p_c)<0,
+ \qquad
+ s(k_0,p_c)=0,
+ \qquad
+ s(h,p_c)<0
+ \quad\text{for }h\notin\{k_0,-k_0\}.
+ \label{eq:K-first-pattern-threshold}
+\end{equation}
+After replacing $p$ by $p-p_c$, the critical value is $p=0$, as assumed in
+the preceding sections.
+
+\subsection{Coefficient condition for a finite-wavenumber Hopf bifurcation}
+
+For every spatial mode, write
+\begin{equation}
+ P(\lambda;h,p)
+ =\det\left(\lambda I-M(h,p)\right)
+ =\lambda^K+\gamma_1(h,p)\lambda^{K-1}
+ +\cdots+\gamma_K(h,p).
+ \label{eq:K-characteristic-polynomial}
+\end{equation}
+The coefficients are determined directly by $\mathsf W(p)$ and $\Sigma$:
+\begin{equation}
+ \gamma_r(h,p)
+ =(-1)^r
+ \sum_{\substack{I\subset\{1,\ldots,K\}\\|I|=r}}
+ \det M(h,p)[I,I],
+ \qquad 1\leq r\leq K,
+ \label{eq:K-characteristic-coefficients}
+\end{equation}
+where $M[I,I]$ denotes a principal submatrix.
+
+Set $\gamma_0=1$ and $\gamma_r=0$ for $r<0$ or $r>K$.  Define the Hurwitz
+determinants
+\begin{equation}
+ \Delta_r(h,p)
+ =\det\left[\gamma_{2j-i}(h,p)\right]_{i,j=1}^{r},
+ \qquad 1\leq r\leq K.
+ \label{eq:K-Hurwitz-determinants}
+\end{equation}
+For a fixed spatial mode $h$, all eigenvalues are stable if and only if
+\begin{equation}
+ \Delta_r(h,p)>0,
+ \qquad r=1,\ldots,K.
+ \label{eq:K-Hurwitz-stability}
+\end{equation}
+
+At a finite-wavenumber Hopf point, the critical polynomial has the exact
+factorization
+\begin{equation}
+ P(\lambda;k_0,p_c)
+ =(\lambda^2+\omega_0^2)
+ \left(
+ \lambda^{K-2}+\beta_1\lambda^{K-3}
+ +\cdots+\beta_{K-2}
+ \right),
+ \qquad \omega_0>0,
+ \label{eq:K-Hopf-factorization}
+\end{equation}
+and the degree-$(K-2)$ factor must be Hurwitz.  This factorization is the
+necessary and sufficient coefficient condition for one critical pair
+$\pm\ii\omega_0$ and all remaining eigenvalues in the open left half-plane.
+
+Equivalently, the critical frequency and coefficients satisfy
+\begin{equation}
+ \sum_{\substack{0\leq r\leq K\\K-r\ \mathrm{even}}}
+ (-1)^{(K-r)/2}\gamma_r(k_0,p_c)\omega_0^{K-r}=0
+ \label{eq:K-Hopf-real}
+\end{equation}
+and
+\begin{equation}
+ \sum_{\substack{0\leq r\leq K\\K-r\ \mathrm{odd}}}
+ (-1)^{(K-r-1)/2}\gamma_r(k_0,p_c)\omega_0^{K-r}=0.
+ \label{eq:K-Hopf-imaginary}
+\end{equation}
+At a generic Hopf boundary reached from the stable side, these conditions can
+be detected by
+\begin{equation}
+ \begin{aligned}
+  \Delta_r(k_0,p_c)&>0
+  &&\text{for }1\leq r\leq K-2,\\
+  \Delta_{K-1}(k_0,p_c)&=0,
+  &\qquad \gamma_K(k_0,p_c)&>0,
+ \end{aligned}
+ \label{eq:K-Hopf-Hurwitz-boundary}
+\end{equation}
+provided no other eigenvalue is critical.  The complete pattern-forming
+condition is obtained by combining \eqref{eq:K-Hopf-factorization} with
+\begin{equation}
+ \Delta_r(0,p_c)>0,
+ \qquad
+ \Delta_r(h,p_c)>0
+ \quad\text{for }h\notin\{k_0,-k_0\},
+ \qquad
+ r=1,\ldots,K.
+ \label{eq:K-noncritical-mode-stability}
+\end{equation}
+The bifurcation is transversal when
+\begin{equation}
+ \operatorname{Re}\left[
+ \Psi^*M_p(k_0,p_c)\Phi
+ \right]\neq0,
+ \label{eq:K-pattern-transversality}
+\end{equation}
+where
+\begin{equation}
+ M(k_0,p_c)\Phi=\ii\omega_0\Phi,
+ \qquad
+ M(k_0,p_c)^*\Psi=-\ii\omega_0\Psi,
+ \qquad
+ \Psi^*\Phi=1.
+ \label{eq:K-pattern-eigenvectors}
+\end{equation}
+
+For a continuous wavenumber, an interior critical mode also satisfies
+\begin{equation}
+ \operatorname{Re}\left[
+ \Psi^*M_h(k_0,p_c)\Phi
+ \right]=0,
+ \qquad
+ \partial_h^2\operatorname{Re}\lambda(k_0,p_c)<0.
+ \label{eq:K-wavenumber-maximum}
+\end{equation}
+The width--strength dependence in the first equation is explicit:
+\begin{equation}
+ M_h(h,p)
+ =-h\mathsf T^{-1}
+ \left[
+ \left(\mathsf W(p)\odot\Sigma\right)
+ \odot\exp\left(-\frac{h^2}{2}\Sigma\right)
+ \right]\mathsf D_*.
+ \label{eq:K-wavenumber-derivative}
+\end{equation}
+On the periodic domain, the modes are discrete, so
+\eqref{eq:K-first-pattern-threshold} replaces the derivative condition.
+
+\subsection{Relation to narrower excitation}
+
+Let $\mathcal E$ and $\mathcal I$ be the excitatory and inhibitory source
+populations.  Dale's sign condition is
+\begin{equation}
+ W_{ij}(p)\geq0
+ \quad\text{for }j\in\mathcal E,
+ \qquad
+ W_{ij}(p)\leq0
+ \quad\text{for }j\in\mathcal I.
+ \label{eq:K-Dale-condition}
+\end{equation}
+A direct $K$-population analogue of narrower excitation is
+\begin{equation}
+ \max_{j\in\mathcal E}\Sigma_{ij}
+ <
+ \min_{j\in\mathcal I}\Sigma_{ij},
+ \qquad i=1,\ldots,K.
+ \label{eq:K-narrower-excitation}
+\end{equation}
+If the width depends only on the source population, so that
+$\Sigma_{ij}=\sigma_j^2$, this reduces to
+\begin{equation}
+ \max_{j\in\mathcal E}\sigma_j
+ <
+ \min_{j\in\mathcal I}\sigma_j.
+ \label{eq:K-source-narrower-excitation}
+\end{equation}
+For $K>2$, this width ordering is not sufficient by itself.  The off-diagonal
+feedback loops affect the critical eigenvectors and eigenvalues, so there is
+no universal entrywise strength inequality.  The exact strength condition is
+that $\mathsf W(p_c)$ and $\Sigma$ produce
+\eqref{eq:K-Hopf-factorization} and
+\eqref{eq:K-noncritical-mode-stability} through the matrix
+\eqref{eq:K-linear-matrix}.
+
+For $K=2$, the characteristic polynomial is
+\begin{equation}
+ P(\lambda)=\lambda^2+\gamma_1\lambda+\gamma_2,
+ \label{eq:K-two-polynomial}
+\end{equation}
+and the Hopf conditions reduce to
+\begin{equation}
+ \gamma_1(k_0,p_c)=0,
+ \qquad
+ \gamma_2(k_0,p_c)>0.
+ \label{eq:K-two-reduction}
+\end{equation}
+For $K=3$, the characteristic polynomial is
+\begin{equation}
+ P(\lambda)=\lambda^3+\gamma_1\lambda^2
+ +\gamma_2\lambda+\gamma_3,
+ \label{eq:K-three-polynomial}
+\end{equation}
+and the Hopf conditions reduce to
+\begin{equation}
+ \gamma_1(k_0,p_c)>0,
+ \qquad
+ \gamma_3(k_0,p_c)>0,
+ \qquad
+ \gamma_1(k_0,p_c)\gamma_2(k_0,p_c)
+ =\gamma_3(k_0,p_c).
+ \label{eq:K-three-reduction}
+\end{equation}
+Thus \eqref{eq:K-two-reduction} gives $A(k_0)=0$, $C(k_0)>0$, while
+\eqref{eq:K-three-reduction} gives $A(k_0)>0$, $C(k_0)>0$, and
+$A(k_0)B(k_0)=C(k_0)$.

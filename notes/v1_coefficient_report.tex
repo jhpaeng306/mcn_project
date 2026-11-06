@@ -1,0 +1,186 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,booktabs,array,microtype}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{pdftitle={V1 neural-field coefficients: sources and derivation}}
+\newcommand{\ee}{\mathrm e}
+\newcommand{\Rea}{\operatorname{Re}}
+\newcommand{\Ima}{\operatorname{Im}}
+\newcommand{\diag}{\operatorname{diag}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\begin{document}
+\begin{center}\large\bfseries V1 neural-field coefficients: sources and derivation\end{center}
+This note accompanies the V1 notebook and extends the model in \texttt{final\_report.pdf}, confirmed by the author as similar to the supplied
+report. The gains below are reproducible phenomenological calibrations, not
+estimates of physiological synaptic strengths.
+
+\section{What is fixed by evidence, and what is assumed?}
+Order the populations as $(E,PV,SST,VIP)$, with target rows and source columns.
+The four-population sign/zero mask and the no-VIP restriction are
+\begin{equation}
+ \mathcal M_4=\begin{pmatrix}+&-&-&0\\+&-&-&0\\+&0&0&-\\+&0&-&0\end{pmatrix},
+ \qquad \mathcal M_3=(\mathcal M_4)_{1:3,1:3}.
+ \label{eq:mask}
+\end{equation}
+Every existing connection and its sign are preserved. Exact zeros represent
+the chosen reduction, not proof that the corresponding biological pathways
+never occur.
+
+\textbf{Pfeffer et al.\ \cite{pfeffer}.} The measured inhibitory motif motivates
+PV inhibition of E/PV, SST inhibition of the other retained populations, and
+preferential VIP inhibition of SST. It does not fix our effective gain magnitudes.
+
+\textbf{Billeh et al.\ \cite{billeh}.} Their Gaussian distance rule supplies the
+scales $s_{E\to E}=114$, $s_{E\to PV}=92$, $s_{E\to SST}=103$,
+$s_{PV\to E}=95$, $s_{SST\to E}=85$, and $s_{PV\to PV}\simeq120\,\mu$m.
+Their substitutions for other inhibitory pairs and Htr3a connections motivate
+our remaining widths; Htr3a is broader than VIP. Their feedforward model motivates
+driving E/PV, although equal E/PV drive is our assumption.
+
+\textbf{Campagnola et al.\ \cite{campagnola}.} Cell-class/layer dependence of
+connection probability, strength and dynamics limits the interpretation of a
+single coarse matrix. No numerical gain is copied from this study.
+
+\textbf{Hahn et al.\ \cite{hahn}.} Their time-constant sensitivity analysis
+(Fig.~5E--H) motivates testing frequency sensitivity. It does \emph{not} establish
+our exact time constants. No cited experiment uniquely determines those values.
+
+\subsection{From spatial measurements to field coefficients}
+For a unit-mass Gaussian, one spatial unit is $100\,\mu$m, and
+\begin{equation}
+ P_{ij}(r)=C_{ij}\ee^{-r^2/s_{ij}^2},\qquad
+ \Sigma_{ij}=\frac{(s_{ij}/100)^2}{2},\qquad
+ \widehat W_{ij}(q;p)=J_{ij}(p)\ee^{-\Sigma_{ij}q^2/2}.
+ \label{eq:width}
+\end{equation}
+Thus $J_{ij}$ is an integrated gain, not a probability or Gaussian peak height.
+The disk-average convention in \cite{billeh}, with $R=75\,\mu$m, gives
+\begin{equation}
+ P_{{\rm rep},ij}=\frac{1}{\pi R^2}\int_0^R2\pi r C_{ij}\ee^{-r^2/s_{ij}^2}\,dr
+ =\frac{C_{ij}s_{ij}^2}{R^2}(1-\ee^{-R^2/s_{ij}^2}).
+\end{equation}
+Consequently $C_{ij}=P_{{\rm rep},ij}R^2/[s_{ij}^2(1-\ee^{-R^2/s_{ij}^2})]$.
+If source density and effective per-connection strength were known, a planar
+reduction would give $J_{ij}\propto\rho_j w_{ij}\pi s_{ij}^2C_{ij}$, with further
+activity-unit scaling. The legacy probability array does not supply these
+missing factors. The 1D marginal of the unit-mass 2D kernel preserves $J_{ij}$.
+
+\newpage
+\section{Complete coefficient specification}
+The source-nonlinearity convention is
+\begin{equation}
+ \tau_i\partial_tu_i=-u_i+\sum_jW_{ij}*f_j(u_j)+I_i,\qquad
+ f_j(u)=\ell(g_j(u-\theta_j))-\ell(-g_j\theta_j),\quad
+ \ell(z)=\frac{1}{1+\ee^{-z}}.
+ \label{eq:model}
+\end{equation}
+Here $u$ is a signed deviation variable, time is in ms, and
+$L=47.6023$ model units $=4.76023$ mm. Retain the legacy activation parameters
+and effective time scales:
+\begin{center}
+\begin{tabular}{lrrr}\toprule
+Population&$\tau$ (ms)&$g$&$\theta$\\\midrule
+E&10&3.47682761&0.28483799\\
+PV&12&7.34413013&0.12068148\\
+SST&35&3.74650527&0.40137356\\
+VIP&20&6&0.7\\\bottomrule
+\end{tabular}
+\end{center}
+A one-pole filter has $h_i(t)=\tau_i^{-1}\ee^{-t/\tau_i}$ for $t\geq0$, so
+$\int_0^\infty t h_i(t)dt=\tau_i$. No measured population impulse responses
+were available to identify these moments. We therefore retain the ratios
+$1:1.2:3.5:2$, with a 10 ms reference, as explicit hypotheses. They are not
+measured membrane or synaptic-decay constants. Holding them and $g,\theta$ fixed
+isolates the change in connectivity; their decimal precision is not experimental
+precision.
+
+The width matrix, including dynamically irrelevant placeholders on zero edges, is
+\begin{equation}
+ s=\begin{pmatrix}114&95&85&85\\92&120&120&120\\103&120&120&120\\103&120&120&120\end{pmatrix}\mu\mathrm m,
+ \qquad \Sigma=(s/100)^2/2\quad\text{entrywise}.
+\end{equation}
+The $120\,\mu$m SST--VIP/SST--PV and $103\,\mu$m E--VIP scales are
+extrapolations in the reduction, not VIP-specific measurements.
+
+Set $J(p)=(0.5+p)G$, equivalently $A=0.5G$ and $A_p=G$. The calibrated gains are
+\begin{align}
+ G_3&=\begin{pmatrix}
+ 5.87511&-1.36667&-6.36306\\
+ 4.74411&-0.99825&-8.11851\\
+ 2.64504&0&0
+ \end{pmatrix},\\
+ G_4&=\begin{pmatrix}
+ 6.13537&-1.42384&-6.23105&0\\
+ 5.13746&-0.89269&-7.81025&0\\
+ 2.54421&0&0&-16.04588\\
+ 1.65365&0&-3.21101&0
+ \end{pmatrix}.
+ \label{eq:gains}
+\end{align}
+The notebook uses the full-precision values in
+\path{simulations/output/v1_extension/calibration.json}. The printed matrices
+are rounded. The no-VIP block is calibrated separately; comparing these matched
+models is not an isolated causal VIP-ablation experiment.
+
+\newpage
+\section{Reproducible derivation of the new gains}
+The legacy full-scale matrix is
+\begin{equation}
+ G_{\rm old}=\begin{pmatrix}
+6.22009&-1.45455&-6.48944&0\\5.09798&-0.90615&-8.04066&0\\
+2.67174&0&0&-16\\1.68844&0&-3.13584&0
+\end{pmatrix}.
+\end{equation}
+Its original optimization history cannot be reconstructed. Instead, take this
+matrix (or its principal $3\times3$ block) as a prior and solve
+\begin{equation}
+ \min_{-2\leq z_{ij}\leq2}\sum_{G_{{\rm old},ij}\ne0}z_{ij}^2,
+ \qquad G_{ij}=G_{{\rm old},ij}\ee^{z_{ij}}\quad\text{on retained edges},
+ \label{eq:optimization}
+\end{equation}
+with zeros fixed, subject to the four spectral targets
+\begin{align}
+ \Rea\lambda_d(q_0,p_0)&=0,&\partial_q\Rea\lambda_d(q_0,p_0)&=0,\notag\\
+ \Ima\lambda_d(q_0,p_0)&=0.08,&\max\Rea\sigma(M(0,p_0))&=-0.001,\quad
+ q_0=6\pi/L,\ p_0=0.25. \label{eq:targets}
+\end{align}
+The matrix $M$ is derived in Report 2. These are design targets: mode 3,
+frequency $12.7324$ Hz and a damped homogeneous mode, not measured V1 values.
+SLSQP starts at $z=0$, uses tolerance $10^{-12}$ and a central $q$-difference
+of $10^{-4}$. It finds a local constrained optimum; uniqueness/global optimality
+is not claimed. Numerical checks find the first crossing at $(p_0,k_0)=(0.25,3)$,
+verify the square-lattice shells and a stable Gaussian tail, and obtain
+negative real cubic saturation coefficients. Unretuned VIP deletion instead
+gives a homogeneous Hopf at $p\simeq0.153726$.
+
+\textbf{Forcing.} At $p=p_0-0.0005$, drive E/PV equally at $2\omega_0$ and/or
+spatial mode 6. A real cosine of peak $d$ has complex harmonic $d/2$.
+Solving for leading-order amplitude-Jacobian growth $10^{-4}$/ms gives
+\begin{center}\small
+\begin{tabular}{lrrr}\toprule
+Model&Temporal peak&Spatial peak&Each combined peak\\\midrule
+3 populations&0.0022181&0.0061721&0.0016479\\
+4 populations&0.0021273&0.0028546&0.0012339\\\bottomrule
+\end{tabular}\end{center}
+Direct simulations check the resulting patterns separately from this asymptotic
+prediction. With gains fixed, $\pm20\%$ changes in E/PV/SST time constants often
+remove the finite-wave-first scenario: these are conditional existence examples,
+not a robust physiological fit.
+
+\begingroup\footnotesize
+\begin{thebibliography}{4}\setlength{\itemsep}{0pt}
+\bibitem{pfeffer} C.~K. Pfeffer et al. (2013), Inhibition of inhibition in visual cortex,
+\emph{Nature Neuroscience} 16, 1068--1076. \href{https://doi.org/10.1038/nn.3446}{doi:10.1038/nn.3446}.
+\bibitem{billeh} Y.~N. Billeh et al. (2020), Systematic Integration of Structural and
+Functional Data into Multi-scale Models of Mouse Primary Visual Cortex,
+\emph{Neuron} 106, 388--403.e18; Fig.~4, Methods e10--e11.
+\href{https://doi.org/10.1016/j.neuron.2020.01.040}{doi:10.1016/j.neuron.2020.01.040}.
+\bibitem{campagnola} L. Campagnola et al. (2022), Local connectivity and synaptic
+dynamics in mouse and human neocortex, \emph{Science} 375, eabj5861.
+\href{https://doi.org/10.1126/science.abj5861}{doi:10.1126/science.abj5861}.
+\bibitem{hahn} G. Hahn et al. (2022), Rate and oscillatory switching dynamics of a
+multilayer visual microcircuit model, \emph{eLife} 11, e77594; Fig.~5E--H.
+\href{https://doi.org/10.7554/eLife.77594}{doi:10.7554/eLife.77594}.
+\end{thebibliography}\endgroup
+\end{document}

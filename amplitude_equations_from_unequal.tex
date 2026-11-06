@@ -1,0 +1,373 @@
+\subsubsection{Unequal intensities}
+
+Suppose $D\neq0$, so $|A|\neq|B|$.  Before solving, use the two phase
+changes
+\[
+ A=\ee^{\ii(\chi+\xi)}\widehat A,
+ \qquad B=\ee^{\ii(\chi-\xi)}\widehat B
+\]
+to replace $\eta_t$ and $\eta_x$ by the nonnegative forcing strengths
+\begin{equation}
+ \gamma_t=|\eta_t|,
+ \qquad \gamma_x=|\eta_x|.
+ \label{eq:forcing-strengths}
+\end{equation}
+The coefficients $a,b,c$ and all intensities are unchanged.  We drop the
+hats below.  Thus \eqref{eq:difference-balance} becomes
+\begin{equation}
+ D(a+bT)-2\ii\gamma_x k=0.
+ \label{eq:unequal-difference}
+\end{equation}
+
+\paragraph{No input: $\gamma_t=\gamma_x=0$.}
+Since $D\neq0$, \eqref{eq:unequal-difference} gives $a+bT=0$.
+Substitution into either equilibrium equation then gives $b=c$.
+Consequently an unequal-intensity equilibrium occurs only in the degenerate
+case
+\begin{equation}
+ b=c,
+ \qquad T=-\frac ab\in\mathbb R_{>0},
+ \qquad 0<x<T.
+ \label{eq:unforced-unequal}
+\end{equation}
+Both phases are arbitrary.  For $b\neq c$, there is no unequal-intensity
+equilibrium without input.
+
+\paragraph{Only temporal input: $\gamma_t>0$ and $\gamma_x=0$.}
+Again $T=-a/b$ must be real and positive.  The remaining equation is
+\begin{equation}
+ |c-b|^2x(T-x)=\gamma_t^2.
+ \label{eq:temporal-unequal-balance}
+\end{equation}
+For $b\neq c$, the two exchange-related intensities are
+\begin{equation}
+ x_\pm=
+ \frac{T\pm\sqrt{T^2-4\gamma_t^2/|c-b|^2}}{2},
+ \qquad |B|^2=T-x_\pm.
+ \label{eq:temporal-unequal-strength}
+\end{equation}
+They exist when
+\begin{equation}
+ T^2>\frac{4\gamma_t^2}{|c-b|^2}.
+ \label{eq:temporal-unequal-existence}
+\end{equation}
+Writing $A=\sqrt{x}\ee^{\ii\phi}$ and
+$B=\sqrt{T-x}\ee^{\ii\psi}$, the temporal input fixes the phase sum by
+\begin{equation}
+ \ee^{-\ii(\phi+\psi)}
+ =-\frac{(c-b)\sqrt{x(T-x)}}{\gamma_t},
+ \label{eq:temporal-unequal-phase}
+\end{equation}
+whereas $\phi-\psi$ remains arbitrary.  This is a biased pair of
+counter-propagating waves.
+
+\paragraph{Spatial input, with or without temporal input: $\gamma_x>0$.}
+Set $K=k/D\in\mathbb R$.  The real and imaginary parts of
+\eqref{eq:unequal-difference} give, when $\RePart b\neq0$,
+\begin{equation}
+ T=-\frac{\RePart a}{\RePart b},
+ \qquad
+ K=\frac{\Im(a+bT)}{2\gamma_x}.
+ \label{eq:unequal-TK}
+\end{equation}
+The remaining conditions reduce to
+\begin{subequations}
+\label{eq:unequal-scalar-system}
+\begin{align}
+ h^2&=\frac{T^2}{4}-\left(K^2+\frac14\right)D^2,
+ \label{eq:unequal-h}\\
+ 0&=\frac{|c-b|^2}{4}(T^2-D^2)
+ +2\gamma_x\RePart(c-b)h
+ +(1+4K^2)\gamma_x^2-\gamma_t^2
+ +2TK\gamma_x\Im(c-b).
+ \label{eq:unequal-balance}
+\end{align}
+\end{subequations}
+Equation \eqref{eq:unequal-balance} is linear in $h$; substituting it into
+\eqref{eq:unequal-h} gives a quadratic equation for $D^2$.  Retain only
+real roots satisfying
+\begin{equation}
+ 0<D^2<T^2,
+ \qquad
+ \frac{T^2}{4}-\left(K^2+\frac14\right)D^2\geq0.
+ \label{eq:unequal-admissibility}
+\end{equation}
+For each admissible root, both signs of $D$ give exchange-related states,
+and
+\begin{equation}
+ x=\frac{T+D}{2},
+ \qquad k=KD,
+ \qquad \zeta=\frac{h-\ii k}{x}.
+ \label{eq:unequal-reconstruction}
+\end{equation}
+If $\gamma_t>0$, the remaining phase is fixed by
+\begin{equation}
+ u=-\frac{\gamma_x+zeta
+ \left[a+(b|\zeta|^2+c)x\right]}{\gamma_t},
+ \qquad |u|=1,
+ \label{eq:unequal-u}
+\end{equation}
+and $A=\sqrt{x}\ee^{\ii\phi}$ with $u=\ee^{-2\ii\phi}$ and $B=\zeta A$.
+If $\gamma_t=0$, the numerator in \eqref{eq:unequal-u} must vanish and the
+common phase $\phi$ is arbitrary.  Thus spatial-only input leaves the
+temporal phase free, while combined input generically locks both phases.
+
+The formulas above assume nonzero denominators.  If $\RePart b=0$, solve
+the two real equations in \eqref{eq:unequal-difference} directly for
+$T$ and $K$.  If $\RePart(c-b)=0$, use
+\eqref{eq:unequal-balance} first to determine $D^2$ and then
+\eqref{eq:unequal-h} to determine $h$.  A nonpositive $T$ or the absence
+of an admissible root means that no unequal-intensity equilibrium exists.
+
+\subsubsection{Equal intensities}
+
+Suppose $D=0$, and write $|A|=|B|=r$.  Equation
+\eqref{eq:difference-balance} gives $\eta_xk=0$.
+
+If $\gamma_x=0$, write $A=r\ee^{\ii\phi}$,
+$B=r\ee^{\ii\psi}$, and $\Theta=\phi+\psi$.  Then
+\begin{equation}
+ a+(b+c)r^2+\gamma_t\ee^{-\ii\Theta}=0.
+ \label{eq:equal-temporal-balance}
+\end{equation}
+For $b+c\neq0$, the possible strengths are
+\begin{equation}
+ r_\pm^2=
+ \frac{-\RePart\!\left(a\overline{(b+c)}\right)
+ \pm\sqrt{
+ \RePart\!\left(a\overline{(b+c)}\right)^2
+ -|b+c|^2(|a|^2-\gamma_t^2)}}{|b+c|^2}.
+ \label{eq:equal-temporal-strength}
+\end{equation}
+Only real positive roots are retained.  When $\gamma_t>0$,
+\begin{equation}
+ \ee^{-\ii\Theta}=-\frac{a+(b+c)r^2}{\gamma_t},
+ \label{eq:equal-temporal-phase}
+\end{equation}
+while $\phi-\psi$ is arbitrary.  When $\gamma_t=0$, one instead requires
+$a+(b+c)r^2=0$, and both phases are arbitrary.
+
+If $\gamma_x>0$, then $k=0$ and hence
+\begin{equation}
+ B=\sigma A,
+ \qquad \sigma\in\{1,-1\}.
+ \label{eq:equal-parity}
+\end{equation}
+Set $d=b+c$, $g_\sigma=a+\sigma\gamma_x$, and $y=|A|^2$.  The amplitude
+condition is
+\begin{equation}
+ |g_\sigma+dy|=\gamma_t.
+ \label{eq:equal-parity-balance}
+\end{equation}
+For $d\neq0$, its candidates are
+\begin{equation}
+ y_{\sigma,\pm}=
+ \frac{-\RePart(g_\sigma\overline d)
+ \pm\sqrt{\RePart(g_\sigma\overline d)^2
+ -|d|^2(|g_\sigma|^2-\gamma_t^2)}}{|d|^2}.
+ \label{eq:equal-parity-strength}
+\end{equation}
+Again, only real positive roots are retained.  If $\gamma_t>0$, the phase
+is fixed by
+\begin{equation}
+ \ee^{-2\ii\phi}=-\frac{g_\sigma+dy}{\sigma\gamma_t}.
+ \label{eq:equal-parity-phase}
+\end{equation}
+If $\gamma_t=0$, require $g_\sigma+dy=0$, and $\phi$ is arbitrary.  The
+states $\sigma=1$ and $\sigma=-1$ are the even and odd standing waves,
+respectively.
+
+\subsection{One-zero equilibrium solution}
+
+Let $A=0$ and $B=r\ee^{\ii\psi}\neq0$.  The equilibrium equations reduce
+to
+\begin{equation}
+ r^2=-\frac ab\in\mathbb R_{>0},
+ \qquad
+ \gamma_t\ee^{-2\ii\psi}+\gamma_x=0.
+ \label{eq:one-zero-solution}
+\end{equation}
+Therefore the branch exists with arbitrary $\psi$ when there is no input,
+does not exist with only one input, and exists with both inputs precisely
+when $\gamma_t=\gamma_x$.  In the last case
+$\ee^{-2\ii\psi}=-1$ in the normalized phase coordinates.  The state
+$(A,0)$ follows by exchanging $A$ and $B$.  These are left- and
+right-traveling waves.
+
+\subsection{Zero equilibrium solution}
+
+The zero equilibrium
+\begin{equation}
+ (A,B)=(0,0)
+ \label{eq:zero-equilibrium}
+\end{equation}
+always exists.  It has no leading critical-mode activation.
+
+\subsection{Stability}
+
+At an equilibrium $(A_*,B_*)$, the linearization is
+\begin{equation}
+ \frac{d}{d\tau}
+ \begin{pmatrix}\delta\mathbf A\\ \delta\overline{\mathbf A}\end{pmatrix}
+ =\mathcal J
+ \begin{pmatrix}\delta\mathbf A\\ \delta\overline{\mathbf A}\end{pmatrix},
+ \qquad
+ \mathcal J=\begin{pmatrix}M&N\\ \overline N&\overline M\end{pmatrix},
+ \label{eq:full-Jacobian}
+\end{equation}
+where $\delta\mathbf A=(\delta A,\delta B)^\mathsf T$ and
+\begin{equation}
+ M=\begin{pmatrix}
+ a+2b|A_*|^2+c|B_*|^2&cA_*\overline{B_*}+\gamma_x\\
+ cB_*\overline{A_*}+\gamma_x&a+2b|B_*|^2+c|A_*|^2
+ \end{pmatrix},
+ \quad
+ N=\begin{pmatrix}
+ bA_*^2&cA_*B_*+\gamma_t\\
+ cA_*B_*+\gamma_t&bB_*^2
+ \end{pmatrix}.
+ \label{eq:stability-blocks}
+\end{equation}
+An isolated equilibrium is asymptotically stable if and only if all four
+eigenvalues of $\mathcal J$ have negative real part.  Equivalently, if
+\begin{equation}
+ \det(\lambda I-\mathcal J)
+ =\lambda^4+q_1\lambda^3+q_2\lambda^2+q_3\lambda+q_4,
+ \label{eq:stability-quartic}
+\end{equation}
+then
+\begin{equation}
+ q_j>0\quad(j=1,\ldots,4),
+ \qquad q_1q_2>q_3,
+ \qquad q_1q_2q_3>q_3^2+q_1^2q_4.
+ \label{eq:stability-Hurwitz}
+\end{equation}
+Substitution of \eqref{eq:unequal-reconstruction} or
+\eqref{eq:one-zero-solution} into \eqref{eq:stability-blocks} therefore
+gives the stable unequal-intensity and one-zero equilibria without further
+case-dependent variables.
+
+For an equal-intensity state $B_*=\sigma A_*$, perturbations split into
+$\delta B=\kappa\delta A$, $\kappa\in\{1,-1\}$.  Define
+\begin{align}
+ P_{\sigma\kappa}
+ &=a+\kappa\gamma_x
+ +(2b+c+\kappa\sigma c)|A_*|^2,
+ \label{eq:equal-P}\\
+ Q_{\sigma\kappa}
+ &=(b+\kappa\sigma c)A_*^2+\kappa\gamma_t.
+ \label{eq:equal-Q}
+\end{align}
+The two eigenvalues in this block satisfy
+\begin{equation}
+ \lambda^2-2\RePart(P_{\sigma\kappa})\lambda
+ +|P_{\sigma\kappa}|^2-|Q_{\sigma\kappa}|^2=0.
+ \label{eq:equal-characteristic}
+\end{equation}
+With both inputs, the equilibrium is asymptotically stable precisely when,
+for $\kappa=\pm1$,
+\begin{equation}
+ \RePart(P_{\sigma\kappa})<0,
+ \qquad
+ |P_{\sigma\kappa}|^2>|Q_{\sigma\kappa}|^2.
+ \label{eq:equal-stability}
+\end{equation}
+With spatial input only, the $\kappa=\sigma$ block contains the neutral
+common-phase mode.  Orbital stability requires
+\begin{equation}
+ |P_{\sigma\sigma}|^2=|Q_{\sigma\sigma}|^2,
+ \qquad \RePart(P_{\sigma\sigma})<0,
+ \label{eq:spatial-orbital}
+\end{equation}
+together with \eqref{eq:equal-stability} for $\kappa=-\sigma$.  With
+temporal input only, use the free spatial phase to take $B_*=A_*$; the
+$\kappa=-1$ block is neutral, and the analogous orbital conditions apply.
+
+Without input, the standing wave $|A_*|=|B_*|=r$ is orbitally stable if and
+only if
+\begin{equation}
+ \RePart(b+c)<0,
+ \qquad \RePart(b-c)<0.
+ \label{eq:unforced-standing-stability}
+\end{equation}
+The one-zero traveling wave, with $r^2=-a/b>0$, is orbitally stable if and
+only if
+\begin{equation}
+ \RePart b<0,
+ \qquad \RePart(a+cr^2)<0.
+ \label{eq:unforced-traveling-stability}
+\end{equation}
+
+At the zero equilibrium, $Z_\sigma=A+\sigma B$ satisfies
+\begin{equation}
+ (Z_\sigma)_\tau=(a+\sigma\gamma_x)Z_\sigma
+ +\sigma\gamma_t\overline{Z_\sigma}.
+ \label{eq:zero-parity}
+\end{equation}
+Hence the zero equilibrium is stable if and only if
+\begin{equation}
+ \RePart(a+\sigma\gamma_x)<0,
+ \qquad
+ |a+\sigma\gamma_x|^2>\gamma_t^2,
+ \qquad \sigma=\pm1.
+ \label{eq:zero-stability}
+\end{equation}
+For no input this reduces to $\RePart a<0$.
+
+\subsection{Input--pattern summary}
+
+From \eqref{eq:u1}, a one-zero state is a traveling wave, an
+equal-intensity state is a standing wave, and an unequal-intensity state is
+a biased counter-propagating wave.  The leading complex-mode strengths are
+summarized below; the physical field also contains the complex conjugate.
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Input & Existence condition & Activation pattern & Strength \\
+\midrule
+None
+& $-a/b=r^2>0$
+& traveling wave
+& one component $r$ \\
+None
+& $-a/(b+c)=r^2>0$
+& standing wave
+& envelope $2r$ \\
+Temporal only
+& \eqref{eq:equal-temporal-strength}
+& time-locked standing wave
+& envelope $2r_\pm$ \\
+Temporal only
+& \eqref{eq:temporal-unequal-strength}
+& biased counter-propagating wave
+& $\sqrt{x_\pm},\sqrt{T-x_\pm}$ \\
+Spatial only
+& $-(a+\sigma\gamma_x)/(b+c)=r^2>0$
+& even/odd pinned standing wave
+& envelope $2r$ \\
+Both
+& \eqref{eq:equal-parity-strength}
+& fully locked standing wave
+& envelope $2\sqrt{y_{\sigma,\pm}}$ \\
+Both, $\gamma_t=\gamma_x$
+& $-a/b=r^2>0$
+& locked traveling wave
+& one component $r$ \\
+Spatial/both
+& \eqref{eq:unequal-scalar-system}
+& biased counter-propagating wave
+& $|A|,|B|$ \\
+Any
+& \eqref{eq:zero-stability}
+& stable inactive state
+& $0$ \\
+\bottomrule
+\end{tabular}
+\caption{Input-induced activation patterns.  An existing nonzero branch is
+stable only when it also satisfies \eqref{eq:stability-Hurwitz},
+\eqref{eq:equal-stability}, \eqref{eq:unforced-standing-stability}, or
+\eqref{eq:unforced-traveling-stability}, as appropriate.}
+\label{tab:input-patterns}
+\end{table}

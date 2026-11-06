@@ -1,0 +1,598 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,microtype,graphicx,float}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{pdftitle={V1 frequency dispersion and excitation on a square torus}}
+\graphicspath{{../simulations/output/v1_extension/}{figures/}}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newcommand{\ee}{\mathrm e}
+\newcommand{\ii}{\mathrm i}
+\newcommand{\Rea}{\operatorname{Re}}
+\newcommand{\Ima}{\operatorname{Im}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\spec}{\operatorname{spec}}
+\newcommand{\T}{\mathbb T}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\allowdisplaybreaks[1]
+\begin{document}
+\begin{center}
+{\large\bfseries V1 frequency dispersion and excitation on a square torus}\\[4pt]
+Explicit spectral derivations and interpretation of the simulations
+\end{center}
+This report extends the neural-field analysis in \texttt{final\_report.pdf}.
+All new simulations use the three- and four-population calibrations specified
+in Report 1. We distinguish exact statements, a local interval certificate,
+ordinary numerical calculations, and a formal weak-forcing expansion.
+
+\section{Field equation and the dispersion matrix}
+Let $u:\T_L^d\times\R_+\to\R^N$, with $N=3,4$ and $d=1,2$, satisfy
+\begin{equation}
+ D\partial_tu=-u+W*f(u)+I(x,t),\qquad
+ D=\diag(\tau_1,\ldots,\tau_N),\quad f(0)=0.
+ \label{eq:field}
+\end{equation}
+The convolution applies the scalar nonlinearity to each \emph{source} population
+before integration. Rows index targets and columns index sources. Our kernels are
+\begin{equation}
+ W_{ij}(x;p)=J_{ij}(p)K_{\Sigma_{ij}}(x),\quad
+ K_\sigma(x)=\sum_{r\in\mathbb Z^d}
+ \frac{\exp(-|x+Lr|^2/(2\sigma))}{(2\pi\sigma)^{d/2}},\quad
+ J(p)=(0.5+p)G.
+ \label{eq:kernel}
+\end{equation}
+Each $K_\sigma$ has integral one over the torus. With
+$\widehat u_k=L^{-d}\int_{[0,L]^d}u(x)\ee^{-\ii q_k\cdot x}dx$,
+$q_k=2\pi k/L$, convolution has multiplier
+\begin{equation}
+ \widehat W(q;p)=J(p)\odot\exp(-\Sigma|q|^2/2).
+ \label{eq:what}
+\end{equation}
+Here $\widehat W$ denotes the integral multiplier, not the normalized Fourier
+coefficient of $W$, and $\odot$ and the exponential act entrywise.
+Writing $S=\diag(s_j)$, $s_j=f'_j(0)$, and substituting
+$u=v\ee^{\lambda t+\ii q_k\cdot x}$ into the linearization at $I=0,u=0$ gives
+\begin{equation}
+ \lambda Dv=-v+\widehat W(q_k;p)Sv,\qquad
+ \boxed{M(q,p)=D^{-1}[-I_N+\widehat W(q;p)S]},\quad q=|q_k|.
+ \label{eq:M}
+\end{equation}
+Thus $P(\lambda,q,p)=\det(\lambda I_N-M(q,p))=0$ is the dispersion relation.
+For the sigmoid in Report 1, $s_j=g_j\ell(-g_j\theta_j)[1-\ell(-g_j\theta_j)]$.
+Time is in ms; space is in $0.1$ mm units. Therefore
+\begin{equation}
+ q_{\rm phys}=10q\ \mathrm{rad/mm},\qquad
+ f_{\rm Hz}=\frac{1000}{2\pi}\omega,\qquad \omega=\Ima\lambda.
+\end{equation}
+At the calibrated onset, $p_0=0.25$, $k_0=3$,
+$q_0=6\pi/47.6023=0.3959799405$ and $\omega_0=0.08$ rad/ms.
+
+\newpage
+\section{What is the imaginary part of a dominant eigenvalue?}
+Define $a(q)=\max_{\lambda\in\spec M(q)}\Rea\lambda$. When a unique real root,
+or one conjugate pair, has this real part, define $\omega_d(q)=0$ or the
+positive imaginary part of that pair, respectively. At a tie between unrelated
+roots, there is no unique physical frequency. For a single plotted curve we use
+\begin{equation}
+ \omega_d(q)=\max\{\Ima\lambda:\lambda\in\spec M(q),\ \Rea\lambda=a(q)\}.
+ \label{eq:dominance}
+\end{equation}
+This convention can be discontinuous. It is different from continuing the same
+complex eigenvalue after it ceases to dominate.
+
+\begin{proposition}[Exact frequency derivative]
+On an interval where $\lambda(q)=\alpha(q)+\ii\omega(q)$ is a simple eigenvalue,
+let $Mv=\lambda v$ and $w^*M=\lambda w^*$, normalized by $w^*v=1$.
+Then
+\begin{equation}
+ \lambda'=w^*M'v=-\frac{P_q}{P_\lambda},\qquad
+ M'=-qD^{-1}[(\Sigma\odot J\odot\ee^{-\Sigma q^2/2})S].
+ \label{eq:derivative}
+\end{equation}
+If $P_\lambda=A+\ii B$ and $P_q=C+\ii E$, evaluated at the root, then
+\begin{equation}
+ \boxed{\omega'(q)=\frac{CB-EA}{A^2+B^2}}.
+ \label{eq:sign}
+\end{equation}
+Consequently a simple dominant pair increases strictly on any interval where
+$CB-EA>0$ throughout and dominance does not change.
+\end{proposition}
+\begin{proof}
+Differentiate $Mv=\lambda v$ and multiply by $w^*$. The two $v'$ terms cancel.
+Alternatively differentiate $P(\lambda(q),q)=0$; simplicity gives
+$P_\lambda\ne0$. Multiplying $-P_q/P_\lambda$ by
+$\overline{P_\lambda}/\overline{P_\lambda}$ gives \eqref{eq:sign}.
+Positive derivative implies strict increase by integration.
+\end{proof}
+No sign follows merely from Gaussian attenuation. If
+$R_{ij}=J_{ij}s_j\ee^{-\Sigma_{ij}q^2/2}/\tau_i$, then
+\begin{equation}
+ \omega'=-q\sum_{ij}\Sigma_{ij}R_{ij}\Ima(\overline w_i v_j).
+ \label{eq:edges}
+\end{equation}
+Both the signed edges and the complex eigenvectors matter. Even if all absolute
+couplings decrease, the imaginary part of their collective eigenvalue can grow.
+
+For comparison, if all $\tau_i=\tau$ and all retained widths equal $\sigma$,
+then $M=(-I+hJS)/\tau$, $h=\ee^{-\sigma q^2/2}$.
+For every eigenvalue $\nu$ of $JS$,
+\begin{equation}
+ \lambda_\nu(q)=(-1+h\nu)/\tau,\qquad
+ \omega_\nu'=-\sigma q\omega_\nu<0\quad(q>0,\ \omega_\nu>0).
+\end{equation}
+Thus connectivity topology alone cannot prove increasing frequency. Unequal
+widths and time scales require the actual sign calculation in \eqref{eq:sign}.
+
+\newpage
+\section{Explicit characteristic polynomials for the V1 motif}
+At each $(q,p)$ write the two matrices as
+\begin{equation}
+ M_3=\begin{pmatrix}a&b&c\\d&e&f\\g&0&h\end{pmatrix},\qquad
+ M_4=\begin{pmatrix}a&b&c&0\\d&e&f&0\\g&0&h&j\\r&0&s&t\end{pmatrix}.
+ \label{eq:sparse}
+\end{equation}
+Every entry is explicit from \eqref{eq:M}; in particular
+\begin{equation}
+ (M_{ij})'=-q\Sigma_{ij}(M_{ij}+\delta_{ij}/\tau_i).
+ \label{eq:entries}
+\end{equation}
+Define $H=(\lambda-a)(\lambda-e)-bd$ and $R=c(\lambda-e)+bf$.
+Expanding the $3\times3$ determinant yields
+\begin{equation}
+ P_3=(\lambda-h)H-gR=\lambda^3+A\lambda^2+B\lambda+C,
+ \label{eq:cubic}
+\end{equation}
+where
+\begin{align}
+ A&=-a-e-h,\notag\\
+ B&=ae-bd+h(a+e)-gc,\notag\\
+ C&=-h(ae-bd)+gce-gbf. \label{eq:abc}
+\end{align}
+For four populations, eliminate the last component when $\lambda\ne t$:
+the third row acquires $jr/(\lambda-t)$ and $js/(\lambda-t)$ in its first
+and third entries. Multiplying the reduced determinant by $\lambda-t$ gives
+\begin{equation}
+ \boxed{P_4=(\lambda-t)P_3-j(sH+rR)}.
+ \label{eq:quartic}
+\end{equation}
+Both sides are polynomials, so equality also holds at $\lambda=t$.
+The $P_3$ in this identity is the four-population matrix's upper block; it
+is not the independently recalibrated three-population model.
+Writing $P_4=\lambda^4+c_1\lambda^3+c_2\lambda^2+c_3\lambda+c_4$ gives
+\begin{align}
+ c_1&=A-t,&c_2&=B-tA-js,\notag\\
+ c_3&=C-tB+js(a+e)-jrc,\notag\\
+ c_4&=-tC-js(ae-bd)+jrce-jrbf. \label{eq:quarticcoeff}
+\end{align}
+Equations \eqref{eq:entries}--\eqref{eq:quarticcoeff}, differentiated by the
+product rule, provide every coefficient and its $q$ derivative directly from
+$G,\Sigma,D,S$. No fitted polynomial or eigenvalue finite difference is needed.
+
+For three populations with one real root $\rho$ and a complex pair,
+factorization gives
+\begin{align}
+ \alpha&=-\tfrac12(A+\rho),&
+ \omega^2&=B-2\alpha\rho-\alpha^2,\notag\\
+ \rho'&=-\frac{A'\rho^2+B'\rho+C'}{3\rho^2+2A\rho+B},&
+ \alpha'&=-\tfrac12(A'+\rho'),\notag\\
+ \omega'&=\frac{B'-2(\rho+\alpha)\alpha'-2\alpha\rho'}{2\omega}.
+ \label{eq:cubicfrequency}
+\end{align}
+The root $\rho$ is the unique real zero of \eqref{eq:cubic} in this case;
+$\omega^2>0$ selects a pair and $\alpha>\rho$ checks its dominance.
+At a Hopf point $\alpha=0$, $\omega^2=B$, $C=AB$, with $A>0$ for the remaining
+root $-A$ to be stable.
+
+\newpage
+\section{Four-population frequency and the limit of monotonicity}
+For $\lambda=\alpha+\ii\omega$, set $y=\omega^2>0$. The real part of $P_4=0$
+and its imaginary part divided by $\omega$ are, explicitly,
+\begin{align}
+ F(\alpha,y,q)&=\alpha^4-6\alpha^2y+y^2+c_1(\alpha^3-3\alpha y)
+                  +c_2(\alpha^2-y)+c_3\alpha+c_4=0,\notag\\
+ H(\alpha,y,q)&=4\alpha^3+3c_1\alpha^2+2c_2\alpha+c_3-(4\alpha+c_1)y=0.
+ \label{eq:realimag}
+\end{align}
+These equations determine the nonreal branches; dominance must additionally
+be checked against the other roots. The required partial derivatives are
+\begin{align}
+ F_\alpha&=4\alpha^3-12\alpha y+3c_1\alpha^2-3c_1y+2c_2\alpha+c_3,\notag\\
+ F_y&=-6\alpha^2+2y-3c_1\alpha-c_2,\notag\\
+ H_\alpha&=12\alpha^2+6c_1\alpha+2c_2-4y,&H_y&=-(4\alpha+c_1),\notag\\
+ F_q&=c_1'(\alpha^3-3\alpha y)+c_2'(\alpha^2-y)+c_3'\alpha+c_4',\notag\\
+ H_q&=c_1'(3\alpha^2-y)+2c_2'\alpha+c_3'.
+\end{align}
+Implicit differentiation and Cramer's rule give the fully real formula
+\begin{equation}
+ \boxed{\omega'=\frac{H_\alpha F_q-F_\alpha H_q}
+ {2\omega(F_\alpha H_y-F_yH_\alpha)}}.
+ \label{eq:quarticfrequency}
+\end{equation}
+At a simple root,
+$F_\alpha H_y-F_yH_\alpha=|P_\lambda|^2/(2\omega^2)>0$:
+the Jacobian of $(\Rea P,\Ima P)$ with respect to $(\alpha,\omega)$ has determinant
+$|P_\lambda|^2$ by the Cauchy--Riemann equations, while $\Ima P=\omega H$ and
+$y=\omega^2$. Thus the numerator in \eqref{eq:quarticfrequency} is an exact
+sign test. At Hopf, $c_3=c_1y$, $c_4=c_2y-y^2$, and
+\begin{equation}
+ P_4=(\lambda^2+y)[\lambda^2+c_1\lambda+(c_2-y)].
+\end{equation}
+The noncritical roots are stable precisely when $c_1>0$ and $c_2-y>0$.
+
+\begin{proposition}[No global nondecreasing positive frequency]
+If every retained $\Sigma_{ij}>0$ and $\tau_i>0$, then every eigenvalue's
+imaginary part tends to zero as $q\to\infty$. Hence if $\omega_d(q_*)>0$,
+$\omega_d$ cannot be nondecreasing on $[q_*,\infty)$, nor on all subsequent
+torus wavenumbers. If the $\tau_i$ are distinct, all roots are real for
+sufficiently large $q$.
+\end{proposition}
+\begin{proof}
+$M(q)=-D^{-1}+E(q)$, where $\|E(q)\|\le C\ee^{-\sigma_*q^2/2}\to0$ and
+$\sigma_*$ is the smallest retained variance. Continuity of polynomial roots
+forces the spectrum to the real set $\{-1/\tau_i\}$. A nondecreasing function
+positive somewhere cannot tend to zero. For distinct $\tau_i$, take disjoint
+small disks about these real limiting roots. For large $q$, each contains
+exactly one root counted with multiplicity. Complex conjugation preserves each
+disk and the spectrum of a real matrix, so its single root must be real.
+\end{proof}
+This theorem does not prohibit increasing frequency over a finite range.
+
+\newpage
+\section{What actually increases in the simulations?}
+The continuous curves interpolate the allowed wavenumbers $q_k=2\pi k/L$.
+The following values are ordinary double-precision root calculations;
+Section~\ref{sec:certificate} proves increase on a smaller interval.
+At the common onset, \eqref{eq:derivative} gives
+\begin{equation}
+ \omega'_3(q_0)=0.03316726,\qquad
+ \omega'_4(q_0)=0.04570080.
+ \label{eq:slopes}
+\end{equation}
+These derivatives use model-space $q$; divide by ten for physical rad/mm.
+The constraint $\alpha'(q_0)=0$ locates the peak of \emph{growth}, not the
+peak of frequency. There is no reason for $\omega'(q_0)$ to vanish.
+
+\begin{center}\small
+\begin{tabular}{lrrr}\toprule
+At $p=0.25$ & Pair becomes dominant & Frequency maximum & Pair loses dominance\\
+&\multicolumn{3}{c}{Wavenumber in rad/mm}\\\midrule
+Calibrated 3-pop.&0.634537&11.174748&17.232247\\
+Calibrated 4-pop.&1.937968&No interior maximum&10.048565\\
+\bottomrule\end{tabular}
+\end{center}
+The three-population pair rises to $\omega=0.0967921$ and then decreases,
+remaining dominant until $\omega=0.0833387$ at the last switch.
+The four-population pair rises to a left limit $0.1009536$ at its switch;
+the plotted dominant frequency then drops to zero because a \emph{different,
+real eigenvalue} becomes rightmost. This is not a smooth frequency maximum,
+and the complex pair does not disappear there.
+
+\begin{center}\small
+\begin{tabular}{rrrr}\toprule
+Mode $k$&Calibrated 3-pop.&Calibrated 4-pop.&Original 4-pop.\\\midrule
+0&0&0&0\\1&0.073439&0&0.071180\\2&0.076059&0.074342&0.075302\\
+3&0.080000&0.080000&0.081049\\4&0.084551&0.086069&0.087252\\
+5&0.088966&0.091700&0.093016\\6&0.092675&0.096341&0.097763\\
+7&0.095304&0.099657&0.101153\\8&0.096640&0&0.103010\\
+9&0.096593&0&0\\10&0.095167&0&0\\\bottomrule
+\end{tabular}
+\end{center}
+Entries are $\omega_d$ in rad/ms. The original four-population matrix is
+evaluated at its own computed mode-3 onset, $p=0.2500000483$.
+Its modes 1--8 do increase; it switches to a real dominant root at
+$11.158365$ rad/mm, before mode 9. Thus the original increasing plot is
+consistent with the analysis, but does not prove global monotonicity.
+
+Equation~\eqref{eq:edges} also explains the sign quantitatively. At $q_0$, the
+positive edge contributions sum to $0.11992572$ (3-pop.) and $0.15464963$
+(4-pop.); negative contributions sum to $-0.08675846$ and $-0.10894883$.
+For example, attenuation of E$\to$E contributes $+0.08898428$ and $+0.11141269$,
+whereas E$\to$PV contributes $-0.03193637$ and $-0.04360907$.
+The sums give \eqref{eq:slopes}. These are modal sensitivities, not increases
+in the physical coupling magnitudes.
+
+\newpage
+\begin{figure}[H]
+\centering\includegraphics[width=\textwidth,height=.78\textheight,keepaspectratio]{dispersion_branches.pdf}
+\caption{The left panels compare the continued complex pair's real part with
+the largest real eigenvalue. The right panels distinguish the continued pair's
+frequency (gray) from the dominant frequency (blue); points mark allowed torus
+modes. Vertical lines locate dominance switches. The onset is not a frequency
+maximum. In four populations, the abrupt drop is caused by a real root taking
+over while the complex pair still oscillates.}
+\label{fig:branches}
+\end{figure}
+The behavior persists in the sampled parameter cases $p=0.23,0.2495,0.25,0.27$.
+For three populations, the smooth frequency peak moves from $11.1012$ to
+$11.2445$ rad/mm; for four, the upper dominance switch moves from $9.4203$ to
+$10.6089$ rad/mm. These sampled continuations are numerical observations,
+not interval proofs over the entire $(p,q)$ rectangle.
+
+\newpage
+\section{A certified local increase for both V1 models}\label{sec:certificate}
+The derivative at a single point implies increase on some neighborhood by
+continuity, provided the root is simple and remains dominant. To give an
+\emph{explicit} neighborhood without relying on a plotting grid, the supplied
+interval calculation uses $p=1/4$ and
+\begin{equation}
+ Q=[0.39597,0.39599],\qquad Q_{\rm phys}=[3.9597,3.9599]\ \mathrm{rad/mm}.
+ \label{eq:Q}
+\end{equation}
+This interval contains $q_0$. Model constants are interpreted as the exact
+decimal strings saved in \texttt{calibration.json}; the result is conditional
+on those coefficients, not a certificate about uncertain biological parameters.
+
+Here is the validation argument. Set
+$\mathcal F(x,q)=(\Rea P(\alpha+\ii\omega,q),\Ima P(\alpha+\ii\omega,q))$
+with $x=(\alpha,\omega)$. Choose a numerical center $x_0$, a rectangle
+$X=x_0+[-10^{-4},10^{-4}]^2$, and a constant nonsingular approximation
+$C$ to $\mathcal F_x(x_0,q_0)^{-1}$. Interval arithmetic encloses
+\begin{equation}
+ E=I-C\mathcal F_x(X,Q),\qquad
+ \mathcal K=x_0-C\mathcal F(x_0,Q)+E(X-x_0).
+ \label{eq:krawczyk}
+\end{equation}
+For each fixed $q\in Q$, the mean-value theorem gives
+$x-C\mathcal F(x,q)\in\mathcal K$ for every $x\in X$.
+If $\mathcal K\subset\operatorname{int}X$ and $\|E\|_\infty<1$, this map
+is a contraction of $X$ into itself. Banach's theorem yields exactly one root
+in $X$ for every $q\in Q$. The same scalar construction encloses every real
+root. The conjugate rectangle and the disjoint real intervals account for all
+$N$ polynomial roots. Since their real parts are below $\inf X_\alpha$, the
+complex pair is dominant throughout $Q$. Invertibility of the Jacobian gives
+simplicity and a differentiable root branch.
+
+The implementation uses outward-directed 60-digit decimal arithmetic, expands
+each correctly rounded exponential to its two neighboring decimal values, and
+evaluates \eqref{eq:sign} on the entire root rectangle and $Q$.
+The following are conservative outward roundings of its bounds:
+\begin{center}
+\begin{tabular}{lrr}\toprule
+Certified quantity&3 populations&4 populations\\\midrule
+Contraction bound $\|E\|_\infty$&$<0.00910$&$<0.02001$\\
+Lower bound for $\omega'$&0.03259&0.04407\\
+Upper bound for $\omega'$&0.03375&0.04739\\
+Other real roots&$[-.013984,-.013783]$&$[-.039901,-.039700]$\\
+&&$[-.001982,-.001781]$\\\bottomrule
+\end{tabular}
+\end{center}
+The positive lower bounds prove that \emph{both calibrated models have a
+strictly increasing dominant frequency on \eqref{eq:Q}}.
+They do not certify the much wider increasing ranges suggested by Figure~\ref{fig:branches}.
+The certificate is reproducible with
+\texttt{python -m simulations.v1\_interval\_certificate}; its full rectangles,
+Newton images and bounds are saved in \texttt{local\_monotonicity\_certificate.json}.
+
+\newpage
+\section{The square torus: modes and an exact non-excitation theorem}
+For $d=2$, write
+\begin{equation}
+ u(x,y,t)=\sum_{m,n\in\mathbb Z}\widehat u_{mn}(t)
+ \ee^{2\pi\ii(mx+ny)/L},\qquad
+ q_{mn}=\frac{2\pi}{L}(m,n).
+\end{equation}
+The linearized forced equation is
+\begin{equation}
+ \partial_t\widehat u_{mn}=M(|q_{mn}|,p)\widehat u_{mn}+D^{-1}\widehat I_{mn}.
+ \label{eq:fourier2}
+\end{equation}
+It does not mix different $(m,n)$, although it mixes populations. A square
+lattice has discrete rotational/reflection symmetry; radial kernels do not
+make its allowed directions continuously rotationally invariant.
+At the selected radius, $m^2+n^2=9$ has exactly the four integer solutions
+$(\pm3,0),(0,\pm3)$. Thus the $+\ii\omega_0$ eigenspace has four complex
+amplitudes, and the real center space has dimension eight. The computed
+shell check finds all other shells stable at onset. Degeneracy of the x and y
+modes does not itself couple them.
+
+\begin{proposition}[An exact axis remains an axis]\label{prop:axis}
+Assume the kernels are translation invariant, $f$ is globally Lipschitz, and
+$I(x,y,t)=I(x,t)$, $u(x,y,0)=u_0(x)$. Then the unique solution of
+\eqref{eq:field} is independent of $y$ for every $t\ge0$. In particular,
+$\widehat u_{mn}(t)=0$ for every $n\ne0$, even with the full nonlinearity.
+\end{proposition}
+\begin{proof}
+On $C(\T_L^2;\R^N)$ the right-hand side is globally Lipschitz in $u$:
+convolution is bounded by the kernels' $L^1$ norms and the componentwise
+sigmoids have Lipschitz constants $g_j/4$. Standard Picard iteration yields
+uniqueness and global existence for continuous forcing bounded on finite time
+intervals. For any shift $h$, $v(x,y,t)=u(x,y+h,t)$ solves the same equation,
+with the same forcing and initial condition. Uniqueness gives $v=u$ for every
+$h$, proving independence of $y$ and hence the Fourier assertion.
+\end{proof}
+The statement includes a traveling axial wave $I\propto\cos(qx-\Omega t)$,
+a static stripe $I\propto\cos(qx)$, and their temporal modulations.
+Nonlinearity can generate higher x harmonics, but cannot produce transverse
+modes from exactly zero. Indeed multiplication adds wavevectors,
+\begin{equation}
+ \widehat{u_j^2}_{mn}=\sum_{a,b}\widehat u_{j,ab}\widehat u_{j,m-a,n-b};
+ \qquad (a,0)+(b,0)=(a+b,0).
+\end{equation}
+The translation proof also covers non-polynomial nonlinearities without
+requiring convergence of a global Taylor series. More generally Fourier
+support in an additive lattice subgroup is preserved when the initial data
+and forcing share that support (equivalently their translation symmetries).
+
+\newpage
+\section{How transverse modes can grow when they are seeded}
+Proposition~\ref{prop:axis} is an invariance theorem, not a stability theorem.
+Let $U(x,t)$ be an axial solution and put $u=U+v$. To first order,
+\begin{equation}
+ Dv_t=-v+W*[f'(U)v].
+ \label{eq:transverse}
+\end{equation}
+If $a_{j,\ell}(t)$ is the x-Fourier coefficient of $f'_j(U_j(x,t))$, then
+\begin{equation}
+ \dot v_{i,mn}=-\frac{v_{i,mn}}{\tau_i}
+ +\frac1{\tau_i}\sum_j\widehat W_{ij}(|q_{mn}|)
+       \sum_{\ell\in\mathbb Z}a_{j,m-\ell}(t)v_{j,\ell n}.
+ \label{eq:transversefourier}
+\end{equation}
+Different x wavenumbers can now couple within each fixed transverse index $n$.
+There is still no inhomogeneous source: $v_{\cdot,\cdot n}=0$ remains zero.
+For a periodic axial solution, stability of a finite Fourier truncation is
+determined by its monodromy matrix $\mathcal U_n(T,0)$:
+\begin{equation}
+ \gamma_n=T^{-1}\log\rho(\mathcal U_n(T,0)).
+ \label{eq:floquet}
+\end{equation}
+A multiplier of modulus greater than one amplifies some seeded transverse
+perturbation; multipliers strictly inside the unit circle imply linear decay
+for that truncation. Equation~\eqref{eq:fourier2} alone is insufficient around
+a spatially patterned or time-dependent $U$. For the full function-space
+problem one needs the corresponding evolution-operator analysis and control
+of the Fourier truncation; a finite-time trace is not such a proof.
+
+\subsection{Weak-forcing selection rules, derived by expansion}
+These rules explain which amplitudes can couple at leading order. They are a
+formal multiple-scale approximation, separate from the exact theorem above.
+Set $p=p_0+\varepsilon^2\mu$, $T=\varepsilon^2t$,
+$I=\varepsilon^2F_2$, and $u=\varepsilon u_1+\varepsilon^2u_2+\cdots$.
+Let $M(q_0)\Phi=\ii\omega_0\Phi$, $\Psi^*M(q_0)=\ii\omega_0\Psi^*$,
+$\Psi^*\Phi=1$. With $q_x=(q_0,0)$, $q_y=(0,q_0)$,
+\begin{equation}
+ u_1=\sum_{\nu\in\{\pm q_x,\pm q_y\}}A_\nu(T)\Phi
+       \ee^{\ii(\omega_0t+\nu\cdot x)}+\text{c.c.}
+ \label{eq:criticalexpansion}
+\end{equation}
+Define the quadratic multiplier and nonresonant resolvent by
+\begin{equation}
+ Q_k(v,w)=\tfrac12D^{-1}\widehat W(k)
+                  [f''(0)\odot v\odot w],\qquad
+ R(\Omega,k)=(\ii\Omega I_N-M(|k|))^{-1}.
+\end{equation}
+A forcing harmonic $F_{\Omega,s}\ee^{\ii(\Omega t+s\cdot x)}$ contributes
+$U_{\Omega,s}=R(\Omega,s)D^{-1}F_{\Omega,s}$ to $u_2$ when the inverse exists.
+At order $\varepsilon^3$, the term $2Q(u_1,u_2)$ is projected by $\Psi^*$
+onto each critical harmonic. Matching both frequency and wavevector gives the
+rules on the next page; the factor two comes from the two quadratic orderings.
+
+\newpage
+\subsection{Temporal, spatial and traveling pumps}
+For a uniform temporal pump at $2\omega_0$, the product of
+$U_{2\omega_0,0}\ee^{2\ii\omega_0t}$ and
+$\overline{A_\mu\Phi}\ee^{-\ii(\omega_0t+\mu\cdot x)}$
+resonates with mode $\nu$ precisely when $\nu=-\mu$. Hence
+\begin{equation}
+ (\partial_T A_\nu)_{\rm temporal}
+ =\eta_t\overline{A_{-\nu}},\qquad
+ \eta_t=2\Psi^*Q_\nu(\overline\Phi,U_{2\omega_0,0}).
+ \label{eq:temporalselection}
+\end{equation}
+The same coefficient applies to both axes by symmetry. This is parametric
+amplification, not an additive source for a previously absent spatial mode.
+
+For a static spatial pump at $s=2q_x$, the product of its second-order response
+and $A_\mu\Phi\ee^{\ii(\omega_0t+\mu\cdot x)}$ resonates when $\nu-\mu=s$.
+Among the critical modes, only $(\nu,\mu)=(q_x,-q_x)$ satisfies this:
+\begin{equation}
+ (\partial_T A_{q_x})_{\rm spatial}=\eta_x A_{-q_x},\qquad
+ \eta_x=2\Psi^*Q_{q_x}(\Phi,U_{0,2q_x}).
+ \label{eq:spatialselection}
+\end{equation}
+The $-2q_x$ harmonic supplies the reverse coupling. For a real cosine the
+two coefficients coincide, because the static response is real and kernels
+are even. There is no such leading linear coupling into $A_{\pm q_y}$.
+An oblique pump $s=q_y-q_x$ could instead couple the two axes; it is not an
+axial stimulus.
+
+For a traveling pump $(\Omega,s)=(2\omega_0,2q_x)$, resonance with a conjugate
+critical mode requires $\nu+\mu=2q_x$. Since $|\nu|=|\mu|=q_0$, equality in
+the triangle inequality forces $\nu=\mu=q_x$. Therefore
+\begin{equation}
+ (\partial_T A_{q_x})_{\rm traveling}
+ =\eta_w\overline{A_{q_x}},\qquad
+ \eta_w=2\Psi^*Q_{q_x}(\overline\Phi,U_{2\omega_0,2q_x}).
+\end{equation}
+The opposite traveling mode and the transverse pair are not directly resonant
+with this single traveling harmonic at this order.
+Reversing propagation exchanges $q_x$ and $-q_x$; the notebook uses
+$\cos(2q_x\cdot x-2\omega_0t)$.
+
+Nonlinear amplitude interactions can nevertheless change transverse stability.
+For example, square symmetry permits terms
+\begin{equation}
+ \partial_T B_\pm=\gamma(T)B_\pm+\kappa(T)\overline{B_\mp}+O(|B|^2),
+ \quad \gamma=a+d(|A_+|^2+|A_-|^2),\quad
+ \kappa=eA_+A_-+\eta_t,
+\end{equation}
+where $A_\pm=A_{\pm q_x}$ and $B_\pm=A_{\pm q_y}$; $a,d,e$ are the
+projected normal-form coefficients. These terms vanish at $B=0$, as the exact
+theorem requires. If $\gamma,\kappa$ are constant in the chosen rotating frame,
+the matrix acting on $(B_+,\overline B_-)$ and its exponents are
+\begin{equation}
+ \begin{pmatrix}\gamma&\kappa\\\overline\kappa&\overline\gamma\end{pmatrix},
+ \qquad \Lambda_\pm=\Rea\gamma\pm\sqrt{|\kappa|^2-(\Ima\gamma)^2}.
+\end{equation}
+Positive real part permits seeded growth; zero initial $B$ still stays zero.
+For varying coefficients one must instead solve the variational equation.
+
+\newpage
+\section{Direct simulations, frequency interpretation and reproducibility}
+The notebook integrates \eqref{eq:field} using Fourier convolution and RK4,
+with the coefficients in Report 1. The 1D runs use 64 points, a 1 ms step,
+80 s duration and saved output every 10 ms. At $p=0.2495$, homogeneous temporal
+forcing at $2\omega_0$ or static spatial forcing at mode 6 each produces an
+oscillatory mode-3 response above the decaying unforced control. The table
+averages $|\Psi^*\widehat u_{k_0}|$ over the final 16 s:
+\begin{center}\small
+\begin{tabular}{lrr}\toprule
+Late projected mode-3 magnitude&3 populations&4 populations\\\midrule
+Unforced&$2.58\times10^{-5}$&$1.47\times10^{-5}$\\
+Temporal only&$1.84\times10^{-3}$&$1.37\times10^{-3}$\\
+Static spatial only&$2.23\times10^{-3}$&$1.74\times10^{-3}$\\\bottomrule
+\end{tabular}
+\end{center}
+The resolved late response is about $12.75$ Hz, near $1000\omega_0/(2\pi)=12.7324$
+Hz. Temporal forcing is at $25.4648$ Hz, so this is
+the predicted near-subharmonic response. Static forcing has zero temporal
+frequency; its oscillatory response is generated by the field dynamics.
+The late FFT resolution is $0.0625$ Hz (16 s window).
+The dispersion curve $\omega_d(q,p)$ describes the unforced linearization
+around zero. It is not the forced oscillation frequency for every nonlinear
+state. Damped eigenfrequencies need not appear as persistent peaks in a
+forced or noisy trace, and branch switching does not require a visible
+nonlinear oscillation to stop abruptly.
+
+The 2D runs use a $32\times32$ square torus, 1 ms steps and 60 s duration.
+The reported transverse norm is the RMS over populations and grid points of
+$u-\langle u\rangle_y$. Exactly axial initial data remain axial. With a
+nonzero transverse seed, the outcomes are:
+\begin{center}\small
+\begin{tabular}{lrr}\toprule
+Transverse RMS&3 populations&4 populations\\\midrule
+Initial seeded value&$1.225\times10^{-4}$&$1.061\times10^{-4}$\\
+Final, axial traveling drive&$1.327\times10^{-6}$&$3.888\times10^{-8}$\\
+Final, axial static drive&$9.949\times10^{-7}$&$7.064\times10^{-7}$\\
+Final, uniform temporal drive&$2.298\times10^{-3}$&$1.009\times10^{-3}$\\
+Final, unforced&$1.522\times10^{-5}$&$6.859\times10^{-6}$\\\bottomrule
+\end{tabular}
+\end{center}
+These examples demonstrate decay under the tested axial drives and growth
+under uniform temporal pumping. They neither exclude transverse instability
+under other axial drives nor estimate a converged Floquet exponent. The exact
+answer is: an axis wave cannot create transverse modes from perfectly axial
+data; it may change the growth of transverse modes already present.
+
+Validation checks preserve the connectivity masks, compare sparse determinants
+and eigenvalue derivatives, verify critical square-lattice shells and the
+Gaussian high-wavenumber stability tail, and compare time steps.
+A $32$ versus $48$ grid comparison at 2 s for the 2D spatial case has relative
+errors $1.41\times10^{-5}$ and $3.42\times10^{-5}$; this short check is not
+an error bound for the entire 60 s trajectory.
+
+\begingroup\small\raggedright
+\textbf{Reproduce.} The executed notebook is
+\path{simulations/v1_three_four_population.ipynb}.
+The full coefficient and simulation records are in
+\path{simulations/output/v1_extension/}.
+\texttt{v1\_dispersion\_detail.py} generates the branch figure and switch data;
+\texttt{v1\_interval\_certificate.py} validates the local increase.
+The LaTeX sources and PDF builder are in \texttt{notes/}. Report 1 documents
+the biological references; all spectral and symmetry results here are derived
+from the explicitly stated field equation.
+\par\endgroup
+\end{document}
