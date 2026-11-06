@@ -40,3 +40,24 @@ def standing_equilibrium(a, b, c, eta_t, eta_x=0):
     conditions = np.array(conditions)
     return dict(rho=rho, phi=phi, z=np.sqrt(rho) * np.exp(1j * phi),
                 stability_conditions=conditions, stable=bool((conditions < 0).all()))
+
+
+def square_rhs(z, a, b, c, c_perp, c_q, eta_t=0, eta_x=0, eta_w=0):
+    """Four-wave amplitude equations on the square lattice, z = (z1, w1, z2, w2).
+
+    z1 ~ e^{i(w0 t + q0 x)} and w1 ~ e^{i(w0 t - q0 x)} (w1 moves toward +x);
+    (z2, w2) likewise along y. Forcing: uniform temporal (eta_t), static stripes
+    cos(2 q0 x) (eta_x), traveling cos(2 q0 x - 2 w0 t) (eta_w, acts on w1).
+    """
+    z1, w1, z2, w2 = z
+    n1, n2 = abs(z1) ** 2 + abs(w1) ** 2, abs(z2) ** 2 + abs(w2) ** 2
+    return np.array([
+        z1 * (a + b * abs(z1) ** 2 + c * abs(w1) ** 2 + c_perp * n2) + c_q * np.conj(w1) * z2 * w2
+        + eta_t * np.conj(w1) + eta_x * w1,
+        w1 * (a + b * abs(w1) ** 2 + c * abs(z1) ** 2 + c_perp * n2) + c_q * np.conj(z1) * z2 * w2
+        + eta_t * np.conj(z1) + eta_x * z1 + eta_w * np.conj(w1),
+        z2 * (a + b * abs(z2) ** 2 + c * abs(w2) ** 2 + c_perp * n1) + c_q * np.conj(w2) * z1 * w1
+        + eta_t * np.conj(w2),
+        w2 * (a + b * abs(w2) ** 2 + c * abs(z2) ** 2 + c_perp * n1) + c_q * np.conj(z2) * z1 * w1
+        + eta_t * np.conj(z2),
+    ])

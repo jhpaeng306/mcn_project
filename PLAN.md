@@ -10,9 +10,12 @@ Status values: todo · in progress · blocked · done
 | ID | Workstream | Task | Done when | Status |
 |---|---|---|---|---|
 | SET-1 | Setup | Agent files, layout, clean-up, reusable package, 1D notebooks | `uv run pytest -q` passes; `notebooks/wilson_cowan_1d.ipynb` and `notebooks/v1_1d.ipynb` run headless with no errors | done |
-| THY-1 | Theory | Derive the amplitude equations on the square torus for the critical shell (axial and oblique modes), with temporal, spatial, and traveling forcing | `theory/square-torus/main.tex` states the equations and their coefficients; `referee` verdict reported | todo |
-| CODE-1 | Code | Add the 2D coefficients of THY-1 to `normal_form.py` | Depends on THY-1. A test checks each new coefficient against a 2D simulation growth rate or amplitude | blocked |
-| SIM-1 | Simulation | 2D Wilson–Cowan notebook: forcing below onset on the square torus | Depends on CODE-1. `notebooks/wilson_cowan_2d.ipynb` runs; the late planform and amplitude are compared with THY-1 | blocked |
-| SIM-2 | Simulation | 2D V1 notebook: the same comparison for the multi-population model | Depends on CODE-1. `notebooks/v1_2d.ipynb` runs; comparison table with 3 seeds | blocked |
-| PAP-1 | Paper | Revise Sections 6–8 in my style, using SET-1 numbers | `paper/main.tex` Secs. 6–8 revised; every number comes from the code; list of changes in the journal | todo |
-| PAP-2 | Paper | Move the bibliography to `references.bib` | Each entry checked against its source (DOI); `paper/main.tex` uses `\bibliography{../references}` | todo |
+| ORG-2 | Setup | Theory folder: `theory/legacy/<name>/` for every earlier tex file, `theory/report/` for the report | Folders exist; `theory/report/main.tex` builds | done |
+| THY-1 | Theory | Derive the 2D amplitude equations on the square torus: wavevector rule, general cubic coefficient, locked pair, stability in the shell | Report Sec. 10; `referee` verdict in JOURNAL.md; checks in `tests/test_two_dimensions.py` and `theory/code/check_*_2d.py` | done |
+| THY-2 | Theory | Write the PI's forcing-strength scalings ($m=k_0$ vs $m=2k_0$) and the two-parameter diagram | Report Sec. 9; `tests/test_static_forcing.py` passes; `figures/two_parameter_curves.pdf` | done |
+| THY-3 | Theory | Explain the bell-shaped frequency curve | Report Sec. 8.4; `figures/dispersion_bell.pdf` | done |
+| SIM-1 | Simulation | 2D Wilson–Cowan notebook: flicker, stripes, and the oblique $x$-traveling input | `notebooks/wilson_cowan_2d.ipynb` runs; amplitudes compared with report Sec. 10 | todo |
+| SIM-2 | Simulation | 2D V1 notebook: the same comparison for the multi-population model | `notebooks/v1_2d.ipynb` runs; comparison table with 3 seeds | todo |
+| THY-4 | Theory | H3: why V1 allows broader excitation and negative $c_\theta$ at all angles while the E–I model does not | A report subsection states a checkable condition on $(J,\Sigma,\tau)$ and tests it on both models | todo |
+| PAP-1 | Paper | Revise Sections 6–8 in my style, using SET-1 numbers | `theory/report/main.tex` Secs. 6–8 revised; every number comes from the code; list of changes in the journal | todo |
+| PAP-2 | Paper | Move the bibliography to `references.bib` | Each entry checked against its source (DOI); `theory/report/main.tex` uses `\bibliography{../../references}` | todo |

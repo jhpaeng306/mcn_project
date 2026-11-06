@@ -42,7 +42,6 @@ experiments/
 *.bcf
 *.run.xml
 *.tmp
-paper/main.pdf
 theory/*/main.pdf
 
 # OS, editors, local agent settings

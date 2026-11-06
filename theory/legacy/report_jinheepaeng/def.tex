@@ -1,0 +1,137 @@
+% =============================================================================
+% def.tex — Centralised notation and macro definitions
+% Include via \input{def} in your main .tex file.
+% Change a symbol once here and it updates everywhere.
+% =============================================================================
+
+% ---- Packages required by the macros below ----
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm}              % bold math
+\usepackage{mathtools}        % \coloneqq, \DeclarePairedDelimiter, etc.
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+
+% ---- Theorem-like environments (requires amsthm loaded above) ----
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{assumption}{Assumption}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\saddle}{{\vc{x}^{*}}}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\Hess}{Hess}
+\newcommand{\proj}[2]{\mathcal{P}_{#1}\!\left({#2}\right)}
+\newcommand{\ind}{\textbf{Ind }}
+\newcommand{\defs}{\coloneqq}
+\newcommand{\saddleset}{\mathcal{S}}         % set of saddle points
+\newcommand{\eigmean}{\bar{\lambda}}          % mean eigenvalue
+\newcommand{\crit}[1]{e\left(#1\right)}
+\newcommand{\tangent}[2]{T_{#1}#2}
+\newcommand{\indicator}[1]{\mathbf{1}_{#1}}
+
+% =============================================================================
+% 1. Common math operators
+% =============================================================================
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\softmax}{softmax}
+\DeclareMathOperator{\relu}{ReLU}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\tr}{tr}           % trace
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\sign}{sign}
+
+% =============================================================================
+% 2. Scalar / vector / matrix / tensor conventions
+%    Change the styling once and every occurrence follows.
+% =============================================================================
+\newcommand{\sca}[1]{#1}                         % scalar  (italic, default)
+\newcommand{\vc}[1]{\bm{#1}}                     % vector  (bold italic)
+\newcommand{\mat}[1]{\bm{#1}}                    % matrix  (bold italic)
+\newcommand{\ten}[1]{\bm{\mathcal{#1}}}          % tensor  (bold calligraphic)
+
+% =============================================================================
+% 3. Named vectors / matrices you use often
+%    e.g. \x, \W — rename freely to match your paper's notation.
+% =============================================================================
+% -- Vectors --
+\newcommand{\x}{{\vc{x}}}          % input
+\newcommand{\y}{\vc{y}}          % target / output
+\newcommand{\z}{\vc{z}}          % latent
+\newcommand{\h}{\vc{h}}          % hidden state
+\newcommand{\e}{\vc{e}}          % embedding / error
+
+% -- Matrices --
+\newcommand{\W}{\mat{W}}         % weight matrix
+\newcommand{\V}{\mat{V}}         % weight matrix
+\newcommand{\A}{\mat{A}}         % generic matrix A
+\newcommand{\I}{\mat{I}}         % identity matrix
+
+% -- Special scalars --
+\newcommand{\loss}{\mathcal{L}}  % loss function
+\newcommand{\obj}{\mathcal{J}}   % objective function
+\newcommand{\reg}{\Omega}        % regulariser
+
+% =============================================================================
+% 4. Sets and spaces
+% =============================================================================
+\newcommand{\RR}{\mathbb{R}}      % real numbers
+\newcommand{\NN}{\mathbb{N}}      % natural numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % integers
+
+\newcommand{\CC}{\mathbb{C}}      % integers
+\newcommand{\XX}{\mathcal{X}}     % input space
+\newcommand{\YY}{\mathcal{Y}}     % output space
+\newcommand{\DD}{\mathcal{D}}     % dataset
+\newcommand{\spr}{\mathbb{S}}     % sphere
+
+% =============================================================================
+% 5. Probability / statistics
+% =============================================================================
+\newcommand{\E}{\mathbb{E}}                      % expectation
+\newcommand{\Var}{\mathrm{Var}}                   % variance
+\newcommand{\Cov}{\mathrm{Cov}}                   % covariance
+\newcommand{\KL}{\mathrm{KL}}                     % KL divergence
+\newcommand{\prob}[1]{p\!\left(#1\right)}         % p(.)
+\newcommand{\given}{\mid}                          % conditional bar
+
+% =============================================================================
+% 6. Delimiters (auto-sized)
+% =============================================================================
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}      % |x|
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}     % ||x||
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}  % <x, y>
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+% =============================================================================
+% 7. Convenience shortcuts
+% =============================================================================
+% \newcommand{\T}{^{\mkern-1.5mu\mathsf{T}}}        % transpose
+% \newcommand{\inv}{^{-1}}                            % inverse
+% % \newcommand{\dd}{\mathrm{d}}                        % differential d
+% \newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}} % partial derivative
+% \newcommand{\grad}{\nabla}                           % gradient symbol
+
+% % =============================================================================
+% % 8. Colours for the paper (easy to rebrand)
+% % =============================================================================
+% \definecolor{OurBlue}{HTML}{1F77B4}
+% \definecolor{OurOrange}{HTML}{FF7F0E}
+% \definecolor{OurGreen}{HTML}{2CA02C}
+% \definecolor{OurRed}{HTML}{D62728}
+
+% % =============================================================================
+% % 9. Model / method names (change once, updates everywhere)
+% % =============================================================================
+\newcommand{\ours}{\textsc{YourMethod}}            % your method name

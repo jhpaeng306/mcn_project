@@ -11,7 +11,8 @@ Superseded material, kept for reference. Nothing here is imported by `src/` or `
 | `legacy_tests/` | tests of the previous package | `tests/` |
 | `notebook_builders/` | scripts that generated the previous notebooks | — |
 | `audits/v1_final_report/` | numerical audit of the earlier report | `tests/test_theory_values.py` |
-| `main_before_sec8_rewrite.tex` | paper draft before the Sec. 8 rewrite | `paper/main.tex` |
+
+Earlier tex documents are in `theory/legacy/`, not here.
 
 To run the legacy code: `cd archive/legacy_code && uv run python -m simulations.main_analysis --dim 1`.
 The new solver reproduces `legacy_code/simulations/simulation.py` to $10^{-16}$ on a forced Wilson–Cowan run.

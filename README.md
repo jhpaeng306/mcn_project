@@ -3,7 +3,7 @@
 A neural field near a finite-wavenumber Hopf point receives a weak input whose structure differs from the pattern, for example a spatially uniform flicker. We derive the amplitude equations that say when and which pattern appears, and test them by direct simulation of a Wilson–Cowan E–I field and a four-population V1 model (E, PV, SST, VIP).
 
 ## Start here
-- `paper/main.tex` the theory paper. `VISION.md` the question, `PLAN.md` the tasks, `JOURNAL.md` the log.
+- `theory/report/main.tex` the report (PDF: `theory/report/report.pdf`). `VISION.md` the question, `PLAN.md` the tasks, `JOURNAL.md` the log.
 - `notebooks/wilson_cowan_1d.ipynb` and `notebooks/v1_1d.ipynb` reproduce the 1D results.
 - `src/mcn_project/` the reusable code. All parameter values are in `src/mcn_project/presets.py`.
 
@@ -40,8 +40,11 @@ run = simulate(model, onset.kappa - eps**2,
 | `src/mcn_project/` | model, presets, linear analysis, amplitude coefficients, simulation, plots |
 | `notebooks/` | thin notebooks; parameters in the first code cell |
 | `tests/` | checks against the paper's numbers and theory-vs-simulation checks |
-| `paper/` | the paper and its macros (`def.tex`) |
-| `theory/notes/` | earlier derivation notes and reports, with PDFs |
+| `theory/report/` | the report, its macros (`def.tex`), and the built PDF |
+| `theory/legacy/` | earlier tex documents, one folder each |
+| `theory/code/` | numerical checks of the derivations |
+| `figures/` | one script per report figure |
+| `results/` | small computed tables used by figures |
 | `papers/` | reference PDFs and `notes.md` |
 | `data/` | Billeh et al. (2020) cell classes and connection probabilities |
 | `archive/` | superseded code, notebooks, and drafts (see `archive/README.md`) |
