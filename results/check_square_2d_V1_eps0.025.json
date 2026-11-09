@@ -1,0 +1,28 @@
+{
+ "V1": {
+  "c_perp: y-wave growth": {
+   "measured": -0.009763447474730218,
+   "predicted": -0.010280265110131234
+  },
+  "stripe: transverse rate": {
+   "measured": -0.023853868109232877,
+   "predicted": -0.026073716442520767
+  },
+  "stripe: |z1| while 1D": {
+   "measured": 0.0019627802650952686,
+   "predicted": 0.0020431987533842703
+  },
+  "square: in-subspace eigenvalue": {
+   "measured": NaN,
+   "predicted": -0.27189069902648644
+  },
+  "square: |z| (first 10%)": {
+   "measured": 0.0013732730827526454,
+   "predicted": 0.0013782124519247788
+  },
+  "square: max |u| start -> end": {
+   "measured": 0.00779582643822844,
+   "predicted": 0.007343460276620819
+  }
+ }
+}

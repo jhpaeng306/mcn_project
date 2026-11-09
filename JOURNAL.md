@@ -95,3 +95,29 @@ Notes for PAP-1 (paper Secs. 6–8):
 **Found:** In every seed the locked pair first grows to near the predicted amplitude ($\approx0.025$ vs $0.027$ on shell 10). Then the other shell waves grow and the field settles in a large-amplitude state ($|A|\sim0.05$–$0.36$). Under flicker, all four seeds end in large-amplitude squares ($\approx0.5$). This matches the theory (positive shell eigenvalues $0.84$, $0.27$; stripe and square both unstable). The end states are beyond cubic order.
 **Confidence:** high that the weakly nonlinear patterns are unstable; the large-amplitude end states are only described, not explained.
 **Next:** none required for this task.
+
+## 2026-11-09 — SIM-1/SIM-2 follow-up: corrections to report Secs. 10.5–10.6
+**Did:**
+- New check `theory/code/check_shell_growth_2d.py` (about 1.5 min). Output: `results/check_shell_growth_2d.txt`.
+- Part A: V1 route 1a (notebook setup, $\epsilon=0.025$, seeds 0–2). It gives the linear rates of the shells $|\boldsymbol k|^2=9,13$, and their size and decay in the runs.
+- Part B: Wilson–Cowan, `check_oblique_2d.py` setup, seeds 1–3. It gives the Jacobian eigenvectors at the locked pair and the growth of the other waves after the lock. The fits use the slow part of $A_{\boldsymbol k}$. A sliding least-squares fit on $\{1,\ee^{-2\ii\omega_0t}\}$ removes the leak of the pair into `critical_amplitudes`.
+- Part C: the V1 stripe under flicker at $\epsilon=0.05$, from $A=B=z_*$, as a 1D field to 200 s.
+- Reran `theory/code/check_square_2d.py` for V1 at $\epsilon=0.05$ and $0.025$. Output: `results/check_square_2d_V1_eps{0.05,0.025}.json`.
+- Edited report Secs. 10.5–10.6 and rebuilt `report.pdf`. Updated slide 14.
+
+**Found:**
+- The "22% / 5%" gaps are the V1 $x$-traveling pair of the Sec. 10.5 table. The gap falls by 4.7 when $\epsilon$ is halved. The report no longer calls the gaps $O(\epsilon)$ corrections.
+- Two V1 table entries were stale. The current `check_square_2d.py` gives the stripe $0.00341$ (table: $0.00378$) and the square $0.00273$ (table: $0.00256$) at $\epsilon=0.05$. The 1D run of part C also gives $0.00341$, from 12 s to 200 s. All other V1 entries reproduce. With the new entries, every V1 gap shrinks by a factor of 2.8 (square) to 4.7 (pair) when $\epsilon$ is halved.
+- Neighbouring shells, linear rates at $\epsilon=0.025$: $-7.3\times10^{-5}$ (shell 9), $-5.5\times10^{-5}$ (shell 10), $-2.0\times10^{-4}$ (shell 13) per ms.
+- In the runs, shells 9 and 13 decay steadily from the initial noise. Shell 9 decays at $-1.6$ to $-1.7\times10^{-4}$ per ms. Their largest population Fourier coefficient is below $3\times10^{-6}$ after 40 s and at most $3.4\times10^{-9}$ at 80 s. The pair has $1.6\times10^{-3}$. The earlier "below $10^{-10}$" had no source.
+- Wilson–Cowan Jacobian at the locked pair: $+0.8385$ on $(-1,\pm3)$, $+0.5992$ and $+0.5$ on $(-3,\pm1)$, $+0.4399$ on $(1,\pm3)$.
+- After the lock, $(-1,\pm3)$ grow at $0.70$–$0.71$ per slow time in all three seeds (slow part between $10^{-5}$ and $10^{-4}$). This is 16% below $0.84$; the cause is not tested. They reach $10^{-4}$ first in seeds 1 and 2, and together with $(-3,-1)$ in seed 3. Other waves give scattered, window-dependent rates.
+- At the lock, the slow part of every other wave is at most $2.5\times10^{-5}$. So the Sec. 10.5 bound "below $10^{-5}$" now applies to V1 only, with the Sec. 10.6 value $2\times10^{-6}$ as its source.
+
+**Failed / surprised:**
+- Correction to the THY-1/THY-2/THY-3 entry and to report Sec. 10.5. "The $(\pm1,\pm3)$ waves grow at the predicted rate $+0.59$" was wrong. $0.5992$ is the eigenvalue on $(-3,\pm1)$. The waves with the largest eigenvalue, and the first to reach $10^{-4}$, are $(-1,\pm3)$.
+- Correction to the SIM-2 entry: the stripe $0.00378$ is not reproduced by the current `check_square_2d.py`; it came from an earlier version of the script.
+- A discarded first version of the check fitted the raw $|A_{\boldsymbol k}|$ and was not saved. Two checker agents showed its rate depended on the window, and that "grow first" failed in one seed.
+
+**Confidence:** high for the corrected numbers. Three seeds were used where the initial state matters. A skeptic agent reproduced them with other seeds and measures. The V1 table entries were rerun with the current scripts. Medium for the $\epsilon$-scaling remark, which rests on two $\epsilon$ values.
+**Next:** test why the measured Wilson–Cowan growth is 16% below the Jacobian eigenvalue (Jacobian at the measured pair, or a smaller $\epsilon$).

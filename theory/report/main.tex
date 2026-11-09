@@ -1655,28 +1655,38 @@ that the intended shell is critical: $L=58.26$ (axial) and $L=61.42$
  y\text{-wave growth }\RePart(\mu\alpha+c_\perp\rho_T) & \text{WC, }0.1 & +0.588 & +0.557\\
  & \text{V1, }0.05\ /\ 0.025 & -0.0080\ /\ -0.0098 & -0.0103\\
  \text{flicker: stripe amplitude} & \text{WC, }0.1 & 0.02389 & 0.02385\\
- & \text{V1, }0.05\ /\ 0.025 & 0.00378\ /\ 0.00196 & 0.00409\ /\ 0.00204\\
+ & \text{V1, }0.05\ /\ 0.025 & 0.00341\ /\ 0.00196 & 0.00409\ /\ 0.00204\\
  \text{flicker: stripe }\lambda_\perp & \text{WC, }0.1 & +1.77 & +1.84\\
  & \text{V1, }0.05\ /\ 0.025 & -0.017\ /\ -0.024 & -0.026\\
- \text{flicker: square amplitude} & \text{V1, }0.05\ /\ 0.025 & 0.00256\ /\ 0.001373 & 0.00276\ /\ 0.001378\\
+ \text{flicker: square amplitude} & \text{V1, }0.05\ /\ 0.025 & 0.00273\ /\ 0.001373 & 0.00276\ /\ 0.001378\\
  x\text{-traveling input: pair }|A| & \text{WC, }0.1 & 0.0264\ \text{(then leaves)} & 0.0270\ \text{(unstable)}\\
  & \text{V1, }0.05\ /\ 0.025 & 0.00397\ /\ 0.00242 & 0.00509\ /\ 0.00254\ \text{(stable)}
 \end{array}
 \end{equation*}}
 The first test runs above onset ($\mu=+1$) on the traveling wave $A_{\hat x}$ of
-size $\rho_T=-\RePart\alpha/\RePart b$; rates are per slow time. In every V1 test the gap shrinks when $\epsilon$ is
-halved, as expected for $O(\epsilon)$ corrections. In V1 the stripe under flicker is
+size $\rho_T=-\RePart\alpha/\RePart b$; rates are per slow time. The V1 flicker rows come from
+\texttt{theory/code/check\_square\_2d.py} (output in \texttt{results/}). In every
+V1 test the gap shrinks by a factor of 2.8 to 4.7 when $\epsilon$ is halved. In V1 the stripe under flicker is
 stable across $x$, while the square is unstable to a symmetry-breaking mode
 ($+0.022$). In the E--I model both are unstable: the stripe across $x$, and
 the square inside its own subspace ($+0.236$). Under the $x$-traveling input
 on the oblique shell, the pair $(3,\pm1)$ is selected from noise in both
-models, and the other six waves stay below $10^{-5}$. In V1 it persists. In
-the E--I model the waves $(\pm1,\pm3)$ grow, at the predicted rate $+0.59$,
-once the pair is near $z_*$. The field then leaves the weakly nonlinear range.
+models. In V1 the pair persists, and the other six waves stay small (below
+$2\times10^{-6}$ at the end of the runs of Section~\ref{sec:2d-random}). In the
+E--I model the largest eigenvalue of the shell Jacobian, $+0.84$, has its
+eigenvectors on the waves $(-1,\pm3)$. We remove the $\ee^{-2\ii\omega_0t}$ part
+of each $A_{\boldsymbol k}$ by a sliding fit, because the pair leaks into it.
+When the pair locks, this slow part of every other wave is at most
+$2.5\times10^{-5}$. After the lock, the waves $(-1,\pm3)$ grow at $0.70$--$0.71$
+per slow time in three seeds, fitted while their slow part is between
+$10^{-5}$ and $10^{-4}$. This is about $16\%$ below the eigenvalue (observed;
+the Jacobian is taken at the theoretical $z_*$, with $\epsilon=0.1$). The other
+shell waves grow with them, and the field leaves the weakly nonlinear range.
 
 \subsection{Random initial states}
 \label{sec:2d-random}
-The tests above start near the predicted state. In the two 2D notebooks
+Most tests above start near the predicted state; the oblique test starts
+from small noise ($10^{-3}\epsilon$). In the two 2D notebooks
 (folder \texttt{notebooks}) every run starts instead from a random field of
 size $0.1\epsilon$ (V1: $\epsilon=0.025$; E--I: $\epsilon=0.1$).
 \begin{itemize}
@@ -1696,12 +1706,22 @@ size $0.1\epsilon$ (V1: $\epsilon=0.025$; E--I: $\epsilon=0.1$).
  then leaves the weakly nonlinear range, as Section~\ref{sec:2d-tests} predicts.
 \end{itemize}
 An independent rerun (seed 7, and a $48\times48$ grid) reproduced the oblique
-V1 result to three digits. Two cautions remain. The gaps are $O(\epsilon)$
-corrections (22\% at $\epsilon=0.05$, 5\% at $0.025$), but only two values of
-$\epsilon$ were tested. At these lengths the neighbouring shells
-$|\boldsymbol k|^2=9,13$ decay almost as slowly as the critical shell, so the
-single-shell reduction is close to its limit, although those modes stay below
-$10^{-10}$ in the runs.
+V1 result to three digits. Two cautions remain. For the $x$-traveling pair in
+V1 the gap to the theory is $22\%$ at $\epsilon=0.05$ and $5\%$ at
+$\epsilon=0.025$ (table of Section~\ref{sec:2d-tests}). The gap falls by a
+factor of about 4.7 when $\epsilon$ is halved, but only two values of
+$\epsilon$ were tested. At $\epsilon=0.025$ the neighbouring shell
+$|\boldsymbol k|^2=9$ decays almost as slowly as the critical shell at $u=0$:
+$\max\RePart\nu=-7.3\times10^{-5}$ against $-5.5\times10^{-5}$ per ms
+($|\boldsymbol k|^2=13$: $-2.0\times10^{-4}$). So the single-shell reduction is
+close to its limit. In the three V1 runs the shells $|\boldsymbol k|^2=9,13$
+carry only the decaying initial noise. In the runs shell 9 decays faster
+than at $u=0$, at $-1.6$ to $-1.7\times10^{-4}$ per ms (observed; we did not
+separate the effect of the pair from that of the input). The largest
+population Fourier coefficient on these shells is below $3\times10^{-6}$ after
+$40$\,s and at most $3.4\times10^{-9}$ at $80$\,s. For the pair it is
+$1.6\times10^{-3}$, which corresponds to $\epsilon|A|=0.00242$
+(\texttt{theory/code/check\_shell\_growth\_2d.py}).
 
 \subsection{Summary}
 The 2D picture has three steps. The input wavevector selects which critical
