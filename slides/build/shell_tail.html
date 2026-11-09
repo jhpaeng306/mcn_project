@@ -1,0 +1,85 @@
+<div class="foot" id="counter"></div>
+<div id="editbar">Editing this slide: click and type. Esc = finish (math re-renders) · Ctrl/Cmd+S = save the file</div>
+<script>
+// Viewer: arrows, space, PageUp/PageDown, Home/End or click. Editor: E edits the shown slide, Esc finishes,
+// Ctrl/Cmd+S saves the whole deck (Chrome/Edge write the file in place; other browsers download a copy).
+const template = '<!doctype html>\n' + document.documentElement.outerHTML;  // before MathJax, fit() and show()
+const slides = [...document.querySelectorAll('.slide')];
+const source = slides.map(el => el.innerHTML);  // slide HTML with $...$ math, as saved
+let i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1)) || 1) - 1));
+let editing = false, dirty = false, fileHandle = null;
+
+function fit() {
+  const s = Math.min(innerWidth / 1280, innerHeight / 720);
+  slides.forEach(el => el.style.transform = `scale(${s})`);
+}
+function show(n) {
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((el, k) => el.classList.toggle('active', k === i));
+  document.getElementById('counter').textContent = `${i + 1} / ${slides.length}`;
+  history.replaceState(null, '', '#' + (i + 1));
+}
+function render(el) {
+  return MathJax.startup.promise.then(() => { MathJax.typesetClear([el]); return MathJax.typesetPromise([el]); });
+}
+function startEdit() {
+  const el = slides[i];
+  editing = true;
+  document.body.classList.add('editing');
+  MathJax.typesetClear([el]);
+  el.innerHTML = source[i];
+  el.contentEditable = 'true';
+  el.focus();
+}
+function finishEdit() {
+  const el = slides[i];
+  el.contentEditable = 'false';
+  if (el.innerHTML !== source[i]) { source[i] = el.innerHTML; dirty = true; }
+  editing = false;
+  document.body.classList.remove('editing');
+  render(el);
+}
+function deckHtml() {
+  const doc = new DOMParser().parseFromString(template, 'text/html');
+  doc.querySelectorAll('.slide').forEach((el, k) => { el.innerHTML = source[k]; });
+  doc.querySelectorAll('head style:not(#deck-style), [id^="MJX"], mjx-container').forEach(el => el.remove());  // MathJax's
+  return '<!doctype html>\n' + doc.documentElement.outerHTML + '\n';
+}
+async function save() {
+  if (editing) finishEdit();
+  const html = deckHtml();
+  const name = decodeURIComponent(location.pathname.split('/').pop()) || 'slides.html';
+  try {
+    if (window.showSaveFilePicker) {
+      fileHandle = fileHandle || await showSaveFilePicker({suggestedName: name, types: [{accept: {'text/html': ['.html']}}]});
+      const w = await fileHandle.createWritable(); await w.write(html); await w.close();
+    } else {
+      const a = Object.assign(document.createElement('a'), {href: URL.createObjectURL(new Blob([html], {type: 'text/html'})), download: name});
+      a.click(); URL.revokeObjectURL(a.href);
+    }
+    dirty = false;
+  } catch (err) { if (err.name !== 'AbortError') alert('Not saved: ' + err.message); }
+}
+
+addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); return; }
+  if (editing) { if (e.key === 'Escape') finishEdit(); return; }
+  if (e.key === 'e' || e.key === 'E') { e.preventDefault(); startEdit(); return; }
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) show(i + 1);
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) show(i - 1);
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(slides.length - 1);
+});
+addEventListener('paste', e => {  // plain text only, so pasted styles do not enter the file
+  if (!editing) return;
+  e.preventDefault();
+  document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
+});
+addEventListener('click', e => { if (!editing && !e.target.closest('a')) show(i + (e.clientX > innerWidth / 3 ? 1 : -1)); });
+addEventListener('beforeunload', e => { if (dirty || editing) e.preventDefault(); });
+addEventListener('resize', fit);
+fit(); show(i);
+MathJax.startup.promise.then(() => MathJax.typesetPromise());
+</script>
+</body>
+</html>

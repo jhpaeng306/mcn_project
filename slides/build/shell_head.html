@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pattern formation under weak forcing</title>
+<script>
+window.MathJax = {tex: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']],
+                  macros: {"RR": "\\mathbb{R}", "CC": "\\mathbb{C}", "ZZ": "\\mathbb{Z}", "NN": "\\mathbb{N}", "ii": "\\mathrm{i}", "ee": "\\mathrm{e}", "cL": "\\mathcal{L}", "cQ": "\\mathcal{Q}", "cC": "\\mathcal{C}", "cD": "\\mathcal{D}", "ip": ["\\langle #1,#2\\rangle", 2], "cc": "\\text{c.c.}", "RePart": "\\operatorname{Re}", "ImPart": "\\operatorname{Im}", "tr": "\\operatorname{tr}", "bk": "\\boldsymbol{k}", "bK": "\\boldsymbol{K}", "bd": "\\boldsymbol{d}"}},  // from theory/report/main.tex preamble
+                  svg: {fontCache: 'global'},
+                  startup: {typeset: false}};  // typeset after the script below keeps the $...$ source for editing
+</script>
+<script src="vendor/mathjax/es5/tex-svg.min.js"></script>  <!-- bundled MathJax 3.2.2 (works offline) -->
+<style id="deck-style">
+:root { --ink: #1f1a24; --ink2: #5b5463; --plum: #4a1d3f; --accent: #2563eb; --bg: #ffffff; --soft: #f4f1f6;
+        --proved: #15803d; --num: #b45309; --obs: #7c3aed; --open: #b91c1c; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #e9e6ec; color: var(--ink);
+             font: 20px/1.35 "Inter", "Helvetica Neue", Arial, sans-serif; }
+.slide { display: none; position: absolute; inset: 0; margin: auto; width: 1280px; height: 720px;
+         background: var(--bg); padding: 44px 60px 36px; overflow: hidden; transform-origin: center; }
+.slide.active { display: flex; flex-direction: column; }
+h1 { font-size: 42px; color: var(--plum); margin: 0 0 12px; }
+h2 { font-size: 30px; color: var(--plum); margin: 0 0 14px; }
+h3 { font-size: 21px; color: var(--plum); margin: 10px 0 6px; }
+p, li { margin: 4px 0; }
+ul { margin: 4px 0; padding-left: 24px; }
+.cols { display: flex; gap: 32px; flex: 1; min-height: 0; }
+.cols > div { flex: 1; min-width: 0; }
+.fig { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; }
+.fig img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.small { font-size: 16px; color: var(--ink2); }
+.tag { display: inline-block; font-size: 13px; font-weight: 600; padding: 1px 7px; border-radius: 4px;
+       color: #fff; vertical-align: middle; margin-right: 4px; }
+.proved { background: var(--proved); } .num { background: var(--num); } .obs { background: var(--obs); }
+.open { background: var(--open); }
+.box { background: var(--soft); border-left: 4px solid var(--plum); padding: 8px 14px; margin: 8px 0; }
+table { border-collapse: collapse; font-size: 18px; }
+th, td { padding: 4px 12px; border-bottom: 1px solid #ddd; text-align: center; }
+th:first-child, td:first-child { text-align: left; }
+.foot { position: absolute; bottom: 12px; right: 24px; font-size: 13px; color: var(--ink2); }
+#editbar { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9; padding: 6px 16px; font-size: 14px;
+           background: #b45309; color: #fff; text-align: center; }
+body.editing #editbar { display: block; }
+body.editing .slide.active { outline: 3px dashed #b45309; }
+.split { display: grid; grid-template-columns: 1.15fr 1fr; gap: 34px; flex: 1; min-height: 0; }
+.split > .key { display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 0; }
+.split > .why { font-size: 16.5px; color: var(--ink); border-left: 2px solid var(--soft); padding-left: 22px;
+                overflow: hidden; min-width: 0; }
+.split > .why h3 { font-size: 18px; margin-top: 6px; }
+.center { align-items: stretch; }
+.center .eq-main { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 26px; min-height: 0; }
+.center .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; font-size: 15.5px; }
+.center .notes > div { background: var(--soft); border-top: 3px solid var(--plum); padding: 8px 12px; }
+.center .notes b { color: var(--plum); }
+.section-title { justify-content: center; background: var(--plum); color: #fff; }
+.section-title h1 { color: #fff; font-size: 54px; }
+.section-title p { color: #e9dff0; font-size: 24px; }
+.part { font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); margin-bottom: 4px; }
+.tag.onset { background: #0e7490; } .tag.exact { background: #15803d; }
+.fig video { max-width: 100%; max-height: 100%; }
+.cap { font-size: 13.5px; color: var(--ink2); margin-top: 4px; }
+.src { position: absolute; bottom: 12px; left: 60px; font-size: 13px; color: var(--ink2); }
+.title-split.active { display: grid; }
+.title-split { grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; background: var(--plum); color: #fff; }
+.title-split h1 { color: #fff; font-size: 44px; } .title-split p, .title-split li { color: #e9dff0; }
+.title-split .sub { font-size: 23px; color: #fff; margin-bottom: 18px; }
+.title-split img { width: 100%; background: #fff; border-radius: 6px; padding: 6px; }
+.mat td, .mat th { padding: 2px 7px; font-size: 14.5px; }
+.tight li { margin: 2px 0; }
+@media print { body { background: #fff; } .slide { display: flex !important; position: relative; page-break-after: always;
+               transform: none !important; } }
+</style>
+</head>
+<body>
+

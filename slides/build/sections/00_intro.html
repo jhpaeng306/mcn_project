@@ -1,0 +1,117 @@
+<section class="slide title-split">
+  <div>
+    <div class="part" style="color:#e9dff0">9 November 2026 · Jinhee Paeng</div>
+    <h1>Pattern formation under weak forcing</h1>
+    <p class="sub">How temporal flicker creates spatial patterns below onset</p>
+    <ul style="font-size:19px">
+      <li>Spatially uniform flicker can evoke geometric visual patterns.</li>
+      <li>One proposed mechanism is pattern formation in cortical activity.</li>
+      <li>We ask when a weak input creates a pattern that the input itself does not contain.</li>
+    </ul>
+    <p class="small" style="color:#cdbfd8;margin-top:16px">Motivation and a modeling question. V1 pattern formation is a proposed mechanism, not an established explanation of all hallucinations.<br>Rule, Stoffregen &amp; Ermentrout, PLoS Comput. Biol. 7, e1002158 (2011), doi:10.1371/journal.pcbi.1002158</p>
+  </div>
+  <div>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+      <div style="flex:0 0 120px;height:120px;border-radius:6px;background:#fff;animation:flick 0.6s steps(2) infinite"></div>
+      <div style="font-size:30px">→</div>
+      <div style="font-size:17px;color:#e9dff0">uniform in space,<br>periodic in time</div>
+    </div>
+    <img src="img/hallucination_patterns.png" alt="Stripe and spot patterns in V1 coordinates and the corresponding spiral, ray, target and spot patterns in the visual field">
+    <p class="cap" style="color:#cdbfd8">Top: patterns in V1 coordinates. Bottom: the same patterns mapped to the visual field (earlier talk).</p>
+  </div>
+  <style>@keyframes flick { 0% { background:#fff } 100% { background:#1f1a24 } }</style>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Model</div>
+  <h2>Wilson–Cowan neural fields</h2>
+  <div class="split" style="grid-template-columns:1.25fr 1fr">
+    <div class="key">
+      <div class="eq-main" style="font-size:25px">$$D_\tau\,\partial_tu=-u+W*F(u)+I(x,t)$$</div>
+      <img src="img/ei_fields.png" style="width:100%;margin-top:10px" alt="Excitatory and inhibitory fields with local coupling">
+      <img src="img/ei_kernels.png" style="width:58%;margin:8px auto 0;display:block" alt="Narrow excitatory and broad inhibitory Gaussian kernels">
+      <p class="cap">E–I picture and kernels from the earlier talk. The report's two-population example has $\Sigma_{EE}=\Sigma_{IE}=8$ and $\Sigma_{EI}=\Sigma_{II}=32$ (source E is narrow, source I is broad).</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>The model describes interacting excitatory and inhibitory populations.</li>
+        <li>Activity changes through decay, spatial coupling, and external input.</li>
+        <li>Coupling strengths and spatial ranges decide which modes grow.</li>
+      </ul>
+      <h3>Symbols</h3>
+      <ul>
+        <li>$u=(u_E,u_I)^\mathsf T$ holds the population activities.</li>
+        <li>$D_\tau=\operatorname{diag}(\tau_E,\tau_I)$ holds the time constants.</li>
+        <li>$W$ holds Gaussian kernels with gains $J$ and variances $\Sigma$. Rows index targets.</li>
+        <li>$F$ is the activation function, $I$ is the input, and $*$ is spatial convolution.</li>
+      </ul>
+      <div class="box"><p><b>Convention.</b> The report uses $W*F(u)$. The earlier slides used $F(W*u)$. The two forms give different nonlinear coefficients.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 8.1, eqs. (population-field), (population-kernels), (wc-parameters)</div>
+</section>
+
+<section class="slide center">
+  <div class="part">Model</div>
+  <h2>A general model near the homogeneous state</h2>
+  <p>Expand around the homogeneous state, which we write as $u=0$:</p>
+  <div class="eq-main">$$\partial_tu=\underbrace{\cL(p)\,u}_{\text{linear}}+\underbrace{\cQ(u,u)}_{\text{quadratic}}+\underbrace{\cC(u,u,u)}_{\text{cubic}}+\underbrace{I(x,t)}_{\text{input}},\qquad p=\kappa-\kappa_c$$</div>
+  <div class="notes">
+    <div><b>linear</b>: $\cL(p)=\cL_0+p\,\cL_1+O(p^2)$ gives growth and decay of each mode.</div>
+    <div><b>quadratic, cubic</b>: symmetric multilinear maps; the interactions between modes.</div>
+    <div><b>$p$</b>: distance from the unforced onset. $\kappa$ is the gain parameter, $\kappa_c$ its onset value.</div>
+    <div><b>scope</b>: the same form covers two-population and multi-population neural fields. For the field of slide 2 the input term is $D_\tau^{-1}I$.</div>
+  </div>
+  <div class="box" style="margin-top:14px"><p>The reduction depends only on the critical modes and the nonlinear interactions. It does not depend on the number of populations.</p></div>
+  <div class="src">report Sec. 1, eq. (pde); Sec. 8.1, eq. (population-nonlinear-symbols)</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Model · linear analysis</div>
+  <h2>Onset selects a spatial and a temporal scale</h2>
+  <div class="split" style="grid-template-columns:1.3fr 1fr">
+    <div class="key fig">
+      <img src="img/growth.png" alt="Largest real eigenvalue against mode k for four values of p, and the frequency of the rightmost eigenvalue">
+      <p class="cap">V1-inspired model, $L=43$. Left: $\max\RePart\nu$ per mode for $p=\kappa-\kappa_c$ near 0. Right: $\ImPart\nu/2\pi$ of the rightmost eigenvalue at onset. Star: $k_0=3$.</p>
+      $$\nu(\pm k_0,0)=\ii\omega_0$$
+    </div>
+    <div class="why">
+      <ul>
+        <li>Each Fourier mode $\ee^{\ii hx}$ gives a matrix $M(h)$. Its eigenvalues are $\nu$.</li>
+        <li>$\RePart\nu$ gives growth or decay. $\ImPart\nu$ gives the oscillation frequency.</li>
+        <li>At onset the critical modes have indices $\pm k_0$ and frequency $\omega_0$.</li>
+        <li>On a domain of length $L$, the physical wavenumber is $q_0=2\pi k_0/L$. The proof slides use $L=2\pi$.</li>
+      </ul>
+      <h3>Assumptions</h3>
+      <ol class="tight" style="padding-left:22px">
+        <li>The critical eigenvalue is simple in each Fourier block, at the reflection pair $\pm k_0$.</li>
+        <li>All other modes are strictly stable (stronger than report Sec. 1.1, which asks only for nonzero eigenvalues). The pair crosses transversely: $\RePart\alpha>0$, $\alpha=\partial_p\nu(k_0,0)$.</li>
+        <li>The quadratic resolvents exist: $2\ii\omega_0I-M_0(h)$ and $M_0(h)$ are invertible for $h\in\{0,\pm2k_0\}$.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="src">report Sec. 1.1, eqs. (Hopf_assumption), (transversality), (no-quadratic-resonance); strict stability: slide_outline.md §4, report Assumption 2 (2D); figures/slides_growth.py</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Question</div>
+  <h2>Weak flicker below onset</h2>
+  <div class="split">
+    <div class="key">
+      $$I(t)=\epsilon^2\left(P\ee^{2\ii\omega_0t}+\overline P\ee^{-2\ii\omega_0t}\right),\qquad p=\epsilon^2\mu,\quad \mu<0$$
+      <div class="fig"><img src="img/flicker_closeup_v1.png" style="max-height:330px" alt="Close-up of the uniform input and the E activity over 0.3 s"></div>
+      <p class="cap">V1-inspired model, $\epsilon=0.02$, $\mu=-1$, 4 periods (0.3 s) right after a 150 s run. Input: 8 periods. Activity: 4 periods, spatial mode 3.</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>$\epsilon$ is small. $P\in\CC^K$ is the input harmonic: it gives the input's population weights and phase. $\mu$ is the scaled distance below onset.</li>
+        <li>Without input, small perturbations decay.</li>
+        <li>The input has no spatial pattern.</li>
+        <li>The predicted response has spatial index $k_0$ and amplitude of order $\epsilon$.</li>
+        <li>The response oscillates at half the input frequency.</li>
+      </ul>
+      <div class="box"><p><span class="tag onset">near onset</span> A prediction under the resonance condition (slide 7) and the amplitude conditions (slide 9).</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 2.3 (forcing scales), Sec. 6.1, eq. (below-onset-scale); slides/build/sim1d.py; figures/slides_spacetime.py</div>
+</section>

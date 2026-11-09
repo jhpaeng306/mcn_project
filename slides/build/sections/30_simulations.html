@@ -1,0 +1,124 @@
+<section class="slide split-slide">
+  <div class="part">Simulations · 1D</div>
+  <h2>1D simulations agree with the predicted amplitude <span class="tag num">numerical</span></h2>
+  <div class="split" style="grid-template-columns:1.75fr 1fr">
+    <div class="key fig" style="gap:6px">
+      <img src="img/spacetime_wc.png" alt="Wilson-Cowan: no input, flicker close-up, flicker run, and critical amplitudes">
+      <img src="img/spacetime_v1.png" alt="V1-inspired: no input, flicker close-up, flicker run, and critical amplitudes">
+      <p class="cap">E activity, $\mu=-1$, uniform flicker at $2\omega_0$ from the same initial state. Dotted line: $\epsilon\sqrt{\rho_*}$.</p>
+    </div>
+    <div class="why">
+      <table style="font-size:16px;margin:4px 0 10px">
+        <tr><th>model</th><th>measured $\epsilon|A|$</th><th>predicted $\epsilon\sqrt{\rho_*}$</th></tr>
+        <tr><td>Wilson–Cowan</td><td>$0.02331$</td><td>$0.02345$</td></tr>
+        <tr><td>V1-inspired</td><td>$0.001594$</td><td>$0.001635$</td></tr>
+      </table>
+      <ul>
+        <li>The input is spatially uniform.</li>
+        <li>Without input, the seeded wave decays.</li>
+        <li>With flicker, the response holds the critical mode $k_0=3$, and $|A|=|B|$: a standing pattern.</li>
+        <li>The differences are about $0.6\%$ and $2.5\%$, consistent with an $O(\epsilon)$ correction. Each model was run at one $\epsilon$.</li>
+      </ul>
+      <p class="small"><b>Runs.</b> WC: $\epsilon=0.1$, flicker peak $1\cdot\epsilon^2$ (threshold $0.23\epsilon^2$). V1: $\epsilon=0.02$, peak $3\epsilon^2$ (threshold $1.74\epsilon^2$). Seeded critical wave $0.02\epsilon$ plus noise; one seed.</p>
+      <div class="box"><p>Agreement for the reported configurations. Values are modal amplitudes $\epsilon|A|$, not field maxima.</p></div>
+    </div>
+  </div>
+  <div class="src">JOURNAL.md SET-1; notebooks/{wilson_cowan,v1}_1d.ipynb; slides/build/sim1d.py → results/slides_sim1d.npz; figures/slides_spacetime.py</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Simulations · 2D</div>
+  <h2>2D flicker: stability needs a check against other directions <span class="tag num">numerical</span></h2>
+  <div class="split" style="grid-template-columns:1fr 1.15fr">
+    <div class="key fig">
+      <img src="img/cross_coupling.png" style="max-height:215px" alt="Re c_theta over |Re c| against angle, for Wilson-Cowan and V1">
+      <p class="cap">$\RePart c_\theta/|\RePart c|$ against the angle between two critical waves.</p>
+      <img src="img/v1_2d_flicker_seeds.png" style="width:100%;margin-top:8px" alt="Six V1 seeds under uniform flicker, all stripes">
+      <p class="cap">V1, uniform flicker, six random initial fields: six stripes (3 along $x$, 3 along $y$), no squares.</p>
+      <img src="img/wc_2d_flicker_seeds.png" style="width:60%;margin-top:4px" alt="Four Wilson-Cowan seeds under uniform flicker, large-amplitude squares">
+      <p class="cap">WC, same input: four seeds end as large squares ($\approx0.5$), beyond the weakly nonlinear range.</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>In 2D, many wavevectors share the critical wavelength: a shell.</li>
+        <li>Uniform flicker couples each wave to its opposite.</li>
+        <li>A standing stripe must also resist the waves in other directions.</li>
+        <li>$c_\theta$ is the cross coefficient of two critical waves at angle $\theta$.</li>
+      </ul>
+      <table style="font-size:15px;margin:6px 0">
+        <tr><th>test ($\mu=-1$)</th><th>model</th><th>field</th><th>theory</th></tr>
+        <tr><td>stripe amplitude</td><td>V1, $\epsilon=.025$</td><td>$0.00196$</td><td>$0.00204$</td></tr>
+        <tr><td>stripe $\lambda_\perp$</td><td>V1</td><td>$-0.024$</td><td>$-0.026$</td></tr>
+        <tr><td>stripe $\lambda_\perp$</td><td>WC, $\epsilon=.1$</td><td>$+1.77$</td><td>$+1.84$</td></tr>
+        <tr><td>square</td><td>V1</td><td colspan="2">unstable, $+0.022$</td></tr>
+        <tr><td>square</td><td>WC</td><td colspan="2">unstable, $+0.236$</td></tr>
+      </table>
+      <ul class="small">
+        <li>V1: stripes resist transverse perturbations; the square is unstable.</li>
+        <li>Wilson–Cowan: both branches are unstable. $\RePart c_\theta>0$ for $71^\circ\lesssim\theta\lesssim146^\circ$.</li>
+      </ul>
+      <div class="box"><p>A standing-wave solution need not be stable in the full critical shell. Stability needs the full linearization, not only the sign of $\RePart c_\theta$.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 10.4–10.5, eq. (stripe-transverse), Fig. (cross-coupling), test table; Sec. 10.6; seed images: notebooks/{v1,wilson_cowan}_2d.ipynb</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Simulations · 2D</div>
+  <h2>Traveling input can create a pattern across its direction</h2>
+  <div class="split" style="grid-template-columns:1.2fr 1fr">
+    <div class="key fig">
+      <video src="media/v1_traveling.mp4" autoplay loop muted playsinline style="max-height:300px"></video>
+      <p class="cap">V1, $\epsilon=0.025$, $\mu=-1$, shell $|\bk|^2=10$ ($L=4.50$ mm). Input $\cos(\bK\cdot\boldsymbol x+2\omega_0t)$, $\bK=(6,0)$, from a random field; 2 response periods after 80 s.</p>
+      <img src="img/v1_2d_traveling_traces.png" style="width:96%;margin-top:6px" alt="Shell amplitudes against time for three seeds">
+      <p class="cap">Three seeds: $(3,\pm1)$ grow to $0.00242$; all other shell waves decay below $2\times10^{-6}$.</p>
+    </div>
+    <div class="why">
+      <div style="display:flex;gap:14px;align-items:center">
+        <div class="box" style="font-size:21px;flex:1;text-align:center">$$\bk_X+\bk_Y=\bK$$</div>
+        <svg viewBox="-10 -45 150 90" width="170" aria-label="wavevectors (3,1) and (3,-1) add to (6,0)">
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#4a1d3f"/></marker></defs>
+          <line x1="0" y1="0" x2="60" y2="-20" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah)"/>
+          <line x1="0" y1="0" x2="60" y2="20" stroke="#b45309" stroke-width="2.5" marker-end="url(#ah)"/>
+          <line x1="0" y1="0" x2="120" y2="0" stroke="#4a1d3f" stroke-width="2.5" stroke-dasharray="5 3" marker-end="url(#ah)"/>
+          <text x="40" y="-26" font-size="11" fill="#2563eb">(3,1)</text><text x="40" y="34" font-size="11" fill="#b45309">(3,−1)</text>
+          <text x="92" y="-6" font-size="11" fill="#4a1d3f">(6,0)</text>
+        </svg>
+      </div>
+      <p class="small">$\bK$ is the input wavevector. Vectors are in lattice-index units, on the oblique shell.</p>
+      <ul>
+        <li>The input travels along $x$ and is uniform along $y$.</li>
+        <li>The response travels along $x$ and is a standing $\cos(q_1y)$ along $y$, with $\bd\perp\bK$, $|\bd|^2=q_0^2-|\bK|^2/4$.</li>
+        <li>V1: the pair persists. $\epsilon|A|=0.00242$ in all three seeds, theory $0.00254$.</li>
+        <li>The same input on the shell $|\bk|^2=25$ selects $(3,\pm4)$: $y$-mode 4. Field $0.00271$, theory $0.00289$.</li>
+        <li>Wilson–Cowan, started near the predicted state: the pair reaches $0.0264$ (theory $0.0270$). Then other shell waves grow (largest predicted rate $0.84$), and the field leaves the weakly nonlinear range.</li>
+      </ul>
+      <p class="small"><span class="tag num">numerical</span> Parameter-specific examples. Seeds 0–2 give the same selection (report Sec. 10.6).</p>
+    </div>
+  </div>
+  <div class="src">report Sec. 10.1, 10.3, eqs. (wavevector-rule), (pair-geometry), (pair-field); test table, Sec. 10.6; notebooks/v1_2d.ipynb; slides/build/movie2d.py</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Dispersion</div>
+  <h2>Dispersion curves show opposite frequency trends</h2>
+  <div class="split" style="grid-template-columns:1.5fr 1fr">
+    <div class="key fig">
+      <img src="img/dispersion_bell.png" alt="Frequency of the complex pair against q/q0 for Wilson-Cowan, V1 K=4 and V1 K=3">
+      <p class="cap">Frequency of the tracked complex pair at onset against $q/q_0$. Solid: the pair is the rightmost eigenvalue. Dashed: another eigenvalue lies to its right. Vertical line: $q_0$.</p>
+      $$\omega(q)=\ImPart\nu(q),\qquad 2\,\omega(q)=\Omega$$
+    </div>
+    <div class="why">
+      <ul>
+        <li><span class="tag num">numerical</span> Wilson–Cowan: the frequency falls near the critical wavenumber, from $0.904$ at $q=0$ to $0.318$ at $q_0$.</li>
+        <li><span class="tag num">numerical</span> V1-inspired: the frequency rises near $q_0$, up to a maximum at $2.61q_0$.</li>
+        <li><span class="tag proved">proved</span> At large $q$ the Gaussian coupling vanishes, $M\to-D_\tau^{-1}$, so every frequency goes to zero.</li>
+        <li><span class="tag proved">proved</span> With equal $\tau_i$ and equal widths, $\omega_q=-\Sigma_cq\,\omega<0$. A rising branch needs heterogeneity.</li>
+      </ul>
+      <p>For input frequency $\Omega$, the linear resonance condition is $2\omega(q)=\Omega$. Locally, faster flicker gives:</p>
+      <ul><li>a coarser candidate pattern in Wilson–Cowan;</li><li>a finer candidate pattern in V1.</li></ul>
+      <div class="box"><p>Resonance only gives candidates. Growth rates and nonlinear stability decide which patterns persist.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 8.4, eqs. (large-q-limit), (homogeneous-frequency), Fig. (dispersion-bell); figures/dispersion_bell.py</div>
+</section>

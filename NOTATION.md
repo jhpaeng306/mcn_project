@@ -40,6 +40,7 @@ Taken from the notation tables of `theory/report/main.tex` (end of Sec. 6 and Se
 | $c_\theta,c_\perp,c_\times$ | cross coefficient at angle $\theta$; $c_{\pi/2}$; axial quartet coefficient | complex | — | `cross_coefficient`, `square_coefficients().c_perp`, `.c_q` |
 | $\boldsymbol d$ | half difference of a coupled pair | vector | — | — |
 | $\gamma_\square,\lambda_\perp$ | square coefficient; transverse growth of the stripe | complex, real | — | `theory/code/square_predictions.py` |
+| $\beta_E,\beta_I$ | two-population trace terms $J_{EE}F'_E/\tau_E$ and $\lvert J_{II}\rvert F'_I/\tau_I$ (slides, broader-excitation argument) | scalars | — | — |
 
 ## Terms
 

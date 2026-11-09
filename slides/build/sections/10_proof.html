@@ -1,0 +1,104 @@
+<section class="slide split-slide">
+  <div class="part">Derivation · I</div>
+  <h2>Proof I: critical waves and Fredholm solvability</h2>
+  <div class="split" style="grid-template-columns:1.25fr 1fr">
+    <div class="key">
+      <p class="small"><b>1. Expansion and two times.</b></p>
+      <div style="font-size:17px">
+      $$u=\epsilon u_1+\epsilon^2u_2+\epsilon^3u_3+\cdots,\qquad s=t,\quad \tau=\epsilon^2t,\quad \partial_t=\partial_s+\epsilon^2\partial_\tau$$</div>
+      <p class="small"><b>2. Leading order.</b> Define $\cD=\partial_s-\cL(0)$:</p>
+      <div style="font-size:17px">$$\cD u_1=0,\qquad u_1=A(\tau)\,\Phi\,\ee^{\ii(\omega_0s+k_0x)}+B(\tau)\,\Phi\,\ee^{\ii(\omega_0s-k_0x)}+\cc$$</div>
+      <p class="small"><b>3. Solvability at each higher order.</b></p>
+      <div class="box" style="font-size:22px;text-align:center">$$\cD w=f\quad\Longleftrightarrow\quad\ip{V}{f}=0\quad\text{for every }V\in\ker\cD^*$$</div>
+      <p class="small">$\ker\cD^*=\operatorname{span}_\RR\{\Psi E_\pm,\ \overline\Psi\,\overline E_\pm\}$, with $E_\pm=\ee^{\ii(\omega_0s\pm k_0x)}$ and $\Psi^*\Phi=1$.</p>
+    </div>
+    <div class="why">
+      <h3>Symbols</h3>
+      <ul>
+        <li>$\Phi$ is the critical population eigenvector, $\lVert\Phi\rVert_2=1$. $\Psi$ is the adjoint eigenvector.</li>
+        <li>$A$ and $B$ are complex amplitudes of two waves that travel in opposite directions.</li>
+        <li>$\ip{\cdot}{\cdot}$ is the space–time inner product over one period $T_0=2\pi/\omega_0$ and one domain length.</li>
+        <li>$\cD^*=-\partial_s-\cL_0^*$ is the adjoint operator.</li>
+      </ul>
+      <h3>Why the condition holds (sketch)</h3>
+      <ul>
+        <li>In Fourier variables $\cD$ is a direct sum of blocks $\ii\Omega I-M_0(h)$. Only the critical blocks are singular.</li>
+        <li>If the inverses of the noncritical blocks are uniformly bounded, $\cD$ has closed range and a bounded inverse on the noncritical complement. The Fredholm alternative gives $\operatorname{Ran}\cD=(\ker\cD^*)^\perp$.</li>
+      </ul>
+      <div class="box"><p><b>Change from the earlier talk.</b> "No waves of natural frequencies in the range" becomes "orthogonal to the adjoint critical modes".</p></div>
+    </div>
+  </div>
+  <div class="src">report Secs. 1.2, 2, 3; eqs. (expansions), (kernel-D), (D-adjoint), (fredholm), (u1); earlier talk pp. 10–12</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Derivation · II</div>
+  <h2>Proof II: the scale and resonance conditions</h2>
+  <div class="split" style="grid-template-columns:1.2fr 1fr">
+    <div class="key">
+      <p class="small"><b>Second order.</b> First allow $p=\epsilon p_1+\epsilon^2\mu+\cdots$:</p>
+      $$\cD u_2=p_1\cL_1u_1+\cQ(u_1,u_1)+F_2$$
+      <p class="small">$\cQ(u_1,u_1)$ has wave types in $\{0,\pm2\omega_0\}\times\{0,\pm2k_0\}$, and the input has $(\pm2\omega_0,0)$. Neither pairs with $\Psi E_\pm$. So</p>
+      $$p_1\alpha A=p_1\alpha B=0\quad\Longrightarrow\quad\boxed{p_1=0}\qquad\text{for }(A,B)\neq(0,0)$$
+      <p class="small"><b>Third order.</b> The input response meets one critical wave. Frequencies and indices must add up to a critical wave $(\omega_0,k_0)$:</p>
+      <table style="margin:4px auto">
+        <tr><th>input</th><th>resonant interaction</th></tr>
+        <tr><td>temporal flicker</td><td>$(2\omega_0,0)+(-\omega_0,k_0)=(\omega_0,k_0)$</td></tr>
+        <tr><td>static spatial input</td><td>$(0,2k_0)+(\omega_0,-k_0)=(\omega_0,k_0)$</td></tr>
+      </table>
+    </div>
+    <div class="why">
+      <ul>
+        <li>$\alpha=\partial_p\nu(k_0,0)=\Psi^*M_1\Phi$, with $\RePart\alpha>0$.</li>
+        <li>$F_2$ is the order-$\epsilon^2$ input. Its response is $u_2^F=R(2\omega_0,0)P\,\ee^{2\ii\omega_0s}+\cc$, with $R(\Omega,h)=(\ii\Omega I-M_0(h))^{-1}$.</li>
+        <li>An input at order $\epsilon$ would enter $\cD u_1$, so the input would set the leading pattern. Order $\epsilon^2$ lets the input act only through $2\cQ(u_1,u_2)$ at order $\epsilon^3$.</li>
+      </ul>
+      <div class="box"><p><b>Result.</b> Temporal input at $2\omega_0$ and static spatial input at $2k_0$ give resonant coupling at this order.</p></div>
+      <p class="small"><b>Scope.</b> This holds for order-$\epsilon^2$ input and the cubic reduction. It does not exclude near-resonant detuning or other input scalings (report Sec. 9).</p>
+    </div>
+  </div>
+  <div class="src">report Sec. 2.3, eq. (three-orders); Sec. 4.1, eq. (p1-zero); Sec. 5.2, eqs. (temporal-critical-A)–(spatial-critical-B); earlier talk pp. 13–19</div>
+</section>
+
+<section class="slide center">
+  <div class="part">Derivation · III</div>
+  <h2>Proof III: projection gives the amplitude equations</h2>
+  <p>Apply the same Fredholm condition at order $\epsilon^3$: $\ip{\Psi E_\pm}{\text{right-hand side}}=0$.</p>
+  <div class="eq-main"><div class="box" style="padding:4px 24px">$$\begin{aligned}A_\tau&=A\big(\underbrace{a}_{\text{onset}}+\underbrace{b|A|^2+c|B|^2}_{\text{saturation}}\big)+\underbrace{\eta_t\overline B}_{\text{flicker}}+\underbrace{\eta_xB}_{\text{static input}}\\[2pt] B_\tau&=B\big(a+b|B|^2+c|A|^2\big)+\eta_t\overline A+\eta_xA\end{aligned}$$</div></div>
+  <div class="notes">
+    <div><b>onset</b>: $a=\mu\alpha$, the distance from onset.</div>
+    <div><b>saturation</b>: $b$ is the self-interaction; $c$ couples the two waves.</div>
+    <div><b>flicker</b>: $\eta_t=2\Psi^*\cQ(\overline\Phi,R(2\omega_0,0)P)$ couples $A$ to $\overline B$.</div>
+    <div><b>static input</b>: $\eta_x=2\Psi^*\cQ(\Phi,R(0,2k_0)S)$ for a reflection-symmetric (real) $S$.</div>
+  </div>
+  <div class="box" style="margin-top:12px"><p>Solvability decides how the critical amplitudes evolve. Flicker links each wave to the conjugate of the opposite wave, so it can lock a standing pattern.</p></div>
+  <div class="src">report Sec. 5.3, eqs. (abc), (full-solvability); Sec. 6, eq. (amplitude); earlier talk p. 20</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Result</div>
+  <h2>A standing pattern exists below onset <span class="tag proved">proved</span></h2>
+  <div class="split">
+    <div class="key">
+      <p class="small">Pure flicker: $\eta_x=0$. The subspace $A=B=z$ is invariant:</p>
+      $$z_\tau=z\left[a+(b+c)|z|^2\right]+\eta_t\overline z$$
+      <p class="small">Write $z=\sqrt\rho\,\ee^{\ii\phi}$. An equilibrium needs</p>
+      $$\big|a+(b+c)\rho\big|^2=|\eta_t|^2$$
+      <div class="box" style="font-size:21px;text-align:center">$$|\eta_t|>|\mu\alpha|,\qquad\RePart b<0,\qquad\RePart(b+c)<0$$</div>
+      <p class="small">These conditions give a standing pattern, stable up to spatial translation. Each critical wave has leading amplitude $\epsilon\sqrt{\rho_*}$:</p>
+      $$u=4\epsilon\sqrt{\rho_*}\,\RePart\!\left[\Phi\,\ee^{\ii(\omega_0t+\phi_*)}\right]\cos(k_0x)+O(\epsilon^2)$$
+    </div>
+    <div class="why">
+      <h3>Proof idea</h3>
+      <ul>
+        <li>Let $f(\rho)=|a+\gamma\rho|^2-|\eta_t|^2$ with $\gamma=b+c\neq0$.</li>
+        <li>The leading coefficient $|\gamma|^2$ is positive. If $|\eta_t|>|a|$, the constant term $|a|^2-|\eta_t|^2$ is negative.</li>
+        <li>So $f$ has exactly one positive root $\rho_*$. The phase $\phi_*$ follows from $\ee^{-2\ii\phi_*}=-(a+\gamma\rho_*)/\eta_t$, which has modulus 1.</li>
+        <li>Stability: write $v_\pm=\tfrac12\ee^{-\ii\phi_*}(\delta A\pm\delta B)$. The linearization splits into two real $2\times2$ blocks.</li>
+        <li>With $\RePart a<0$: $\RePart(b+c)<0$ makes the symmetric block stable, and $\RePart b<0$ makes the antisymmetric block stable, apart from the zero eigenvalue of translation.</li>
+      </ul>
+      <div class="box"><p><b>Scope.</b> Proven for the amplitude system. The report does not prove that the pattern persists in the full field.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 6.1, Proposition 1, eqs. (standing-reduction)–(stable-temporal-pattern)</div>
+</section>

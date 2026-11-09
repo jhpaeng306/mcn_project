@@ -1,0 +1,62 @@
+<section class="slide split-slide">
+  <div class="part">V1-inspired model</div>
+  <h2>A V1-inspired population model</h2>
+  <div class="split" style="grid-template-columns:1.1fr 1fr">
+    <div class="key">
+      <img src="img/v1_network.png" style="width:100%" alt="E, PV, SST, VIP network; visual input to E and PV">
+      <p class="cap">Network motif (earlier talk). Visual input reaches E and PV.</p>
+      <div style="display:flex;gap:18px;justify-content:center;font-size:15px;margin-top:6px">
+        <div>$$\Sigma=\begin{pmatrix}.6498&.45125&.36125&-\\.4232&.72&.72&-\\.53045&-&-&.72\\.53045&-&.72&-\end{pmatrix}$$</div>
+        <div>$$G=\begin{pmatrix}6.22&-1.45&-6.49&0\\5.10&-0.91&-8.04&0\\2.67&0&0&-16\\1.69&0&-3.14&0\end{pmatrix}$$</div>
+      </div>
+      <p class="cap">Order E, PV, SST, VIP; rows are targets. $\Sigma$ in units of $(0.1\ \mathrm{mm})^2$; a dash marks an absent connection. $J=\kappa G$.</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>Replace one inhibitory population by PV, SST, and VIP populations.</li>
+        <li>Time constants depend on the population: $\tau=(10,12,35,20)$ ms.</li>
+        <li>Connection widths come from Billeh et al. (2020): $\Sigma_{ij}=s_{ij}^2/(2\ell_x^2)$, $\ell_x=0.1$ mm.</li>
+        <li>The input reaches E and PV, $e=(1,1,0,0)^\mathsf T$ (Ji et al. 2016). Equal strengths are our assumption.</li>
+        <li>The connectivity structure follows the literature. The effective gains $G$ are model parameters.</li>
+      </ul>
+      <h3>Onset ($L=4.3$ mm)</h3>
+      $$\kappa_c\approx0.74915,\qquad k_0=3,\qquad\frac{\omega_0}{2\pi}\approx13.21\ \mathrm{Hz}$$
+      <p class="small">Wavelength $4.3/3\approx1.43$ mm.</p>
+      <div class="box"><p>A V1-inspired model, not a fit to measured synaptic strengths. All values are from the current report, not the earlier talk.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 7, eqs. (v1-unit-convention)–(v1-onset-values); Pfeffer et al. 2013; Billeh et al. 2020, STAR Methods p. e11; Ji et al. 2016</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">V1-inspired model</div>
+  <h2>Broader excitation: the precise comparison <span class="tag proved">proved, 2 populations</span></h2>
+  <div class="split" style="grid-template-columns:1.1fr 1fr">
+    <div class="key">
+      <p class="small"><b>Two-population restriction.</b> For a real $2\times2$ matrix, an oscillatory pair has</p>
+      $$\RePart\nu(q)=\tfrac12\tr M(q)$$
+      <p class="small">Assume Gaussian kernels, $F'_E,F'_I>0$, $\tau_E,\tau_I>0$, $J_{EE}>0$, and $J_{II}\le0$. If the homogeneous mode is strictly stable, then</p>
+      <div class="box" style="font-size:19px;text-align:center">$$\Sigma_{EE}\ge\Sigma_{II}\quad\Longrightarrow\quad\text{no finite-wavenumber Hopf onset}$$</div>
+      <p class="small"><b>V1 example.</b> Excitation onto E cells is broader than inhibition onto E cells:</p>
+      $$\Sigma_{EE}=0.6498\;>\;\Sigma_{E,PV}=0.45125\;>\;\Sigma_{E,SST}=0.36125$$
+      <p class="small">The theorem compares the diagonal widths; in V1 they fail it, $\Sigma_{EE}=0.6498<\Sigma_{PV,PV}=0.72$. With more populations, one oscillatory pair can cross while the other eigenvalues keep the total trace negative: in V1, $\tr M(q_0)=-0.041$ at onset <span class="tag num">numerical</span>.</p>
+    </div>
+    <div class="why">
+      <h3>Proof</h3>
+      <ul>
+        <li>Write $\beta_E=J_{EE}F'_E/\tau_E>0$ and $\beta_I=|J_{II}|F'_I/\tau_I\ge0$. Then
+        $$\tr M(q)=\beta_E\ee^{-\Sigma_{EE}q^2/2}-\beta_I\ee^{-\Sigma_{II}q^2/2}-\tfrac1{\tau_E}-\tfrac1{\tau_I}.$$</li>
+        <li>$\Sigma_{EE}\ge\Sigma_{II}$ gives $\ee^{-\Sigma_{EE}q^2/2}\le\ee^{-\Sigma_{II}q^2/2}$, so $\tr M(q)\le(\beta_E-\beta_I)\ee^{-\Sigma_{II}q^2/2}-\tfrac1{\tau_E}-\tfrac1{\tau_I}$.</li>
+        <li>If $\beta_E\le\beta_I$, the bound is negative. If $\beta_E>\beta_I$, the bound is at most $\tr M(0)$, and $\tr M(0)<0$ because $q=0$ is stable. (Only $\tr M(0)<0$ is used.)</li>
+        <li>So $\RePart\nu(q)<0$ for every oscillatory pair at every $q$.</li>
+      </ul>
+      <h3>Qualifications</h3>
+      <ul class="small">
+        <li>In V1, excitation is not broader than every inhibitory connection.</li>
+        <li>The restriction does not exclude stationary instabilities or forced patterns.</li>
+        <li>Target-specific comparisons differ from an ordering of widths by source.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">slide_outline.md §11 and review notes (referee-checked); skeptic: 6588 stable random instances, no counterexample; report eqs. (dispersion-matrix), (v1-width-matrices). Not yet in the report.</div>
+</section>

@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pattern formation under weak forcing</title>
+<script>
+window.MathJax = {tex: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']],
+                  macros: {"RR": "\\mathbb{R}", "CC": "\\mathbb{C}", "ZZ": "\\mathbb{Z}", "NN": "\\mathbb{N}", "ii": "\\mathrm{i}", "ee": "\\mathrm{e}", "cL": "\\mathcal{L}", "cQ": "\\mathcal{Q}", "cC": "\\mathcal{C}", "cD": "\\mathcal{D}", "ip": ["\\langle #1,#2\\rangle", 2], "cc": "\\text{c.c.}", "RePart": "\\operatorname{Re}", "ImPart": "\\operatorname{Im}", "tr": "\\operatorname{tr}", "bk": "\\boldsymbol{k}", "bK": "\\boldsymbol{K}", "bd": "\\boldsymbol{d}"}},  // from theory/report/main.tex preamble
+                  svg: {fontCache: 'global'},
+                  startup: {typeset: false}};  // typeset after the script below keeps the $...$ source for editing
+</script>
+<script src="vendor/mathjax/es5/tex-svg.min.js"></script>  <!-- bundled MathJax 3.2.2 (works offline) -->
+<style id="deck-style">
+:root { --ink: #1f1a24; --ink2: #5b5463; --plum: #4a1d3f; --accent: #2563eb; --bg: #ffffff; --soft: #f4f1f6;
+        --proved: #15803d; --num: #b45309; --obs: #7c3aed; --open: #b91c1c; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #e9e6ec; color: var(--ink);
+             font: 20px/1.35 "Inter", "Helvetica Neue", Arial, sans-serif; }
+.slide { display: none; position: absolute; inset: 0; margin: auto; width: 1280px; height: 720px;
+         background: var(--bg); padding: 44px 60px 36px; overflow: hidden; transform-origin: center; }
+.slide.active { display: flex; flex-direction: column; }
+h1 { font-size: 42px; color: var(--plum); margin: 0 0 12px; }
+h2 { font-size: 30px; color: var(--plum); margin: 0 0 14px; }
+h3 { font-size: 21px; color: var(--plum); margin: 10px 0 6px; }
+p, li { margin: 4px 0; }
+ul { margin: 4px 0; padding-left: 24px; }
+.cols { display: flex; gap: 32px; flex: 1; min-height: 0; }
+.cols > div { flex: 1; min-width: 0; }
+.fig { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; }
+.fig img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.small { font-size: 16px; color: var(--ink2); }
+.tag { display: inline-block; font-size: 13px; font-weight: 600; padding: 1px 7px; border-radius: 4px;
+       color: #fff; vertical-align: middle; margin-right: 4px; }
+.proved { background: var(--proved); } .num { background: var(--num); } .obs { background: var(--obs); }
+.open { background: var(--open); }
+.box { background: var(--soft); border-left: 4px solid var(--plum); padding: 8px 14px; margin: 8px 0; }
+table { border-collapse: collapse; font-size: 18px; }
+th, td { padding: 4px 12px; border-bottom: 1px solid #ddd; text-align: center; }
+th:first-child, td:first-child { text-align: left; }
+.foot { position: absolute; bottom: 12px; right: 24px; font-size: 13px; color: var(--ink2); }
+#editbar { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9; padding: 6px 16px; font-size: 14px;
+           background: #b45309; color: #fff; text-align: center; }
+body.editing #editbar { display: block; }
+body.editing .slide.active { outline: 3px dashed #b45309; }
+.split { display: grid; grid-template-columns: 1.15fr 1fr; gap: 34px; flex: 1; min-height: 0; }
+.split > .key { display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 0; }
+.split > .why { font-size: 16.5px; color: var(--ink); border-left: 2px solid var(--soft); padding-left: 22px;
+                overflow: hidden; min-width: 0; }
+.split > .why h3 { font-size: 18px; margin-top: 6px; }
+.center { align-items: stretch; }
+.center .eq-main { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 26px; min-height: 0; }
+.center .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; font-size: 15.5px; }
+.center .notes > div { background: var(--soft); border-top: 3px solid var(--plum); padding: 8px 12px; }
+.center .notes b { color: var(--plum); }
+.section-title { justify-content: center; background: var(--plum); color: #fff; }
+.section-title h1 { color: #fff; font-size: 54px; }
+.section-title p { color: #e9dff0; font-size: 24px; }
+.part { font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); margin-bottom: 4px; }
+.tag.onset { background: #0e7490; } .tag.exact { background: #15803d; }
+.fig video { max-width: 100%; max-height: 100%; }
+.cap { font-size: 13.5px; color: var(--ink2); margin-top: 4px; }
+.src { position: absolute; bottom: 12px; left: 60px; font-size: 13px; color: var(--ink2); }
+.title-split.active { display: grid; }
+.title-split { grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; background: var(--plum); color: #fff; }
+.title-split h1 { color: #fff; font-size: 44px; } .title-split p, .title-split li { color: #e9dff0; }
+.title-split .sub { font-size: 23px; color: #fff; margin-bottom: 18px; }
+.title-split img { width: 100%; background: #fff; border-radius: 6px; padding: 6px; }
+.mat td, .mat th { padding: 2px 7px; font-size: 14.5px; }
+.tight li { margin: 2px 0; }
+@media print { body { background: #fff; } .slide { display: flex !important; position: relative; page-break-after: always;
+               transform: none !important; } }
+</style>
+</head>
+<body>
+
+<section class="slide title-split">
+  <div>
+    <div class="part" style="color:#e9dff0">9 November 2026 · Jinhee Paeng</div>
+    <h1>Pattern formation under weak forcing</h1>
+    <p class="sub">How temporal flicker creates spatial patterns below onset</p>
+    <ul style="font-size:19px">
+      <li>Spatially uniform flicker can evoke geometric visual patterns.</li>
+      <li>One proposed mechanism is pattern formation in cortical activity.</li>
+      <li>We ask when a weak input creates a pattern that the input itself does not contain.</li>
+    </ul>
+    <p class="small" style="color:#cdbfd8;margin-top:16px">Motivation and a modeling question. V1 pattern formation is a proposed mechanism, not an established explanation of all hallucinations.<br>Rule, Stoffregen &amp; Ermentrout, PLoS Comput. Biol. 7, e1002158 (2011), doi:10.1371/journal.pcbi.1002158</p>
+  </div>
+  <div>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+      <div style="flex:0 0 120px;height:120px;border-radius:6px;background:#fff;animation:flick 0.6s steps(2) infinite"></div>
+      <div style="font-size:30px">→</div>
+      <div style="font-size:17px;color:#e9dff0">uniform in space,<br>periodic in time</div>
+    </div>
+    <img src="img/hallucination_patterns.png" alt="Stripe and spot patterns in V1 coordinates and the corresponding spiral, ray, target and spot patterns in the visual field">
+    <p class="cap" style="color:#cdbfd8">Top: patterns in V1 coordinates. Bottom: the same patterns mapped to the visual field (earlier talk).</p>
+  </div>
+  <style>@keyframes flick { 0% { background:#fff } 100% { background:#1f1a24 } }</style>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Model</div>
+  <h2>Wilson–Cowan neural fields</h2>
+  <div class="split" style="grid-template-columns:1.25fr 1fr">
+    <div class="key">
+      <div class="eq-main" style="font-size:25px">$$D_\tau\,\partial_tu=-u+W*F(u)+I(x,t)$$</div>
+      <img src="img/ei_fields.png" style="width:100%;margin-top:10px" alt="Excitatory and inhibitory fields with local coupling">
+      <img src="img/ei_kernels.png" style="width:58%;margin:8px auto 0;display:block" alt="Narrow excitatory and broad inhibitory Gaussian kernels">
+      <p class="cap">E–I picture and kernels from the earlier talk. The report's two-population example has $\Sigma_{EE}=\Sigma_{IE}=8$ and $\Sigma_{EI}=\Sigma_{II}=32$ (source E is narrow, source I is broad).</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>The model describes interacting excitatory and inhibitory populations.</li>
+        <li>Activity changes through decay, spatial coupling, and external input.</li>
+        <li>Coupling strengths and spatial ranges decide which modes grow.</li>
+      </ul>
+      <h3>Symbols</h3>
+      <ul>
+        <li>$u=(u_E,u_I)^\mathsf T$ holds the population activities.</li>
+        <li>$D_\tau=\operatorname{diag}(\tau_E,\tau_I)$ holds the time constants.</li>
+        <li>$W$ holds Gaussian kernels with gains $J$ and variances $\Sigma$. Rows index targets.</li>
+        <li>$F$ is the activation function, $I$ is the input, and $*$ is spatial convolution.</li>
+      </ul>
+      <div class="box"><p><b>Convention.</b> The report uses $W*F(u)$. The earlier slides used $F(W*u)$. The two forms give different nonlinear coefficients.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 8.1, eqs. (population-field), (population-kernels), (wc-parameters)</div>
+</section>
+
+<section class="slide center">
+  <div class="part">Model</div>
+  <h2>A general model near the homogeneous state</h2>
+  <p>Expand around the homogeneous state, which we write as $u=0$:</p>
+  <div class="eq-main">$$\partial_tu=\underbrace{\cL(p)\,u}_{\text{linear}}+\underbrace{\cQ(u,u)}_{\text{quadratic}}+\underbrace{\cC(u,u,u)}_{\text{cubic}}+\underbrace{I(x,t)}_{\text{input}},\qquad p=\kappa-\kappa_c$$</div>
+  <div class="notes">
+    <div><b>linear</b>: $\cL(p)=\cL_0+p\,\cL_1+O(p^2)$ gives growth and decay of each mode.</div>
+    <div><b>quadratic, cubic</b>: symmetric multilinear maps; the interactions between modes.</div>
+    <div><b>$p$</b>: distance from the unforced onset. $\kappa$ is the gain parameter, $\kappa_c$ its onset value.</div>
+    <div><b>scope</b>: the same form covers two-population and multi-population neural fields. For the field of slide 2 the input term is $D_\tau^{-1}I$.</div>
+  </div>
+  <div class="box" style="margin-top:14px"><p>The reduction depends only on the critical modes and the nonlinear interactions. It does not depend on the number of populations.</p></div>
+  <div class="src">report Sec. 1, eq. (pde); Sec. 8.1, eq. (population-nonlinear-symbols)</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Model · linear analysis</div>
+  <h2>Onset selects a spatial and a temporal scale</h2>
+  <div class="split" style="grid-template-columns:1.3fr 1fr">
+    <div class="key fig">
+      <img src="img/growth.png" alt="Largest real eigenvalue against mode k for four values of p, and the frequency of the rightmost eigenvalue">
+      <p class="cap">V1-inspired model, $L=43$. Left: $\max\RePart\nu$ per mode for $p=\kappa-\kappa_c$ near 0. Right: $\ImPart\nu/2\pi$ of the rightmost eigenvalue at onset. Star: $k_0=3$.</p>
+      $$\nu(\pm k_0,0)=\ii\omega_0$$
+    </div>
+    <div class="why">
+      <ul>
+        <li>Each Fourier mode $\ee^{\ii hx}$ gives a matrix $M(h)$. Its eigenvalues are $\nu$.</li>
+        <li>$\RePart\nu$ gives growth or decay. $\ImPart\nu$ gives the oscillation frequency.</li>
+        <li>At onset the critical modes have indices $\pm k_0$ and frequency $\omega_0$.</li>
+        <li>On a domain of length $L$, the physical wavenumber is $q_0=2\pi k_0/L$. The proof slides use $L=2\pi$.</li>
+      </ul>
+      <h3>Assumptions</h3>
+      <ol class="tight" style="padding-left:22px">
+        <li>The critical eigenvalue is simple in each Fourier block, at the reflection pair $\pm k_0$.</li>
+        <li>All other modes are strictly stable (stronger than report Sec. 1.1, which asks only for nonzero eigenvalues). The pair crosses transversely: $\RePart\alpha>0$, $\alpha=\partial_p\nu(k_0,0)$.</li>
+        <li>The quadratic resolvents exist: $2\ii\omega_0I-M_0(h)$ and $M_0(h)$ are invertible for $h\in\{0,\pm2k_0\}$.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="src">report Sec. 1.1, eqs. (Hopf_assumption), (transversality), (no-quadratic-resonance); strict stability: slide_outline.md §4, report Assumption 2 (2D); figures/slides_growth.py</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Question</div>
+  <h2>Weak flicker below onset</h2>
+  <div class="split">
+    <div class="key">
+      $$I(t)=\epsilon^2\left(P\ee^{2\ii\omega_0t}+\overline P\ee^{-2\ii\omega_0t}\right),\qquad p=\epsilon^2\mu,\quad \mu<0$$
+      <div class="fig"><img src="img/flicker_closeup_v1.png" style="max-height:330px" alt="Close-up of the uniform input and the E activity over 0.3 s"></div>
+      <p class="cap">V1-inspired model, $\epsilon=0.02$, $\mu=-1$, 4 periods (0.3 s) right after a 150 s run. Input: 8 periods. Activity: 4 periods, spatial mode 3.</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>$\epsilon$ is small. $P\in\CC^K$ is the input harmonic: it gives the input's population weights and phase. $\mu$ is the scaled distance below onset.</li>
+        <li>Without input, small perturbations decay.</li>
+        <li>The input has no spatial pattern.</li>
+        <li>The predicted response has spatial index $k_0$ and amplitude of order $\epsilon$.</li>
+        <li>The response oscillates at half the input frequency.</li>
+      </ul>
+      <div class="box"><p><span class="tag onset">near onset</span> A prediction under the resonance condition (slide 7) and the amplitude conditions (slide 9).</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 2.3 (forcing scales), Sec. 6.1, eq. (below-onset-scale); slides/build/sim1d.py; figures/slides_spacetime.py</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Derivation · I</div>
+  <h2>Proof I: critical waves and Fredholm solvability</h2>
+  <div class="split" style="grid-template-columns:1.25fr 1fr">
+    <div class="key">
+      <p class="small"><b>1. Expansion and two times.</b></p>
+      <div style="font-size:17px">
+      $$u=\epsilon u_1+\epsilon^2u_2+\epsilon^3u_3+\cdots,\qquad s=t,\quad \tau=\epsilon^2t,\quad \partial_t=\partial_s+\epsilon^2\partial_\tau$$</div>
+      <p class="small"><b>2. Leading order.</b> Define $\cD=\partial_s-\cL(0)$:</p>
+      <div style="font-size:17px">$$\cD u_1=0,\qquad u_1=A(\tau)\,\Phi\,\ee^{\ii(\omega_0s+k_0x)}+B(\tau)\,\Phi\,\ee^{\ii(\omega_0s-k_0x)}+\cc$$</div>
+      <p class="small"><b>3. Solvability at each higher order.</b></p>
+      <div class="box" style="font-size:22px;text-align:center">$$\cD w=f\quad\Longleftrightarrow\quad\ip{V}{f}=0\quad\text{for every }V\in\ker\cD^*$$</div>
+      <p class="small">$\ker\cD^*=\operatorname{span}_\RR\{\Psi E_\pm,\ \overline\Psi\,\overline E_\pm\}$, with $E_\pm=\ee^{\ii(\omega_0s\pm k_0x)}$ and $\Psi^*\Phi=1$.</p>
+    </div>
+    <div class="why">
+      <h3>Symbols</h3>
+      <ul>
+        <li>$\Phi$ is the critical population eigenvector, $\lVert\Phi\rVert_2=1$. $\Psi$ is the adjoint eigenvector.</li>
+        <li>$A$ and $B$ are complex amplitudes of two waves that travel in opposite directions.</li>
+        <li>$\ip{\cdot}{\cdot}$ is the space–time inner product over one period $T_0=2\pi/\omega_0$ and one domain length.</li>
+        <li>$\cD^*=-\partial_s-\cL_0^*$ is the adjoint operator.</li>
+      </ul>
+      <h3>Why the condition holds (sketch)</h3>
+      <ul>
+        <li>In Fourier variables $\cD$ is a direct sum of blocks $\ii\Omega I-M_0(h)$. Only the critical blocks are singular.</li>
+        <li>If the inverses of the noncritical blocks are uniformly bounded, $\cD$ has closed range and a bounded inverse on the noncritical complement. The Fredholm alternative gives $\operatorname{Ran}\cD=(\ker\cD^*)^\perp$.</li>
+      </ul>
+      <div class="box"><p><b>Change from the earlier talk.</b> "No waves of natural frequencies in the range" becomes "orthogonal to the adjoint critical modes".</p></div>
+    </div>
+  </div>
+  <div class="src">report Secs. 1.2, 2, 3; eqs. (expansions), (kernel-D), (D-adjoint), (fredholm), (u1); earlier talk pp. 10–12</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Derivation · II</div>
+  <h2>Proof II: the scale and resonance conditions</h2>
+  <div class="split" style="grid-template-columns:1.2fr 1fr">
+    <div class="key">
+      <p class="small"><b>Second order.</b> First allow $p=\epsilon p_1+\epsilon^2\mu+\cdots$:</p>
+      $$\cD u_2=p_1\cL_1u_1+\cQ(u_1,u_1)+F_2$$
+      <p class="small">$\cQ(u_1,u_1)$ has wave types in $\{0,\pm2\omega_0\}\times\{0,\pm2k_0\}$, and the input has $(\pm2\omega_0,0)$. Neither pairs with $\Psi E_\pm$. So</p>
+      $$p_1\alpha A=p_1\alpha B=0\quad\Longrightarrow\quad\boxed{p_1=0}\qquad\text{for }(A,B)\neq(0,0)$$
+      <p class="small"><b>Third order.</b> The input response meets one critical wave. Frequencies and indices must add up to a critical wave $(\omega_0,k_0)$:</p>
+      <table style="margin:4px auto">
+        <tr><th>input</th><th>resonant interaction</th></tr>
+        <tr><td>temporal flicker</td><td>$(2\omega_0,0)+(-\omega_0,k_0)=(\omega_0,k_0)$</td></tr>
+        <tr><td>static spatial input</td><td>$(0,2k_0)+(\omega_0,-k_0)=(\omega_0,k_0)$</td></tr>
+      </table>
+    </div>
+    <div class="why">
+      <ul>
+        <li>$\alpha=\partial_p\nu(k_0,0)=\Psi^*M_1\Phi$, with $\RePart\alpha>0$.</li>
+        <li>$F_2$ is the order-$\epsilon^2$ input. Its response is $u_2^F=R(2\omega_0,0)P\,\ee^{2\ii\omega_0s}+\cc$, with $R(\Omega,h)=(\ii\Omega I-M_0(h))^{-1}$.</li>
+        <li>An input at order $\epsilon$ would enter $\cD u_1$, so the input would set the leading pattern. Order $\epsilon^2$ lets the input act only through $2\cQ(u_1,u_2)$ at order $\epsilon^3$.</li>
+      </ul>
+      <div class="box"><p><b>Result.</b> Temporal input at $2\omega_0$ and static spatial input at $2k_0$ give resonant coupling at this order.</p></div>
+      <p class="small"><b>Scope.</b> This holds for order-$\epsilon^2$ input and the cubic reduction. It does not exclude near-resonant detuning or other input scalings (report Sec. 9).</p>
+    </div>
+  </div>
+  <div class="src">report Sec. 2.3, eq. (three-orders); Sec. 4.1, eq. (p1-zero); Sec. 5.2, eqs. (temporal-critical-A)–(spatial-critical-B); earlier talk pp. 13–19</div>
+</section>
+
+<section class="slide center">
+  <div class="part">Derivation · III</div>
+  <h2>Proof III: projection gives the amplitude equations</h2>
+  <p>Apply the same Fredholm condition at order $\epsilon^3$: $\ip{\Psi E_\pm}{\text{right-hand side}}=0$.</p>
+  <div class="eq-main"><div class="box" style="padding:4px 24px">$$\begin{aligned}A_\tau&=A\big(\underbrace{a}_{\text{onset}}+\underbrace{b|A|^2+c|B|^2}_{\text{saturation}}\big)+\underbrace{\eta_t\overline B}_{\text{flicker}}+\underbrace{\eta_xB}_{\text{static input}}\\[2pt] B_\tau&=B\big(a+b|B|^2+c|A|^2\big)+\eta_t\overline A+\eta_xA\end{aligned}$$</div></div>
+  <div class="notes">
+    <div><b>onset</b>: $a=\mu\alpha$, the distance from onset.</div>
+    <div><b>saturation</b>: $b$ is the self-interaction; $c$ couples the two waves.</div>
+    <div><b>flicker</b>: $\eta_t=2\Psi^*\cQ(\overline\Phi,R(2\omega_0,0)P)$ couples $A$ to $\overline B$.</div>
+    <div><b>static input</b>: $\eta_x=2\Psi^*\cQ(\Phi,R(0,2k_0)S)$ for a reflection-symmetric (real) $S$.</div>
+  </div>
+  <div class="box" style="margin-top:12px"><p>Solvability decides how the critical amplitudes evolve. Flicker links each wave to the conjugate of the opposite wave, so it can lock a standing pattern.</p></div>
+  <div class="src">report Sec. 5.3, eqs. (abc), (full-solvability); Sec. 6, eq. (amplitude); earlier talk p. 20</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Result</div>
+  <h2>A standing pattern exists below onset <span class="tag proved">proved</span></h2>
+  <div class="split">
+    <div class="key">
+      <p class="small">Pure flicker: $\eta_x=0$. The subspace $A=B=z$ is invariant:</p>
+      $$z_\tau=z\left[a+(b+c)|z|^2\right]+\eta_t\overline z$$
+      <p class="small">Write $z=\sqrt\rho\,\ee^{\ii\phi}$. An equilibrium needs</p>
+      $$\big|a+(b+c)\rho\big|^2=|\eta_t|^2$$
+      <div class="box" style="font-size:21px;text-align:center">$$|\eta_t|>|\mu\alpha|,\qquad\RePart b<0,\qquad\RePart(b+c)<0$$</div>
+      <p class="small">These conditions give a standing pattern, stable up to spatial translation. Each critical wave has leading amplitude $\epsilon\sqrt{\rho_*}$:</p>
+      $$u=4\epsilon\sqrt{\rho_*}\,\RePart\!\left[\Phi\,\ee^{\ii(\omega_0t+\phi_*)}\right]\cos(k_0x)+O(\epsilon^2)$$
+    </div>
+    <div class="why">
+      <h3>Proof idea</h3>
+      <ul>
+        <li>Let $f(\rho)=|a+\gamma\rho|^2-|\eta_t|^2$ with $\gamma=b+c\neq0$.</li>
+        <li>The leading coefficient $|\gamma|^2$ is positive. If $|\eta_t|>|a|$, the constant term $|a|^2-|\eta_t|^2$ is negative.</li>
+        <li>So $f$ has exactly one positive root $\rho_*$. The phase $\phi_*$ follows from $\ee^{-2\ii\phi_*}=-(a+\gamma\rho_*)/\eta_t$, which has modulus 1.</li>
+        <li>Stability: write $v_\pm=\tfrac12\ee^{-\ii\phi_*}(\delta A\pm\delta B)$. The linearization splits into two real $2\times2$ blocks.</li>
+        <li>With $\RePart a<0$: $\RePart(b+c)<0$ makes the symmetric block stable, and $\RePart b<0$ makes the antisymmetric block stable, apart from the zero eigenvalue of translation.</li>
+      </ul>
+      <div class="box"><p><b>Scope.</b> Proven for the amplitude system. The report does not prove that the pattern persists in the full field.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 6.1, Proposition 1, eqs. (standing-reduction)–(stable-temporal-pattern)</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">V1-inspired model</div>
+  <h2>A V1-inspired population model</h2>
+  <div class="split" style="grid-template-columns:1.1fr 1fr">
+    <div class="key">
+      <img src="img/v1_network.png" style="width:100%" alt="E, PV, SST, VIP network; visual input to E and PV">
+      <p class="cap">Network motif (earlier talk). Visual input reaches E and PV.</p>
+      <div style="display:flex;gap:18px;justify-content:center;font-size:15px;margin-top:6px">
+        <div>$$\Sigma=\begin{pmatrix}.6498&.45125&.36125&-\\.4232&.72&.72&-\\.53045&-&-&.72\\.53045&-&.72&-\end{pmatrix}$$</div>
+        <div>$$G=\begin{pmatrix}6.22&-1.45&-6.49&0\\5.10&-0.91&-8.04&0\\2.67&0&0&-16\\1.69&0&-3.14&0\end{pmatrix}$$</div>
+      </div>
+      <p class="cap">Order E, PV, SST, VIP; rows are targets. $\Sigma$ in units of $(0.1\ \mathrm{mm})^2$; a dash marks an absent connection. $J=\kappa G$.</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>Replace one inhibitory population by PV, SST, and VIP populations.</li>
+        <li>Time constants depend on the population: $\tau=(10,12,35,20)$ ms.</li>
+        <li>Connection widths come from Billeh et al. (2020): $\Sigma_{ij}=s_{ij}^2/(2\ell_x^2)$, $\ell_x=0.1$ mm.</li>
+        <li>The input reaches E and PV, $e=(1,1,0,0)^\mathsf T$ (Ji et al. 2016). Equal strengths are our assumption.</li>
+        <li>The connectivity structure follows the literature. The effective gains $G$ are model parameters.</li>
+      </ul>
+      <h3>Onset ($L=4.3$ mm)</h3>
+      $$\kappa_c\approx0.74915,\qquad k_0=3,\qquad\frac{\omega_0}{2\pi}\approx13.21\ \mathrm{Hz}$$
+      <p class="small">Wavelength $4.3/3\approx1.43$ mm.</p>
+      <div class="box"><p>A V1-inspired model, not a fit to measured synaptic strengths. All values are from the current report, not the earlier talk.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 7, eqs. (v1-unit-convention)–(v1-onset-values); Pfeffer et al. 2013; Billeh et al. 2020, STAR Methods p. e11; Ji et al. 2016</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">V1-inspired model</div>
+  <h2>Broader excitation: the precise comparison <span class="tag proved">proved, 2 populations</span></h2>
+  <div class="split" style="grid-template-columns:1.1fr 1fr">
+    <div class="key">
+      <p class="small"><b>Two-population restriction.</b> For a real $2\times2$ matrix, an oscillatory pair has</p>
+      $$\RePart\nu(q)=\tfrac12\tr M(q)$$
+      <p class="small">Assume Gaussian kernels, $F'_E,F'_I>0$, $\tau_E,\tau_I>0$, $J_{EE}>0$, and $J_{II}\le0$. If the homogeneous mode is strictly stable, then</p>
+      <div class="box" style="font-size:19px;text-align:center">$$\Sigma_{EE}\ge\Sigma_{II}\quad\Longrightarrow\quad\text{no finite-wavenumber Hopf onset}$$</div>
+      <p class="small"><b>V1 example.</b> Excitation onto E cells is broader than inhibition onto E cells:</p>
+      $$\Sigma_{EE}=0.6498\;>\;\Sigma_{E,PV}=0.45125\;>\;\Sigma_{E,SST}=0.36125$$
+      <p class="small">The theorem compares the diagonal widths; in V1 they fail it, $\Sigma_{EE}=0.6498<\Sigma_{PV,PV}=0.72$. With more populations, one oscillatory pair can cross while the other eigenvalues keep the total trace negative: in V1, $\tr M(q_0)=-0.041$ at onset <span class="tag num">numerical</span>.</p>
+    </div>
+    <div class="why">
+      <h3>Proof</h3>
+      <ul>
+        <li>Write $\beta_E=J_{EE}F'_E/\tau_E>0$ and $\beta_I=|J_{II}|F'_I/\tau_I\ge0$. Then
+        $$\tr M(q)=\beta_E\ee^{-\Sigma_{EE}q^2/2}-\beta_I\ee^{-\Sigma_{II}q^2/2}-\tfrac1{\tau_E}-\tfrac1{\tau_I}.$$</li>
+        <li>$\Sigma_{EE}\ge\Sigma_{II}$ gives $\ee^{-\Sigma_{EE}q^2/2}\le\ee^{-\Sigma_{II}q^2/2}$, so $\tr M(q)\le(\beta_E-\beta_I)\ee^{-\Sigma_{II}q^2/2}-\tfrac1{\tau_E}-\tfrac1{\tau_I}$.</li>
+        <li>If $\beta_E\le\beta_I$, the bound is negative. If $\beta_E>\beta_I$, the bound is at most $\tr M(0)$, and $\tr M(0)<0$ because $q=0$ is stable. (Only $\tr M(0)<0$ is used.)</li>
+        <li>So $\RePart\nu(q)<0$ for every oscillatory pair at every $q$.</li>
+      </ul>
+      <h3>Qualifications</h3>
+      <ul class="small">
+        <li>In V1, excitation is not broader than every inhibitory connection.</li>
+        <li>The restriction does not exclude stationary instabilities or forced patterns.</li>
+        <li>Target-specific comparisons differ from an ordering of widths by source.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">slide_outline.md §11 and review notes (referee-checked); skeptic: 6588 stable random instances, no counterexample; report eqs. (dispersion-matrix), (v1-width-matrices). Not yet in the report.</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Simulations · 1D</div>
+  <h2>1D simulations agree with the predicted amplitude <span class="tag num">numerical</span></h2>
+  <div class="split" style="grid-template-columns:1.75fr 1fr">
+    <div class="key fig" style="gap:6px">
+      <img src="img/spacetime_wc.png" alt="Wilson-Cowan: no input, flicker close-up, flicker run, and critical amplitudes">
+      <img src="img/spacetime_v1.png" alt="V1-inspired: no input, flicker close-up, flicker run, and critical amplitudes">
+      <p class="cap">E activity, $\mu=-1$, uniform flicker at $2\omega_0$ from the same initial state. Dotted line: $\epsilon\sqrt{\rho_*}$.</p>
+    </div>
+    <div class="why">
+      <table style="font-size:16px;margin:4px 0 10px">
+        <tr><th>model</th><th>measured $\epsilon|A|$</th><th>predicted $\epsilon\sqrt{\rho_*}$</th></tr>
+        <tr><td>Wilson–Cowan</td><td>$0.02331$</td><td>$0.02345$</td></tr>
+        <tr><td>V1-inspired</td><td>$0.001594$</td><td>$0.001635$</td></tr>
+      </table>
+      <ul>
+        <li>The input is spatially uniform.</li>
+        <li>Without input, the seeded wave decays.</li>
+        <li>With flicker, the response holds the critical mode $k_0=3$, and $|A|=|B|$: a standing pattern.</li>
+        <li>The differences are about $0.6\%$ and $2.5\%$, consistent with an $O(\epsilon)$ correction. Each model was run at one $\epsilon$.</li>
+      </ul>
+      <p class="small"><b>Runs.</b> WC: $\epsilon=0.1$, flicker peak $1\cdot\epsilon^2$ (threshold $0.23\epsilon^2$). V1: $\epsilon=0.02$, peak $3\epsilon^2$ (threshold $1.74\epsilon^2$). Seeded critical wave $0.02\epsilon$ plus noise; one seed.</p>
+      <div class="box"><p>Agreement for the reported configurations. Values are modal amplitudes $\epsilon|A|$, not field maxima.</p></div>
+    </div>
+  </div>
+  <div class="src">JOURNAL.md SET-1; notebooks/{wilson_cowan,v1}_1d.ipynb; slides/build/sim1d.py → results/slides_sim1d.npz; figures/slides_spacetime.py</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Simulations · 2D</div>
+  <h2>2D flicker: stability needs a check against other directions <span class="tag num">numerical</span></h2>
+  <div class="split" style="grid-template-columns:1fr 1.15fr">
+    <div class="key fig">
+      <img src="img/cross_coupling.png" style="max-height:215px" alt="Re c_theta over |Re c| against angle, for Wilson-Cowan and V1">
+      <p class="cap">$\RePart c_\theta/|\RePart c|$ against the angle between two critical waves.</p>
+      <img src="img/v1_2d_flicker_seeds.png" style="width:100%;margin-top:8px" alt="Six V1 seeds under uniform flicker, all stripes">
+      <p class="cap">V1, uniform flicker, six random initial fields: six stripes (3 along $x$, 3 along $y$), no squares.</p>
+      <img src="img/wc_2d_flicker_seeds.png" style="width:60%;margin-top:4px" alt="Four Wilson-Cowan seeds under uniform flicker, large-amplitude squares">
+      <p class="cap">WC, same input: four seeds end as large squares ($\approx0.5$), beyond the weakly nonlinear range.</p>
+    </div>
+    <div class="why">
+      <ul>
+        <li>In 2D, many wavevectors share the critical wavelength: a shell.</li>
+        <li>Uniform flicker couples each wave to its opposite.</li>
+        <li>A standing stripe must also resist the waves in other directions.</li>
+        <li>$c_\theta$ is the cross coefficient of two critical waves at angle $\theta$.</li>
+      </ul>
+      <table style="font-size:15px;margin:6px 0">
+        <tr><th>test ($\mu=-1$)</th><th>model</th><th>field</th><th>theory</th></tr>
+        <tr><td>stripe amplitude</td><td>V1, $\epsilon=.025$</td><td>$0.00196$</td><td>$0.00204$</td></tr>
+        <tr><td>stripe $\lambda_\perp$</td><td>V1</td><td>$-0.024$</td><td>$-0.026$</td></tr>
+        <tr><td>stripe $\lambda_\perp$</td><td>WC, $\epsilon=.1$</td><td>$+1.77$</td><td>$+1.84$</td></tr>
+        <tr><td>square</td><td>V1</td><td colspan="2">unstable, $+0.022$</td></tr>
+        <tr><td>square</td><td>WC</td><td colspan="2">unstable, $+0.236$</td></tr>
+      </table>
+      <ul class="small">
+        <li>V1: stripes resist transverse perturbations; the square is unstable.</li>
+        <li>Wilson–Cowan: both branches are unstable. $\RePart c_\theta>0$ for $71^\circ\lesssim\theta\lesssim146^\circ$.</li>
+      </ul>
+      <div class="box"><p>A standing-wave solution need not be stable in the full critical shell. Stability needs the full linearization, not only the sign of $\RePart c_\theta$.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 10.4–10.5, eq. (stripe-transverse), Fig. (cross-coupling), test table; Sec. 10.6; seed images: notebooks/{v1,wilson_cowan}_2d.ipynb</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Simulations · 2D</div>
+  <h2>Traveling input can create a pattern across its direction</h2>
+  <div class="split" style="grid-template-columns:1.2fr 1fr">
+    <div class="key fig">
+      <video src="media/v1_traveling.mp4" autoplay loop muted playsinline style="max-height:300px"></video>
+      <p class="cap">V1, $\epsilon=0.025$, $\mu=-1$, shell $|\bk|^2=10$ ($L=4.50$ mm). Input $\cos(\bK\cdot\boldsymbol x+2\omega_0t)$, $\bK=(6,0)$, from a random field; 2 response periods after 80 s.</p>
+      <img src="img/v1_2d_traveling_traces.png" style="width:96%;margin-top:6px" alt="Shell amplitudes against time for three seeds">
+      <p class="cap">Three seeds: $(3,\pm1)$ grow to $0.00242$; all other shell waves decay below $2\times10^{-6}$.</p>
+    </div>
+    <div class="why">
+      <div style="display:flex;gap:14px;align-items:center">
+        <div class="box" style="font-size:21px;flex:1;text-align:center">$$\bk_X+\bk_Y=\bK$$</div>
+        <svg viewBox="-10 -45 150 90" width="170" aria-label="wavevectors (3,1) and (3,-1) add to (6,0)">
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#4a1d3f"/></marker></defs>
+          <line x1="0" y1="0" x2="60" y2="-20" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah)"/>
+          <line x1="0" y1="0" x2="60" y2="20" stroke="#b45309" stroke-width="2.5" marker-end="url(#ah)"/>
+          <line x1="0" y1="0" x2="120" y2="0" stroke="#4a1d3f" stroke-width="2.5" stroke-dasharray="5 3" marker-end="url(#ah)"/>
+          <text x="40" y="-26" font-size="11" fill="#2563eb">(3,1)</text><text x="40" y="34" font-size="11" fill="#b45309">(3,−1)</text>
+          <text x="92" y="-6" font-size="11" fill="#4a1d3f">(6,0)</text>
+        </svg>
+      </div>
+      <p class="small">$\bK$ is the input wavevector. Vectors are in lattice-index units, on the oblique shell.</p>
+      <ul>
+        <li>The input travels along $x$ and is uniform along $y$.</li>
+        <li>The response travels along $x$ and is a standing $\cos(q_1y)$ along $y$, with $\bd\perp\bK$, $|\bd|^2=q_0^2-|\bK|^2/4$.</li>
+        <li>V1: the pair persists. $\epsilon|A|=0.00242$ in all three seeds, theory $0.00254$.</li>
+        <li>The same input on the shell $|\bk|^2=25$ selects $(3,\pm4)$: $y$-mode 4. Field $0.00271$, theory $0.00289$.</li>
+        <li>Wilson–Cowan, started near the predicted state: the pair reaches $0.0264$ (theory $0.0270$). Then other shell waves grow (largest predicted rate $0.84$), and the field leaves the weakly nonlinear range.</li>
+      </ul>
+      <p class="small"><span class="tag num">numerical</span> Parameter-specific examples. Seeds 0–2 give the same selection (report Sec. 10.6).</p>
+    </div>
+  </div>
+  <div class="src">report Sec. 10.1, 10.3, eqs. (wavevector-rule), (pair-geometry), (pair-field); test table, Sec. 10.6; notebooks/v1_2d.ipynb; slides/build/movie2d.py</div>
+</section>
+
+<section class="slide split-slide">
+  <div class="part">Dispersion</div>
+  <h2>Dispersion curves show opposite frequency trends</h2>
+  <div class="split" style="grid-template-columns:1.5fr 1fr">
+    <div class="key fig">
+      <img src="img/dispersion_bell.png" alt="Frequency of the complex pair against q/q0 for Wilson-Cowan, V1 K=4 and V1 K=3">
+      <p class="cap">Frequency of the tracked complex pair at onset against $q/q_0$. Solid: the pair is the rightmost eigenvalue. Dashed: another eigenvalue lies to its right. Vertical line: $q_0$.</p>
+      $$\omega(q)=\ImPart\nu(q),\qquad 2\,\omega(q)=\Omega$$
+    </div>
+    <div class="why">
+      <ul>
+        <li><span class="tag num">numerical</span> Wilson–Cowan: the frequency falls near the critical wavenumber, from $0.904$ at $q=0$ to $0.318$ at $q_0$.</li>
+        <li><span class="tag num">numerical</span> V1-inspired: the frequency rises near $q_0$, up to a maximum at $2.61q_0$.</li>
+        <li><span class="tag proved">proved</span> At large $q$ the Gaussian coupling vanishes, $M\to-D_\tau^{-1}$, so every frequency goes to zero.</li>
+        <li><span class="tag proved">proved</span> With equal $\tau_i$ and equal widths, $\omega_q=-\Sigma_cq\,\omega<0$. A rising branch needs heterogeneity.</li>
+      </ul>
+      <p>For input frequency $\Omega$, the linear resonance condition is $2\omega(q)=\Omega$. Locally, faster flicker gives:</p>
+      <ul><li>a coarser candidate pattern in Wilson–Cowan;</li><li>a finer candidate pattern in V1.</li></ul>
+      <div class="box"><p>Resonance only gives candidates. Growth rates and nonlinear stability decide which patterns persist.</p></div>
+    </div>
+  </div>
+  <div class="src">report Sec. 8.4, eqs. (large-q-limit), (homogeneous-frequency), Fig. (dispersion-bell); figures/dispersion_bell.py</div>
+</section>
+
+<div class="foot" id="counter"></div>
+<div id="editbar">Editing this slide: click and type. Esc = finish (math re-renders) · Ctrl/Cmd+S = save the file</div>
+<script>
+// Viewer: arrows, space, PageUp/PageDown, Home/End or click. Editor: E edits the shown slide, Esc finishes,
+// Ctrl/Cmd+S saves the whole deck (Chrome/Edge write the file in place; other browsers download a copy).
+const template = '<!doctype html>\n' + document.documentElement.outerHTML;  // before MathJax, fit() and show()
+const slides = [...document.querySelectorAll('.slide')];
+const source = slides.map(el => el.innerHTML);  // slide HTML with $...$ math, as saved
+let i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1)) || 1) - 1));
+let editing = false, dirty = false, fileHandle = null;
+
+function fit() {
+  const s = Math.min(innerWidth / 1280, innerHeight / 720);
+  slides.forEach(el => el.style.transform = `scale(${s})`);
+}
+function show(n) {
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((el, k) => el.classList.toggle('active', k === i));
+  document.getElementById('counter').textContent = `${i + 1} / ${slides.length}`;
+  history.replaceState(null, '', '#' + (i + 1));
+}
+function render(el) {
+  return MathJax.startup.promise.then(() => { MathJax.typesetClear([el]); return MathJax.typesetPromise([el]); });
+}
+function startEdit() {
+  const el = slides[i];
+  editing = true;
+  document.body.classList.add('editing');
+  MathJax.typesetClear([el]);
+  el.innerHTML = source[i];
+  el.contentEditable = 'true';
+  el.focus();
+}
+function finishEdit() {
+  const el = slides[i];
+  el.contentEditable = 'false';
+  if (el.innerHTML !== source[i]) { source[i] = el.innerHTML; dirty = true; }
+  editing = false;
+  document.body.classList.remove('editing');
+  render(el);
+}
+function deckHtml() {
+  const doc = new DOMParser().parseFromString(template, 'text/html');
+  doc.querySelectorAll('.slide').forEach((el, k) => { el.innerHTML = source[k]; });
+  doc.querySelectorAll('head style:not(#deck-style), [id^="MJX"], mjx-container').forEach(el => el.remove());  // MathJax's
+  return '<!doctype html>\n' + doc.documentElement.outerHTML + '\n';
+}
+async function save() {
+  if (editing) finishEdit();
+  const html = deckHtml();
+  const name = decodeURIComponent(location.pathname.split('/').pop()) || 'slides.html';
+  try {
+    if (window.showSaveFilePicker) {
+      fileHandle = fileHandle || await showSaveFilePicker({suggestedName: name, types: [{accept: {'text/html': ['.html']}}]});
+      const w = await fileHandle.createWritable(); await w.write(html); await w.close();
+    } else {
+      const a = Object.assign(document.createElement('a'), {href: URL.createObjectURL(new Blob([html], {type: 'text/html'})), download: name});
+      a.click(); URL.revokeObjectURL(a.href);
+    }
+    dirty = false;
+  } catch (err) { if (err.name !== 'AbortError') alert('Not saved: ' + err.message); }
+}
+
+addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); return; }
+  if (editing) { if (e.key === 'Escape') finishEdit(); return; }
+  if (e.key === 'e' || e.key === 'E') { e.preventDefault(); startEdit(); return; }
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) show(i + 1);
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) show(i - 1);
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(slides.length - 1);
+});
+addEventListener('paste', e => {  // plain text only, so pasted styles do not enter the file
+  if (!editing) return;
+  e.preventDefault();
+  document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
+});
+addEventListener('click', e => { if (!editing && !e.target.closest('a')) show(i + (e.clientX > innerWidth / 3 ? 1 : -1)); });
+addEventListener('beforeunload', e => { if (dirty || editing) e.preventDefault(); });
+addEventListener('resize', fit);
+fit(); show(i);
+MathJax.startup.promise.then(() => MathJax.typesetPromise());
+</script>
+</body>
+</html>
